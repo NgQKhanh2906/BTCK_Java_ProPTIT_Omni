@@ -1,17 +1,20 @@
 # Bài tập cuối khóa Java Core - Game Omni
 
-Dự án xây dựng trò chơi 2D sử dụng ngôn ngữ Java và nền tảng JavaFX. Đây là sản phẩm của nhóm 4 thành viên:
+Dự án xây dựng trò chơi 2D sử dụng ngôn ngữ C# và nền tảng Unity.
+Đây là sản phẩm của nhóm 4 thành viên:
 - Nguyễn Quốc Khánh
 - Nguyễn Tiến Thịnh
 - Bùi Đức Tuân
 - Phạm Hữu Chiến
 
 ## Giới thiệu dự án
-* **Thể loại:** 
-* **Cốt truyện:** 
+* **Thể loại:** Phiêu lưu, nhập vai, giải đố
+* **Cốt truyện:** [text](https://docs.google.com/document/d/1ObKSVhkorQwts1xlLoshfNkJTmZhT_a_ivdUwThum0Y/edit?tab=t.0)
 * **Công cụ phát triển:**
-    * **IDE:** IntelliJ IDEA
-    * **UI Library:** JavaFX
+    * **Engine**: Unity 2022.3.62f2
+    * **IDE:** JetBrains Rider hoặc Visual Studio
+    * **Ngôn ngữ**: C#
+    * **UI Library:** Unity UI, 
     * **Version Control:** Git & GitHub
 
 ## Hướng dẫn cài đặt & Chạy Game
@@ -20,18 +23,21 @@ Dự án xây dựng trò chơi 2D sử dụng ngôn ngữ Java và nền tảng
     ```bash
     git clone https://github.com/NgQKhanh2906/BTCK_Java_ProPTIT_Omni.git
     ```
-3.  **Mở bằng IntelliJ IDEA:**
-    * Chọn `File` -> `Open` -> Chọn thư mục project.
-4.  **Chạy ứng dụng:**
-    * Tìm file `App.java` hoặc `Main.java`.
-    * Chuột phải chọn **Run**.
+3. **Mở bằng Unity:**
+    * Mở Unity Hub -> `Add` -> Chọn thư mục project đã clone.
+4. **Chạy ứng dụng:**
+    * Mở Scene `MainMusic` hoặc `Menu`.
+    * Nhấn nút **Play** ở giữa màn hình Editor.
 
 ## Quy trình làm việc
-Để đảm bảo code không bị xung đột, nhóm tuân thủ quy tắc:
-* `main`: Nhánh chứa code ổn định nhất, chỉ dùng để demo.
-* `develop`: Nhánh tập trung code của cả nhóm.
-* `feature/tên-tính-năng`: Mỗi thành viên làm tính năng mới sẽ tách nhánh riêng từ `develop`.
-* **Quy trình:** `Pull` code mới nhất -> `Code` -> `Commit` -> `Push` -> `Create Pull Request`.
+Để tránh xung đột file `.unity` (Scene) và `.prefab` (rất khó merge):
+* **Nguyên tắc:** Mỗi thành viên làm việc trên một Scene riêng hoặc Prefab riêng.
+* `main`: Bản build ổn định nhất.
+* `develop`: Nhánh trộn code và tài nguyên.
+* **Workflow:** `Pull` -> `Tạo nhánh tính năng` -> `Commit` -> `Push` -> `Pull Request`.
+
+## Drive cập nhật tài nguyên của dự án
+[text](https://drive.google.com/drive/folders/1Y1zN5itLUCxADhx9lBpiApcCNkRddtyM)
 
 ---
 *Dự án đang trong quá trình phát triển.*
