@@ -15,6 +15,7 @@ public class GroundChecker : MonoBehaviour
     
     public bool IsGrounded { get; private set; }
     public bool IsOnSlope { get; private set; }
+    
     public Vector2 SlopeNormal { get; private set; } = Vector2.up;
     //public float SlopeAngle { get; private set; }
 
