@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2838419936854611892}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: RightFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4232654871272021947}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: LeftFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3933807227159328517}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: AttackPoint3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2159189618114155152}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: AttackPoint1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 119974414485039415}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: AttackPoint2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 4556658332970089920}
   - component: {fileID: 837311654173768111}
   - component: {fileID: 4193182728503834754}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Player1
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -216,7 +216,7 @@ MonoBehaviour:
   maxSlope: 45
   groundLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 64
   drawGizmos: 1
 --- !u!114 &1098022796007537600
 MonoBehaviour:

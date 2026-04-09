@@ -100,7 +100,15 @@ public class SwordmanController : PlayerBase
             isCharging = false;
             SetVelocityX(0f);
             anim.SetBool("IsCharging", isCharging);
-            anim.SetTrigger("ReleaseSpAtk");
+            if (chargeTimer >= 0.5f)
+            {
+                anim.SetTrigger("ReleaseSpAtk");
+            }
+            else
+            {
+                isAttacking = false;
+                chargeTimer = 0f;
+            }
         }
     }
     private void EndSpecialAttack()
