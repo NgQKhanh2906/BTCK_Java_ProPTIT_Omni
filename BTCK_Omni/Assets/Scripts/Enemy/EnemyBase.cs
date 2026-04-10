@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyBase : Entity
 {
@@ -10,20 +10,18 @@ public class EnemyBase : Entity
     [SerializeField] protected LayerMask whatIsGround;
 
     [Header("Patrol Timings")]
-    [SerializeField] protected float patrolDuration = 2f; 
+    [SerializeField] protected float patrolDuration = 2f;
     protected float patrolTimer;
 
     [Header("Idle Settings")]
     [SerializeField] protected float idleDuration = 2f;
     protected float idleTimer;
     protected bool isAdle;
-
     protected override void Awake()
     {
         base.Awake();
-        patrolTimer = patrolDuration; 
+        patrolTimer = patrolDuration;
     }
-
     protected virtual void Update()
     {
         if (isDead) return;
@@ -53,12 +51,11 @@ public class EnemyBase : Entity
             UpdateAnimation(true);
         }
     }
-
     protected virtual void StartIdle()
     {
         isAdle = true;
         idleTimer = idleDuration;
-        patrolTimer = patrolDuration; 
+        patrolTimer = patrolDuration;
         SetVelocityX(0);
         UpdateAnimation(false);
     }
@@ -70,7 +67,7 @@ public class EnemyBase : Entity
         if (idleTimer <= 0)
         {
             isAdle = false;
-            Flip(); 
+            Flip();
         }
     }
 
