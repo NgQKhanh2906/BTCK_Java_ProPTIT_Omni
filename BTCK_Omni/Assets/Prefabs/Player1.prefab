@@ -216,7 +216,7 @@ MonoBehaviour:
   maxSlope: 45
   groundLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
   drawGizmos: 1
 --- !u!114 &1098022796007537600
 MonoBehaviour:

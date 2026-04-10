@@ -4,9 +4,7 @@ public class WolfTriggerArea : MonoBehaviour
 {
     public bool isAttackArea; 
     private Enemy_Wolf wolf;
-
     void Awake() => wolf = GetComponentInParent<Enemy_Wolf>();
-
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -15,7 +13,6 @@ public class WolfTriggerArea : MonoBehaviour
             else wolf.SetPlayerDetection(true, collision.transform);
         }
     }
-
     void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2585794127479744522}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WallCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 8513112690441242453}
   - component: {fileID: 4868553269778238672}
   - component: {fileID: 6050552982184218188}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DetectionRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,8 +58,8 @@ Transform:
   m_GameObject: {fileID: 4136019184371776955}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.62, y: 0.03, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 7.2284, y: 0.19, z: 0}
+  m_LocalScale: {x: 1, y: 1.76, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8539926022229027673}
@@ -96,8 +96,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.5539489, y: 0.9770468}
-  m_Size: {x: 2.8988178, y: 21.175442}
+  m_Offset: {x: 0.55395114, y: -4.18215}
+  m_Size: {x: 2.898794, y: 10.856988}
   m_Direction: 0
 --- !u!114 &6050552982184218188
 MonoBehaviour:
@@ -121,7 +121,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5078504320977005876}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -154,7 +154,7 @@ GameObject:
   - component: {fileID: 185620421644023280}
   - component: {fileID: 482472102780195605}
   - component: {fileID: 2707724940183252427}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: AttackRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 1381087839054153541}
   - component: {fileID: 8447030713907743834}
   - component: {fileID: 5928083930479192207}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Enemy_Wolf
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -415,7 +415,7 @@ MonoBehaviour:
   attackCheckPoint: {fileID: 4277529787252158964}
   whatIsPlayer:
     serializedVersion: 2
-    m_Bits: 16
+    m_Bits: 0
   attackCooldown: 1.5
 --- !u!50 &5928083930479192207
 Rigidbody2D:
@@ -453,7 +453,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4277529787252158964}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}

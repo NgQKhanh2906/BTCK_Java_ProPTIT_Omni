@@ -17,13 +17,11 @@ public class EnemyBase : Entity
     [SerializeField] protected float idleDuration = 2f;
     protected float idleTimer;
     protected bool isAdle;
-
     protected override void Awake()
     {
         base.Awake();
         patrolTimer = patrolDuration;
     }
-
     protected virtual void Update()
     {
         if (isDead) return;
@@ -53,7 +51,6 @@ public class EnemyBase : Entity
             UpdateAnimation(true);
         }
     }
-
     protected virtual void StartIdle()
     {
         isAdle = true;

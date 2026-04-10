@@ -1,22 +1,20 @@
 using UnityEngine;
 using System;
 
-public class Entity : MonoBehaviour, ITakeDamageable
+public class Entity : MonoBehaviour
 {
     [Header("Stats")]
     [SerializeField] protected float maxHP = 100f;
     [SerializeField] protected float moveSpeed = 5f;
     [SerializeField] protected float knockbackForce = 3f;
-    
 
     [SerializeField] protected float currentHP;
     protected int facingDir = 1;
-    protected bool isDead = false;
+    protected bool isDead;
 
     protected Rigidbody2D rb;
-    protected Animator anim; 
+    protected Animator anim;
     protected SpriteRenderer sr;
-    protected DamageComponent damageComponent;
 
     public Action<float, float> OnHPChanged;
     public Action OnDeath;
@@ -27,19 +25,15 @@ public class Entity : MonoBehaviour, ITakeDamageable
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
         currentHP = maxHP;
-        
     }
 
-    public virtual void TakeDamage(float dmg)
+    public virtual void TakeDamage(float dmg, Vector2 hitDir)
     {
         if (isDead) return;
-        Debug.Log("take");
         currentHP = Mathf.Max(0, currentHP - dmg);
         OnHPChanged?.Invoke(currentHP, maxHP);
-
         rb.velocity = Vector2.zero;
-        //rb.AddForce(hitDir.normalized * knockbackForce, ForceMode2D.Impulse);
-
+        rb.AddForce(hitDir.normalized * knockbackForce, ForceMode2D.Impulse);
         if (currentHP <= 0)
             Die();
         else
@@ -69,7 +63,6 @@ public class Entity : MonoBehaviour, ITakeDamageable
 
     protected void SetVelocityY(float y) =>
         rb.velocity = new Vector2(rb.velocity.x, y);
-
     public float GetHPPercent() => currentHP / maxHP;
-    public bool  IsDead()       => isDead;
+    public bool IsDead() => isDead;
 }
