@@ -13,14 +13,32 @@ public class Enemy_Wolf : EnemyBase
     [SerializeField] private LayerMask whatIsPlayer; 
     [SerializeField] private float attackCooldown = 1.5f; 
     private float lastAttackTime;
+    [Header("Wolf Knockback Settings")]
+    [SerializeField] private float wolfKnockbackDuration = 0.2f;
+    private float wolfKnockbackTimer;
     protected override void Awake()
     {
         base.Awake(); 
     }
+
+    public override void TakeDamage(float dmg, Vector2 hitDir)
+    {
+        base.TakeDamage(dmg, hitDir);
+        if (!isDead)
+        {
+            wolfKnockbackTimer = wolfKnockbackDuration;
+        }
+    }
+
     protected override void Update()
     {
         if (isDead) return;
 
+        if (wolfKnockbackTimer > 0)
+        {
+            wolfKnockbackTimer -= Time.deltaTime;
+            return; 
+        }
         if (playerInAttackRange)
         {
             AttackLogic();

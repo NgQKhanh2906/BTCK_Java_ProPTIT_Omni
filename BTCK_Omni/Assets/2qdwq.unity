@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 335767682}
   - component: {fileID: 335767681}
   - component: {fileID: 335767680}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Square
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -260,6 +260,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 780003502175941643, guid: 616be5d0f1fd06a4d839c64193bd5086, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 837311654173768111, guid: 616be5d0f1fd06a4d839c64193bd5086, type: 3}
+      propertyPath: m_Size.x
+      value: 1.3842425
+      objectReference: {fileID: 0}
+    - target: {fileID: 837311654173768111, guid: 616be5d0f1fd06a4d839c64193bd5086, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.085258245
+      objectReference: {fileID: 0}
+    - target: {fileID: 1098022796007537600, guid: 616be5d0f1fd06a4d839c64193bd5086, type: 3}
+      propertyPath: enemyLayer.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 1936254362410215311, guid: 616be5d0f1fd06a4d839c64193bd5086, type: 3}
+      propertyPath: groundLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 2556582491809442921, guid: 616be5d0f1fd06a4d839c64193bd5086, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.0158896
@@ -300,9 +320,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4969874724839332470, guid: 616be5d0f1fd06a4d839c64193bd5086, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5211683482250201646, guid: 616be5d0f1fd06a4d839c64193bd5086, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6661603384071508443, guid: 616be5d0f1fd06a4d839c64193bd5086, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7007883277028572298, guid: 616be5d0f1fd06a4d839c64193bd5086, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 8818023453460372924, guid: 616be5d0f1fd06a4d839c64193bd5086, type: 3}
       propertyPath: m_Name
       value: Player1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8818023453460372924, guid: 616be5d0f1fd06a4d839c64193bd5086, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -320,10 +360,6 @@ PrefabInstance:
     - target: {fileID: 7709153275152958069, guid: 980c63285c309414eb85fb2f64ee1fff, type: 3}
       propertyPath: m_Name
       value: Enemy_Wolf
-      objectReference: {fileID: 0}
-    - target: {fileID: 8447030713907743834, guid: 980c63285c309414eb85fb2f64ee1fff, type: 3}
-      propertyPath: whatIsGround.m_Bits
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8539926022229027673, guid: 980c63285c309414eb85fb2f64ee1fff, type: 3}
       propertyPath: m_LocalPosition.x
