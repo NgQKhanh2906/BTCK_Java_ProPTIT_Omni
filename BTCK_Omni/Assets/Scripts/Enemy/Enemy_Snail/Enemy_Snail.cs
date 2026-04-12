@@ -10,20 +10,34 @@ public class Enemy_Snail : EnemyBase
     [SerializeField] private float detectionRange = 5f; 
     [SerializeField] private LayerMask whatIsPlayer; 
 
-    private bool isPlayerFound; // Tên biến mới để tránh trùng lặp
+    [Header("Animation Timers")]
+    [SerializeField] private float wakeUpDuration = 0.5f; // Thời gian chờ chui ra khỏi vỏ
+    private float wakeUpTimer;
+
+    private bool isPlayerFound;
 
     protected override void Awake()
     {
         base.Awake();
-        facingDir = -1; 
+        facingDir = -1; // Sửa lỗi lùi
     }
+
     protected override void Update()
     {
         if (isDead) return;
 
+        // --- PHẦN MỚI THÊM: Đứng im chờ chui ra xong mới được đi ---
+        if (wakeUpTimer > 0)
+        {
+            wakeUpTimer -= Time.deltaTime;
+            SetVelocityX(0); // Bắt buộc đứng im
+            return; // Khóa không cho chạy các logic bên dưới
+        }
+        // -------------------------------------------------------------
+
         bool wasDetected = isPlayerFound;
 
-        // Tự kiểm tra Player
+        // Tự kiểm tra Player (Bằng vòng tròn đỏ)
         if (playerCheck != null)
         {
             isPlayerFound = Physics2D.OverlapCircle(playerCheck.position, detectionRange, whatIsPlayer);
@@ -49,9 +63,10 @@ public class Enemy_Snail : EnemyBase
 
     public override void TakeDamage(float dmg, Vector2 hitDir)
     {
-        if (isHiding) 
+        // PHẦN MỚI THÊM: Bất tử cả lúc đang cuộn tròn VÀ lúc đang lồm cồm chui ra
+        if (isHiding || wakeUpTimer > 0) 
         {
-            Debug.Log("Snail: Đang trong vỏ, bất tử nhé!");
+            Debug.Log("Snail: Đang trong vỏ hoặc đang chui ra, bất tử nhé!");
             return;
         }
 
@@ -70,6 +85,9 @@ public class Enemy_Snail : EnemyBase
     {
         isHiding = false;
         anim.SetBool("isHiding", false);
+        
+        // PHẦN MỚI THÊM: Bắt đầu bấm giờ đợi animation chui ra diễn xong
+        wakeUpTimer = wakeUpDuration; 
     }
 
     private void OnDrawGizmos()
