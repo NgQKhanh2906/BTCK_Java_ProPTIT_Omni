@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4ba90ed825f645846b41098188699d60
+guid: d499a9ca0c4348e4b827bc4ae65573fa
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Canine_Black_Idle_0
+      name: Mushroom-Run_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 48
-        height: 32
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,20 +137,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 875335b4a00b9b9428b08b712474f703
-      internalID: -827139830
+      spriteID: 89a54cea34dfb4e4c98446635b8f2f96
+      internalID: -1547854478
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Canine_Black_Idle_1
+      name: Mushroom-Run_1
       rect:
         serializedVersion: 2
-        x: 48
+        x: 80
         y: 0
-        width: 48
-        height: 32
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -158,20 +158,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 229625075630fe1489830c47f62f38a2
-      internalID: -1671329504
+      spriteID: 0b2b090000bd87d48be09b6dea3ba3ce
+      internalID: 1276601926
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Canine_Black_Idle_2
+      name: Mushroom-Run_2
       rect:
         serializedVersion: 2
-        x: 96
+        x: 160
         y: 0
-        width: 48
-        height: 32
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,20 +179,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f86aadfbd5c068040bcc6246428ad096
-      internalID: 2042949146
+      spriteID: 2bcb772058f9f264a8a74d34b3dcdb37
+      internalID: -1433100786
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Canine_Black_Idle_3
+      name: Mushroom-Run_3
       rect:
         serializedVersion: 2
-        x: 144
+        x: 240
         y: 0
-        width: 48
-        height: 32
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -200,8 +200,92 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 31008884a85ad6f4dbc617a6982cc42f
-      internalID: 1484570397
+      spriteID: 351d9b381c0a0c74ab99ce1dbb686a53
+      internalID: -731725361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mushroom-Run_4
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 80
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bbbc38f0c094f434da58677142f34541
+      internalID: 1018595862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mushroom-Run_5
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 0
+        width: 80
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1976403e92e5ed499fcb4e900f823f4
+      internalID: 1128440688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mushroom-Run_6
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 0
+        width: 80
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c36fab3c634a9174cac0c32fac73dd29
+      internalID: -1903434228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mushroom-Run_7
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 0
+        width: 80
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89ae91c1c43ef2e4f8e1cf316664e4f5
+      internalID: -25844727
       vertices: []
       indices: 
       edges: []
@@ -217,10 +301,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Canine_Black_Idle_0: -827139830
-      Canine_Black_Idle_1: -1671329504
-      Canine_Black_Idle_2: 2042949146
-      Canine_Black_Idle_3: 1484570397
+      Mushroom-Run_0: -1547854478
+      Mushroom-Run_1: 1276601926
+      Mushroom-Run_2: -1433100786
+      Mushroom-Run_3: -731725361
+      Mushroom-Run_4: 1018595862
+      Mushroom-Run_5: 1128440688
+      Mushroom-Run_6: -1903434228
+      Mushroom-Run_7: -25844727
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

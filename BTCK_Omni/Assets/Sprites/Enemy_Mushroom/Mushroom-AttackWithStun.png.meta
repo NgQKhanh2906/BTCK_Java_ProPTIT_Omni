@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1c57aa27fae65e749a1d89816ef19cb8
+guid: 29333a26dab521f4792493c8367ccff9
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 1
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Canine_Black_Full_0
+      name: Mushroom-AttackWithStun_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 128
-        width: 48
-        height: 32
+        y: 0
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,20 +137,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0ecdbfbde854f2d479d9458b65ee816e
-      internalID: 2124957787
+      spriteID: fa6f7ed1cd268ad48a080d254d1328d1
+      internalID: 603393675
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Canine_Black_Full_1
+      name: Mushroom-AttackWithStun_1
       rect:
         serializedVersion: 2
-        x: 48
-        y: 128
-        width: 48
-        height: 32
+        x: 80
+        y: 0
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -158,20 +158,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: acdd2516468458b4e8b429e6642967ac
-      internalID: -654156378
+      spriteID: aff304dcc4df06c48b90b9d441059040
+      internalID: 1432321746
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Canine_Black_Full_2
+      name: Mushroom-AttackWithStun_2
       rect:
         serializedVersion: 2
-        x: 96
-        y: 128
-        width: 48
-        height: 32
+        x: 160
+        y: 0
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,461 +179,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bed4a36dfb0f1534490b21ab959131e8
-      internalID: -1486920595
+      spriteID: 09f1b2302e455e443bf30afa61d8feca
+      internalID: -1283081485
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Canine_Black_Full_3
-      rect:
-        serializedVersion: 2
-        x: 144
-        y: 128
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c341c3f800720c74f84ee64aefac40cc
-      internalID: -1944167543
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Canine_Black_Full_4
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 128
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 280709d114db63f43bc5368f255627cb
-      internalID: -1871821202
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Canine_Black_Full_5
+      name: Mushroom-AttackWithStun_3
       rect:
         serializedVersion: 2
         x: 240
-        y: 128
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 91ee1b484f8fb38469630293955186c0
-      internalID: 1221824438
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Canine_Black_Full_6
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 96
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9e03eef8837a9294b85c5f584fa76900
-      internalID: 1256812910
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Canine_Black_Full_7
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 96
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c6c1d482306fc624a94105cef46b8d8b
-      internalID: 951511450
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Canine_Black_Full_8
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 96
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0bb82ca0e4cc7224f8d63a14d3d117a4
-      internalID: 8336040
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Canine_Black_Full_9
-      rect:
-        serializedVersion: 2
-        x: 144
-        y: 96
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e0a0f3846d8fe4d41be50ae4c2589d38
-      internalID: -899131471
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Canine_Black_Full_10
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 96
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8840b353c383afd44982572c46978528
-      internalID: -801279116
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Canine_Black_Full_11
-      rect:
-        serializedVersion: 2
-        x: 240
-        y: 96
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 14c298ff94d402c459e827782d391192
-      internalID: 1325351423
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Canine_Black_Full_12
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 64
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4cb9ff0b58405c4458051d6a1c9e9d6b
-      internalID: -766385255
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Canine_Black_Full_13
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 64
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a9e21558961d2304eb8107d875d2ab3b
-      internalID: -1473074278
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Canine_Black_Full_14
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 64
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 68a1156b19b351549ba6a57b82265840
-      internalID: -567980086
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Canine_Black_Full_15
-      rect:
-        serializedVersion: 2
-        x: 144
-        y: 64
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 70e9507ec2aee28438b8c4f5ed34b7c4
-      internalID: 992282422
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Canine_Black_Full_16
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 64
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: eec0de9ffbb3bcb41bd5255cf61df000
-      internalID: -717123013
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Canine_Black_Full_17
-      rect:
-        serializedVersion: 2
-        x: 240
-        y: 64
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d069f39311dc0ab49917c3a453aed4e2
-      internalID: 1780668152
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Canine_Black_Full_18
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 32
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5ba1e2fbdf6b85a4496d4a9ac048457b
-      internalID: 1606975140
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Canine_Black_Full_19
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 32
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 32b5e0d701bdeec4ca81d1e6013e8b80
-      internalID: -1049747189
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Canine_Black_Full_20
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 32
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fda57fbfce5a6d041b87f9df0ac7373e
-      internalID: 1841207994
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Canine_Black_Full_21
-      rect:
-        serializedVersion: 2
-        x: 144
-        y: 32
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b0ac4c453703c8140a7557fab48ca6ff
-      internalID: -1244727881
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Canine_Black_Full_22
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 32
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e25dc039c119cdb43b7f119af044eafc
-      internalID: -1634550990
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Canine_Black_Full_23
-      rect:
-        serializedVersion: 2
-        x: 240
-        y: 32
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c8385463694f1ef4aa894d1f2f72e778
-      internalID: -1275258502
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Canine_Black_Full_24
-      rect:
-        serializedVersion: 2
-        x: 0
         y: 0
-        width: 48
-        height: 32
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -641,20 +200,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 09c4afe38d5c5334196166a71bf8d99d
-      internalID: 846896660
+      spriteID: 2f77397dca7d58a4f8ee3f96dc3cd157
+      internalID: -1612410400
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Canine_Black_Full_25
+      name: Mushroom-AttackWithStun_4
       rect:
         serializedVersion: 2
-        x: 48
+        x: 320
         y: 0
-        width: 48
-        height: 32
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -662,20 +221,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aad7c862858186a4bbbcef77ac6312c9
-      internalID: 1682549567
+      spriteID: 6a8c9796a17d27a43a5b04be0c192e97
+      internalID: 1258699739
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Canine_Black_Full_26
+      name: Mushroom-AttackWithStun_5
       rect:
         serializedVersion: 2
-        x: 96
+        x: 400
         y: 0
-        width: 48
-        height: 32
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -683,20 +242,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 45c606d061776d243ac03fe5ede7aad5
-      internalID: -1833889109
+      spriteID: 8b1b4867e3928844089d501d05b45dda
+      internalID: 999178886
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Canine_Black_Full_27
+      name: Mushroom-AttackWithStun_6
       rect:
         serializedVersion: 2
-        x: 144
+        x: 480
         y: 0
-        width: 48
-        height: 32
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -704,20 +263,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7c3a0cf7277e14148a469b5f357d33c4
-      internalID: 1288884746
+      spriteID: aa26bdc88a631b5468673b8444b89f43
+      internalID: 269535600
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Canine_Black_Full_28
+      name: Mushroom-AttackWithStun_7
       rect:
         serializedVersion: 2
-        x: 192
+        x: 560
         y: 0
-        width: 48
-        height: 32
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -725,8 +284,344 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5707ee71d37bddf44b791e2f0b1c36ea
-      internalID: -1697232648
+      spriteID: e793da1ff141bf8499c222df6d3c52c1
+      internalID: -628551718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mushroom-AttackWithStun_8
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 80
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ad3daa23df0b63449bbd37dc3353107
+      internalID: 278566382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mushroom-AttackWithStun_9
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 0
+        width: 80
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d0a6d84c9abff2498cc38328c81c38a
+      internalID: -1196380334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mushroom-AttackWithStun_10
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 0
+        width: 80
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ffc9c360c6fed814292a7508063ce9b4
+      internalID: -1636611731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mushroom-AttackWithStun_11
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 0
+        width: 80
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2aed8a31144963d499be36c2211201a9
+      internalID: -1667043332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mushroom-AttackWithStun_12
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 0
+        width: 80
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31f1da83c7c17e14eac4b1f263a600bf
+      internalID: 1503653019
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mushroom-AttackWithStun_13
+      rect:
+        serializedVersion: 2
+        x: 1040
+        y: 0
+        width: 80
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bcf06a86733b29a478eb45534e7d4b33
+      internalID: 1351290871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mushroom-AttackWithStun_14
+      rect:
+        serializedVersion: 2
+        x: 1120
+        y: 0
+        width: 80
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 07406c44d4e7a6a4a9c3826c8d4a02bc
+      internalID: -1927606849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mushroom-AttackWithStun_15
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 0
+        width: 80
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f8a40f2c4eb89e47bf13148d8b7a06c
+      internalID: -143553318
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mushroom-AttackWithStun_16
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 0
+        width: 80
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bafcd706c7e7c1e479d3ed6bd060efce
+      internalID: -719537491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mushroom-AttackWithStun_17
+      rect:
+        serializedVersion: 2
+        x: 1360
+        y: 0
+        width: 80
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 594827a1a65b2414785087e119190432
+      internalID: -330882487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mushroom-AttackWithStun_18
+      rect:
+        serializedVersion: 2
+        x: 1440
+        y: 0
+        width: 80
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 63968abe418972c4886388d97730a7b8
+      internalID: -1275687595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mushroom-AttackWithStun_19
+      rect:
+        serializedVersion: 2
+        x: 1520
+        y: 0
+        width: 80
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a43008a5a4da06b4ea177c82407fe2b9
+      internalID: -127258486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mushroom-AttackWithStun_20
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 0
+        width: 80
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5331f16a580d3a54ca9099c293a6f58b
+      internalID: -1913042479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mushroom-AttackWithStun_21
+      rect:
+        serializedVersion: 2
+        x: 1680
+        y: 0
+        width: 80
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84e4441e5bbbf444795c576c808392e7
+      internalID: 2038320542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mushroom-AttackWithStun_22
+      rect:
+        serializedVersion: 2
+        x: 1760
+        y: 0
+        width: 80
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f2464a6fbf7b594c9ed3b421deddb53
+      internalID: -885278425
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mushroom-AttackWithStun_23
+      rect:
+        serializedVersion: 2
+        x: 1840
+        y: 0
+        width: 80
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7698d21a0e194d141842bed73121b4b7
+      internalID: -1151220459
       vertices: []
       indices: 
       edges: []
@@ -742,35 +637,30 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Canine_Black_Full_0: 2124957787
-      Canine_Black_Full_1: -654156378
-      Canine_Black_Full_10: -801279116
-      Canine_Black_Full_11: 1325351423
-      Canine_Black_Full_12: -766385255
-      Canine_Black_Full_13: -1473074278
-      Canine_Black_Full_14: -567980086
-      Canine_Black_Full_15: 992282422
-      Canine_Black_Full_16: -717123013
-      Canine_Black_Full_17: 1780668152
-      Canine_Black_Full_18: 1606975140
-      Canine_Black_Full_19: -1049747189
-      Canine_Black_Full_2: -1486920595
-      Canine_Black_Full_20: 1841207994
-      Canine_Black_Full_21: -1244727881
-      Canine_Black_Full_22: -1634550990
-      Canine_Black_Full_23: -1275258502
-      Canine_Black_Full_24: 846896660
-      Canine_Black_Full_25: 1682549567
-      Canine_Black_Full_26: -1833889109
-      Canine_Black_Full_27: 1288884746
-      Canine_Black_Full_28: -1697232648
-      Canine_Black_Full_3: -1944167543
-      Canine_Black_Full_4: -1871821202
-      Canine_Black_Full_5: 1221824438
-      Canine_Black_Full_6: 1256812910
-      Canine_Black_Full_7: 951511450
-      Canine_Black_Full_8: 8336040
-      Canine_Black_Full_9: -899131471
+      Mushroom-AttackWithStun_0: 603393675
+      Mushroom-AttackWithStun_1: 1432321746
+      Mushroom-AttackWithStun_10: -1636611731
+      Mushroom-AttackWithStun_11: -1667043332
+      Mushroom-AttackWithStun_12: 1503653019
+      Mushroom-AttackWithStun_13: 1351290871
+      Mushroom-AttackWithStun_14: -1927606849
+      Mushroom-AttackWithStun_15: -143553318
+      Mushroom-AttackWithStun_16: -719537491
+      Mushroom-AttackWithStun_17: -330882487
+      Mushroom-AttackWithStun_18: -1275687595
+      Mushroom-AttackWithStun_19: -127258486
+      Mushroom-AttackWithStun_2: -1283081485
+      Mushroom-AttackWithStun_20: -1913042479
+      Mushroom-AttackWithStun_21: 2038320542
+      Mushroom-AttackWithStun_22: -885278425
+      Mushroom-AttackWithStun_23: -1151220459
+      Mushroom-AttackWithStun_3: -1612410400
+      Mushroom-AttackWithStun_4: 1258699739
+      Mushroom-AttackWithStun_5: 999178886
+      Mushroom-AttackWithStun_6: 269535600
+      Mushroom-AttackWithStun_7: -628551718
+      Mushroom-AttackWithStun_8: 278566382
+      Mushroom-AttackWithStun_9: -1196380334
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

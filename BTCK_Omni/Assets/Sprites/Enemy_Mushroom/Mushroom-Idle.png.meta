@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f8da56d21720bde41a9af38400207261
+guid: 64d667e0f7944a24fbfbe221dece6a50
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Canine_Black_Hit_0
+      name: Mushroom-Idle_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 48
-        height: 32
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,20 +137,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0f4d3166dd71f5e49b831f60d1d4f779
-      internalID: 2016338285
+      spriteID: 1dec33597eb683c459b34659737e7205
+      internalID: 1252752460
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Canine_Black_Hit_1
+      name: Mushroom-Idle_1
       rect:
         serializedVersion: 2
-        x: 48
+        x: 80
         y: 0
-        width: 48
-        height: 32
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -158,20 +158,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 32fde8c042f144d45a7547ff0358e419
-      internalID: -880078454
+      spriteID: 60bc6fc06241f604492c4235ae8ce531
+      internalID: 1909768390
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Canine_Black_Hit_2
+      name: Mushroom-Idle_2
       rect:
         serializedVersion: 2
-        x: 96
+        x: 160
         y: 0
-        width: 48
-        height: 32
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,20 +179,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 527da30423dce014089f2a65add80c57
-      internalID: 434478225
+      spriteID: 5eea6fb0440267e42b7f37fb0538b46f
+      internalID: 775043111
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Canine_Black_Hit_3
+      name: Mushroom-Idle_3
       rect:
         serializedVersion: 2
-        x: 144
+        x: 240
         y: 0
-        width: 48
-        height: 32
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -200,8 +200,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 829049fbe4050f54db95127accd4dab8
-      internalID: -1732461349
+      spriteID: 10e83e0464a721b41a643fa51427f185
+      internalID: 1064221143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mushroom-Idle_4
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 80
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43f7f93b1fbc5de4f97b2596e7d8d49c
+      internalID: 1541810568
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mushroom-Idle_5
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 0
+        width: 80
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c65912376c771a4b94b07e11545133d
+      internalID: 2072453323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mushroom-Idle_6
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 0
+        width: 80
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f41e7c028ea7d694bb0fb1027d29322d
+      internalID: -1020294509
       vertices: []
       indices: 
       edges: []
@@ -217,10 +280,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Canine_Black_Hit_0: 2016338285
-      Canine_Black_Hit_1: -880078454
-      Canine_Black_Hit_2: 434478225
-      Canine_Black_Hit_3: -1732461349
+      Mushroom-Idle_0: 1252752460
+      Mushroom-Idle_1: 1909768390
+      Mushroom-Idle_2: 775043111
+      Mushroom-Idle_3: 1064221143
+      Mushroom-Idle_4: 1541810568
+      Mushroom-Idle_5: 2072453323
+      Mushroom-Idle_6: -1020294509
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
