@@ -1,117 +1,109 @@
 ﻿using UnityEngine;
 
+// Tự động gắn Mắt và Vũ khí khi kéo script này vào Object
+[RequireComponent(typeof(MeleeAttack))]
+[RequireComponent(typeof(PlayerDetector))]
 public class Enemy_Wolf : EnemyBase
 {
-    [Header("Detection & Attack Range")]
-    [SerializeField] private bool playerInDetectionRange;
-    [SerializeField] private bool playerInAttackRange;
-    private Transform playerTransform;
-    [Header("Attack Settings")]
-    [SerializeField] private float attackDamage = 10f;
-    [SerializeField] private float attackCheckRadius = 1.5f; 
-    [SerializeField] private Transform attackCheckPoint; 
-    [SerializeField] private LayerMask whatIsPlayer; 
-    [SerializeField] private float attackCooldown = 1.5f; 
-    private float lastAttackTime;
-    [Header("Wolf Knockback Settings")]
-    [SerializeField] private float wolfKnockbackDuration = 0.2f;
-    private float wolfKnockbackTimer;
+    [Header("Wolf AI Settings")]
+    [SerializeField] private float attackRange = 1.5f; 
+    [SerializeField] private float chaseSpeedMultiplier = 1.5f; // Đuổi nhanh gấp 1.5 lần đi tuần
+    [SerializeField] private LedgeDetector ledgeCheck; // Gậy dò vực
+
+    private MeleeAttack meleeWeapon;
+    private PlayerDetector eyes;
+
+    [Header("Knockback Settings")]
+    [SerializeField] private float knockbackDuration = 0.2f;
+    private float knockbackTimer;
+
     protected override void Awake()
     {
-        base.Awake(); 
+        base.Awake();
+        // Lấy các bộ phận đã được lắp trên cơ thể
+        meleeWeapon = GetComponent<MeleeAttack>();
+        eyes = GetComponent<PlayerDetector>();
     }
 
     public override void TakeDamage(float dmg, Vector2 hitDir)
     {
         base.TakeDamage(dmg, hitDir);
-        if (!isDead)
-        {
-            wolfKnockbackTimer = wolfKnockbackDuration;
-        }
+        if (!isDead) knockbackTimer = knockbackDuration;
     }
 
     protected override void Update()
     {
         if (isDead) return;
 
-        if (wolfKnockbackTimer > 0)
+        // 1. Xử lý Knockback (Bị chém lùi lại thì tạm thời không suy nghĩ)
+        if (knockbackTimer > 0)
         {
-            wolfKnockbackTimer -= Time.deltaTime;
-            return; 
+            knockbackTimer -= Time.deltaTime;
+            return;
         }
-        if (playerInAttackRange)
+
+        // 2. Chống trượt Patin: Khóa di chuyển khi đang diễn hoạt cảnh cắn
+        // LƯU Ý: Sửa chữ "Wolf_attack" thành ĐÚNG TÊN cục State cắn trong Animator của bạn
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Wolf_attack"))
         {
-            AttackLogic();
+            SetVelocityX(0);
+            return;
         }
-        else if (playerInDetectionRange && playerTransform != null)
+
+        // 3. LOGIC MẮT THẤY PLAYER (Đã tự động bỏ qua nếu vướng Tường)
+        if (eyes.CanSeePlayer())
         {
-            ChaseLogic();
+            Transform target = eyes.GetPlayerTransform();
+            float distanceToPlayer = Vector2.Distance(transform.position, target.position);
+
+            // A. Nếu Player ở đủ gần -> Dừng lại và Cắn
+            if (distanceToPlayer <= attackRange)
+            {
+                SetVelocityX(0); 
+                anim.SetBool(animIsMoving, false); 
+                
+                // Ra lệnh cắn (Việc tính Cooldown và SetTrigger Animation giờ do MeleeWeapon tự lo)
+                meleeWeapon.TryAttack(); 
+            }
+            // B. Nếu Player ở xa -> Rượt đuổi
+            else
+            {
+                ChasePlayer(target);
+            }
         }
+        // 4. LOGIC MẤT DẤU PLAYER (Hoặc Player nấp sau tường) -> Đi tuần lại
         else
         {
-            base.Update();
+            base.Update(); 
         }
-    }
-    private void ChaseLogic()
-    {
-        isAdle = false;
-        UpdateAnimation(true);
-        float directionToPlayer = playerTransform.position.x - transform.position.x;
-        int moveDir = directionToPlayer > 0 ? 1 : -1;
-        if (moveDir != facingDir)
-        {
-            Flip();
-        }
-        SetVelocityX(moveSpeed * 1.5f * facingDir);
     }
 
-    private void AttackLogic()
+    private void ChasePlayer(Transform target)
     {
-        if (isDead) return; 
-        SetVelocityX(0); 
-        UpdateAnimation(false);
-        if (Time.time >= lastAttackTime + attackCooldown)
+        // Kiểm tra địa hình: Nếu đụng Tường hoặc Thấy Vực -> KHÔNG ĐƯỢC LAO TỚI
+        if (IsWallDetected() || (ledgeCheck != null && ledgeCheck.IsDetectingLedge()))
         {
-            if (!isDead && !anim.GetCurrentAnimatorStateInfo(0).IsName("Enemy_Wolf_Attack"))
+            SetVelocityX(0); // Phanh gấp lại
+            anim.SetBool(animIsMoving, false); // Đứng gầm gừ chờ Player sang
+            
+            // Dù không sang được nhưng vẫn quay mặt nhìn theo Player
+            float dirToPlayer = target.position.x - transform.position.x;
+            if ((dirToPlayer > 0 && facingDir == -1) || (dirToPlayer < 0 && facingDir == 1))
             {
-                anim.SetTrigger("Attack");
-                lastAttackTime = Time.time; 
+                Flip();
             }
         }
-    }
-    public void AnimationAttackTrigger()
-    {
-        if (attackCheckPoint == null) return;
-        Collider2D hitPlayer = Physics2D.OverlapCircle(attackCheckPoint.position, attackCheckRadius, whatIsPlayer);
-
-        if (hitPlayer != null)
+        else // Đường xá an toàn -> Rượt thôi!
         {
-            if (hitPlayer.TryGetComponent(out Entity targetEntity))
-            {
-                Vector2 hitDir = new Vector2(facingDir, 0.5f);
+            isIdle = false; // Ngắt trạng thái đứng nghỉ của Base
+            anim.SetBool(animIsMoving, true);
 
-                targetEntity.TakeDamage(attackDamage, hitDir);
-                Debug.Log("Sói đã cắn trúng Player và gây " + attackDamage + " dame!");
-            }
-        }
-    }
-
-    public void SetPlayerDetection(bool inRange, Transform player)
-    {
-        playerInDetectionRange = inRange;
-        playerTransform = inRange ? player : null;
-    }
-    public void SetPlayerAttack(bool inRange)
-    {
-        playerInAttackRange = inRange;
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        if (attackCheckPoint != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(attackCheckPoint.position, attackCheckRadius);
+            float directionToPlayer = target.position.x - transform.position.x;
+            int moveDir = directionToPlayer > 0 ? 1 : -1;
+            
+            if (moveDir != facingDir) Flip();
+            
+            SetVelocityX(moveSpeed * chaseSpeedMultiplier * facingDir);
         }
     }
 }

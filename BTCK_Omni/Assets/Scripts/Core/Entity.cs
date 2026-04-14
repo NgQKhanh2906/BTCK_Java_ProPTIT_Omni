@@ -30,12 +30,6 @@ public class Entity : MonoBehaviour
     public virtual void TakeDamage(float dmg, Vector2 hitDir)
     {
         if (isDead) return;
-<<<<<<< HEAD
-        currentHP = Mathf.Max(0, currentHP - dmg);
-        OnHPChanged?.Invoke(currentHP, maxHP);
-        rb.velocity = Vector2.zero;
-        rb.AddForce(hitDir.normalized * knockbackForce, ForceMode2D.Impulse);
-=======
 
         currentHP = Mathf.Max(0, currentHP - dmg);
         OnHPChanged?.Invoke(currentHP, maxHP);
@@ -43,7 +37,6 @@ public class Entity : MonoBehaviour
         rb.velocity = Vector2.zero;
         rb.AddForce(hitDir.normalized * knockbackForce, ForceMode2D.Impulse);
 
->>>>>>> develop
         if (currentHP <= 0)
             Die();
         else
@@ -73,12 +66,7 @@ public class Entity : MonoBehaviour
 
     protected void SetVelocityY(float y) =>
         rb.velocity = new Vector2(rb.velocity.x, y);
-<<<<<<< HEAD
-    public float GetHPPercent() => currentHP / maxHP;
-    public bool IsDead() => isDead;
-=======
 
     public float GetHPPercent() => currentHP / maxHP;
     public bool  IsDead()       => isDead;
->>>>>>> develop
 }
