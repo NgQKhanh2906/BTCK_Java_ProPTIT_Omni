@@ -5,29 +5,39 @@ using UnityEngine;
 
 public class SwordmanController : PlayerBase
 {
+    [Header("Attack Range")] [SerializeField]
+    private Transform atttackPoint1;
 
-    [Header("Attack Range")] 
-    [SerializeField] private Transform atttackPoint1;
     [SerializeField] private Vector2 size1;
     [SerializeField] private Transform atttackPoint2;
     [SerializeField] private Vector2 size2;
     [SerializeField] private Transform atttackPoint3;
     [SerializeField] private Vector2 size3;
-    
 
-    [Header("Sword settings")] 
-    [SerializeField] private float attackDamage;
+
+    [Header("Sword settings")] [SerializeField]
+    private float attackDamage;
+
     [SerializeField] private float atkDuration;
-    [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private float comboWindow = 1f;
     [SerializeField] private float spAtkDamage;
 
+    private static readonly WaitForSeconds atkWait = new WaitForSeconds(0.7f);
+    private static readonly WaitForSeconds airAtkWait = new WaitForSeconds(0.6f);
+    private int hitBufferSize = 16;
+    private Collider2D[] hitBuffer;
 
     private float chargeTimer = 0f;
     private bool isCharging = false;
     private int comboStep = 0;
     private float comboTimer = 0f;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        
+        hitBuffer = new Collider2D[Mathf.Max(1, hitBufferSize)];
+    }
 
     protected override void OnUpdate()
     {
@@ -41,6 +51,7 @@ public class SwordmanController : PlayerBase
     }
 
     #region NormalAttack
+
     protected override void Attack(bool hasUsedAirAttack)
     {
         if (isGrounded)
@@ -60,28 +71,29 @@ public class SwordmanController : PlayerBase
     {
         isAttacking = true;
         SetVelocityX(0);
-        anim.SetInteger("ComboStep", step);
-        anim.SetTrigger("Attack");
-        yield return new WaitForSeconds(atkDuration);
+        anim.SetInteger(GameConfig.ANIM_COL_COMBO_STEP, step);
+        anim.SetTrigger(GameConfig.ANIM_COL_ATTACK);
+        yield return atkWait;
         isAttacking = false;
     }
+
     private IEnumerator AirAttack()
     {
         isAttacking = true;
-        anim.SetTrigger("AirAttack");
-        yield return new WaitForSeconds(0.6f);
+        anim.SetTrigger(GameConfig.ANIM_COL_AIRATTACK);
+        yield return airAtkWait;
         isAttacking = false;
-
     }
+
     #endregion
 
-    
-    
+
     #region SpecialAttack
+
     private void HandleCharge()
     {
         if (!isGrounded || isDefending || isRolling) return;
-        if (Input.GetKey(keySpAtk))
+        if (Input.GetKey(keySpAtk) && CurrentMana >= MaxMana)
         {
             if (!isCharging && !isAttacking)
             {
@@ -89,20 +101,22 @@ public class SwordmanController : PlayerBase
                 chargeTimer = 0f;
                 SetVelocityX(0f);
                 SetVelocityY(0f);
-                anim.SetBool("IsCharging", isCharging);
-                isAttacking =  true;
+                anim.SetBool(GameConfig.ANIM_COL_ISCHARGING, isCharging);
+                isAttacking = true;
             }
-            if(isCharging) chargeTimer += Time.deltaTime;
+
+            if (isCharging) chargeTimer += Time.deltaTime;
         }
 
         if (Input.GetKeyUp(keySpAtk) && isCharging)
         {
             isCharging = false;
             SetVelocityX(0f);
-            anim.SetBool("IsCharging", isCharging);
+            anim.SetBool(GameConfig.ANIM_COL_ISCHARGING, isCharging);
             if (chargeTimer >= 0.5f)
             {
-                anim.SetTrigger("ReleaseSpAtk");
+                anim.SetTrigger(GameConfig.ANIM_COL_RELEASE_SPATK);
+                RestoreMana(-CurrentMana);
             }
             else
             {
@@ -111,14 +125,17 @@ public class SwordmanController : PlayerBase
             }
         }
     }
+
     private void EndSpecialAttack()
     {
         isAttacking = false;
     }
+
     #endregion
 
 
     #region AnimationEventForAttack
+
     public void Hit1()
     {
         OnAttackHit(atttackPoint1, size1, attackDamage);
@@ -131,7 +148,7 @@ public class SwordmanController : PlayerBase
 
     public void Hit3()
     {
-        OnAttackHit(atttackPoint3, size3, attackDamage*1.3f);
+        OnAttackHit(atttackPoint3, size3, attackDamage * 1.3f);
     }
 
     public void HitSpecial()
@@ -139,26 +156,34 @@ public class SwordmanController : PlayerBase
         float curDmg = spAtkDamage;
         if (chargeTimer >= 2f) curDmg *= 2.5f;
         else if (chargeTimer >= 1f) curDmg *= (2f);
-        OnAttackHit(atttackPoint3,  size3, curDmg);
+        OnAttackHit(atttackPoint3, size3, curDmg);
         chargeTimer = 0f;
     }
+
     #endregion
 
-    
+
     public void OnAttackHit(Transform atttackPoint, Vector2 size, float dmg)
     {
         if (atttackPoint == null) return;
-        Collider2D[] hits = Physics2D.OverlapBoxAll(atttackPoint.position, size, 0f, enemyLayer);
-
-        foreach (var hit in hits)
+        if (hitBuffer == null || hitBuffer.Length != Mathf.Max(1, hitBufferSize))
+            hitBuffer = new Collider2D[Mathf.Max(1, hitBufferSize)];
+        int hitCount = Physics2D.OverlapBoxNonAlloc(atttackPoint.position, size, 0f, hitBuffer, enemyLayerMask);
+        bool hasHit = false;
+        for (int i = 0; i < hitCount; i++)
         {
+            var hit = hitBuffer[i];
+            if (hit == null) continue;
             var entity = hit.GetComponent<Entity>();
             if (entity == null) continue;
             Vector2 dir = (hit.transform.position - transform.position).normalized;
             entity.TakeDamage(dmg, dir);
+            hasHit = true;
         }
+
+        if (hasHit) RestoreMana(manaPerHit);
     }
-    
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
