@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class EnemyBase : Entity
 {
@@ -13,6 +13,7 @@ public class EnemyBase : Entity
     [SerializeField] protected Transform wallCheck;
     [SerializeField] protected Vector2 wallCheckSize = new Vector2(0.1f, 0.8f);
     [SerializeField] protected LayerMask whatIsGround;
+    [SerializeField] protected LedgeDetector ledgeCheck;
 
     [Header("Patrol Timings")]
     [SerializeField] protected float patrolDuration = 2f;
@@ -53,13 +54,12 @@ public class EnemyBase : Entity
         return Physics2D.BoxCast(wallCheck.position, wallCheckSize, 0f, new Vector2(facingDir, 0), 0.1f, whatIsGround);
     }
 
-    protected virtual void HandlePatrol()
+ protected virtual void HandlePatrol()
     {
         patrolTimer -= Time.deltaTime;
-        bool isGroundAhead = IsGrounded();
+        bool isLedgeAhead = ledgeCheck != null && ledgeCheck.IsDetectingLedge();
         bool isWallAhead = IsWallDetected();
-
-        if (patrolTimer <= 0 || !isGroundAhead || isWallAhead)
+        if (patrolTimer <= 0 || isLedgeAhead || isWallAhead)
         {
             StartIdle();
         }
