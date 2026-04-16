@@ -1,14 +1,12 @@
 ﻿using UnityEngine;
 
-// Tự động gắn Mắt và Vũ khí khi kéo script này vào Object
 [RequireComponent(typeof(MeleeAttack))]
 [RequireComponent(typeof(PlayerDetector))]
 public class Enemy_Wolf : EnemyBase
 {
     [Header("Wolf AI Settings")]
     [SerializeField] private float attackRange = 1.5f; 
-    [SerializeField] private float chaseSpeedMultiplier = 1.5f; // Đuổi nhanh gấp 1.5 lần đi tuần
-    [SerializeField] private LedgeDetector ledgeCheck; // Gậy dò vực
+    [SerializeField] private float chaseSpeedMultiplier = 1.5f; 
 
     private MeleeAttack meleeWeapon;
     private PlayerDetector eyes;
@@ -80,7 +78,6 @@ public class Enemy_Wolf : EnemyBase
 
     private void ChasePlayer(Transform target)
     {
-        // Kiểm tra địa hình: Nếu đụng Tường hoặc Thấy Vực -> KHÔNG ĐƯỢC LAO TỚI
         if (IsWallDetected() || (ledgeCheck != null && ledgeCheck.IsDetectingLedge()))
         {
             SetVelocityX(0); // Phanh gấp lại
