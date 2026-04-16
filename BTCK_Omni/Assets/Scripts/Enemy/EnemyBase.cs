@@ -7,6 +7,9 @@ public class EnemyBase : Entity
     protected readonly int animStun = Animator.StringToHash("Stun");
     protected readonly int animIsHiding = Animator.StringToHash("isHiding");
 
+    [Header("Death Settings")]
+    [SerializeField] protected float despawnDelay = 3f;
+
     [Header("Collision Checks (BoxCast)")]
     [SerializeField] protected Transform groundCheck;
     [SerializeField] protected Vector2 groundCheckSize = new Vector2(0.5f, 0.1f); 
@@ -87,6 +90,13 @@ public class EnemyBase : Entity
             Flip();
         }
     }
+
+    protected override void Die()
+    {
+        base.Die();
+        Destroy(gameObject, despawnDelay);
+    }
+    
     protected virtual void UpdateAnimation(bool isMoving)
     {
         if (anim != null)
