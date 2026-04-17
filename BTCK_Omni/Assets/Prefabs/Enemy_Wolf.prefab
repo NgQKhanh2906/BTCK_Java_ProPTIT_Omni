@@ -88,7 +88,7 @@ Transform:
   m_GameObject: {fileID: 3434846794001542281}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.24, y: -1.22, z: 0}
+  m_LocalPosition: {x: 1.24, y: -1.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -316,6 +316,13 @@ MonoBehaviour:
   moveSpeed: 2
   knockbackForce: 3
   currentHP: 1000
+  despawnDelay: 3
+  whatIsObstacle:
+    serializedVersion: 2
+    m_Bits: 64
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 128
   groundCheck: {fileID: 5078504320977005876}
   groundCheckSize: {x: 1, y: 0.05}
   wallCheck: {fileID: 2585794127479744522}
@@ -327,8 +334,7 @@ MonoBehaviour:
   patrolDuration: 2
   idleDuration: 2
   attackRange: 2.1
-  chaseSpeedMultiplier: 1.5
-  knockbackDuration: 0.2
+  sightRange: 7
 --- !u!50 &5928083930479192207
 Rigidbody2D:
   serializedVersion: 4
@@ -387,7 +393,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5f207b6188bdd14f9156d4b8486a11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRadius: 10
+  detectionRadius: 15
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 128

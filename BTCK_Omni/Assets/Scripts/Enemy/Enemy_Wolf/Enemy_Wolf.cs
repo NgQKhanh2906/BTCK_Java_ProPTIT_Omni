@@ -1,106 +1,72 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(MeleeAttack))]
-[RequireComponent(typeof(PlayerDetector))]
 public class Enemy_Wolf : EnemyBase
 {
     [Header("Wolf AI Settings")]
     [SerializeField] private float attackRange = 1.5f; 
-    [SerializeField] private float chaseSpeedMultiplier = 1.5f; 
+    [SerializeField] private float chaseSpeedMultiplier = 1.5f; // Tốc độ rượt sẽ nhanh hơn đi bộ
 
     private MeleeAttack meleeWeapon;
-    private PlayerDetector eyes;
-
-    [Header("Knockback Settings")]
-    [SerializeField] private float knockbackDuration = 0.2f;
-    private float knockbackTimer;
 
     protected override void Awake()
     {
         base.Awake();
-        // Lấy các bộ phận đã được lắp trên cơ thể
         meleeWeapon = GetComponent<MeleeAttack>();
-        eyes = GetComponent<PlayerDetector>();
-    }
-
-    public override void TakeDamage(float dmg, Vector2 hitDir)
-    {
-        base.TakeDamage(dmg, hitDir);
-        if (!isDead) knockbackTimer = knockbackDuration;
     }
 
     protected override void Update()
     {
         if (isDead) return;
-
-        // 1. Xử lý Knockback (Bị chém lùi lại thì tạm thời không suy nghĩ)
-        if (knockbackTimer > 0)
-        {
-            knockbackTimer -= Time.deltaTime;
-            return;
-        }
-
-        // 2. Chống trượt Patin: Khóa di chuyển khi đang diễn hoạt cảnh cắn
-        // LƯU Ý: Sửa chữ "Wolf_attack" thành ĐÚNG TÊN cục State cắn trong Animator của bạn
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Wolf_attack"))
         {
             SetVelocityX(0);
-            return;
+            return; 
         }
+        Transform target = GetVisiblePlayer();
 
-        // 3. LOGIC MẮT THẤY PLAYER (Đã tự động bỏ qua nếu vướng Tường)
-        if (eyes.CanSeePlayer())
+        if (target != null)
         {
-            Transform target = eyes.GetPlayerTransform();
             float distanceToPlayer = Vector2.Distance(transform.position, target.position);
-
-            // A. Nếu Player ở đủ gần -> Dừng lại và Cắn
             if (distanceToPlayer <= attackRange)
             {
                 SetVelocityX(0); 
                 anim.SetBool(animIsMoving, false); 
-                
-                // Ra lệnh cắn (Việc tính Cooldown và SetTrigger Animation giờ do MeleeWeapon tự lo)
                 meleeWeapon.TryAttack(); 
+                return; 
             }
-            // B. Nếu Player ở xa -> Rượt đuổi
-            else
+            else 
             {
                 ChasePlayer(target);
+                return; 
             }
         }
-        // 4. LOGIC MẤT DẤU PLAYER (Hoặc Player nấp sau tường) -> Đi tuần lại
-        else
-        {
-            base.Update(); 
-        }
+        base.Update();
     }
 
     private void ChasePlayer(Transform target)
     {
-        if (IsWallDetected() || (ledgeCheck != null && ledgeCheck.IsDetectingLedge()))
+        bool isLedgeAhead = ledgeCheck != null && ledgeCheck.IsDetectingLedge();
+        bool isWallAhead = IsWallDetected();
+
+        if (isWallAhead || isLedgeAhead)
         {
-            SetVelocityX(0); // Phanh gấp lại
-            anim.SetBool(animIsMoving, false); // Đứng gầm gừ chờ Player sang
-            
-            // Dù không sang được nhưng vẫn quay mặt nhìn theo Player
-            float dirToPlayer = target.position.x - transform.position.x;
-            if ((dirToPlayer > 0 && facingDir == -1) || (dirToPlayer < 0 && facingDir == 1))
+            SetVelocityX(0); 
+            anim.SetBool(animIsMoving, false); 
+            float dirToPlayerX = target.position.x - transform.position.x;
+            if ((dirToPlayerX > 0 && facingDir == -1) || (dirToPlayerX < 0 && facingDir == 1))
             {
                 Flip();
             }
         }
-        else // Đường xá an toàn -> Rượt thôi!
+        else 
         {
-            isIdle = false; // Ngắt trạng thái đứng nghỉ của Base
+            isIdle = false; 
             anim.SetBool(animIsMoving, true);
-
-            float directionToPlayer = target.position.x - transform.position.x;
-            int moveDir = directionToPlayer > 0 ? 1 : -1;
-            
-            if (moveDir != facingDir) Flip();
-            
-            SetVelocityX(moveSpeed * chaseSpeedMultiplier * facingDir);
+            float dirToPlayerX = target.position.x - transform.position.x;
+            int moveDir = dirToPlayerX > 0 ? 1 : -1;
+            if (moveDir != facingDir) Flip(); 
+            SetVelocityX(moveSpeed * chaseSpeedMultiplier * facingDir); 
         }
     }
 }
