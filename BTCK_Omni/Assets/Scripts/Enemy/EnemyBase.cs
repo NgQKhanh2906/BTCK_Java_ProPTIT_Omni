@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+using System.Collections;
+using UnityEngine;
 
 public class EnemyBase : Entity
 {
@@ -7,12 +8,17 @@ public class EnemyBase : Entity
     protected readonly int animStun = Animator.StringToHash("Stun");
     protected readonly int animIsHiding = Animator.StringToHash("isHiding");
 
+    [Header("Death Settings")]
+    [SerializeField] protected float despawnDelay = 3f;
+
+
     [Header("Collision Checks (BoxCast)")]
     [SerializeField] protected Transform groundCheck;
     [SerializeField] protected Vector2 groundCheckSize = new Vector2(0.5f, 0.1f); 
     [SerializeField] protected Transform wallCheck;
     [SerializeField] protected Vector2 wallCheckSize = new Vector2(0.1f, 0.8f);
     [SerializeField] protected LayerMask whatIsGround;
+    [SerializeField] protected LedgeDetector ledgeCheck;
 
     [Header("Patrol Timings")]
     [SerializeField] protected float patrolDuration = 2f;
@@ -56,10 +62,9 @@ public class EnemyBase : Entity
     protected virtual void HandlePatrol()
     {
         patrolTimer -= Time.deltaTime;
-        bool isGroundAhead = IsGrounded();
+        bool isLedgeAhead = ledgeCheck != null && ledgeCheck.IsDetectingLedge();
         bool isWallAhead = IsWallDetected();
-
-        if (patrolTimer <= 0 || !isGroundAhead || isWallAhead)
+        if (patrolTimer <= 0 || isLedgeAhead || isWallAhead)
         {
             StartIdle();
         }
@@ -86,6 +91,12 @@ public class EnemyBase : Entity
             isIdle = false;
             Flip();
         }
+    }
+
+    protected override void Die()
+    {
+        base.Die();
+        Destroy(gameObject, despawnDelay);
     }
     protected virtual void UpdateAnimation(bool isMoving)
     {
