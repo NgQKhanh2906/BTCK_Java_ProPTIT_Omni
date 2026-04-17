@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyBase : Entity
 {
@@ -8,7 +8,12 @@ public class EnemyBase : Entity
     protected readonly int animIsHiding = Animator.StringToHash("isHiding");
 
     [Header("Death Settings")]
-    [SerializeField] protected float despawnDelay = 3f;
+    [SerializeField] protected float despawnDelay = 3f; 
+
+    [Header("Vision Settings (Radar + Eyes)")]
+    [SerializeField] protected float sightRange = 7f; 
+    [SerializeField] protected LayerMask whatIsPlayer; 
+    [SerializeField] protected LayerMask whatIsObstacle; 
 
     [Header("Collision Checks (BoxCast)")]
     [SerializeField] protected Transform groundCheck;
@@ -47,6 +52,34 @@ public class EnemyBase : Entity
         }
     }
 
+    protected override void Die()
+    {
+        base.Die();
+        Destroy(gameObject, despawnDelay); 
+    }
+    public virtual Transform GetVisiblePlayer()
+    {
+        Collider2D playerCollider = Physics2D.OverlapCircle(transform.position, sightRange, whatIsPlayer);
+        
+        if (playerCollider != null)
+        {
+            Transform target = playerCollider.transform;
+            Vector3 eyeOffset = new Vector3(0, 0.5f, 0); 
+            Vector2 eyePosition = transform.position + eyeOffset;
+            Vector2 targetCenter = target.position + eyeOffset;
+
+            Vector2 direction = targetCenter - eyePosition;
+            float distance = direction.magnitude;
+            RaycastHit2D hit = Physics2D.Raycast(eyePosition, direction.normalized, distance, whatIsPlayer | whatIsObstacle);
+            if (hit.collider != null && ((1 << hit.collider.gameObject.layer) & whatIsPlayer) != 0)
+            {
+                return target;
+            }
+        }
+        
+        return null; 
+    }
+
     public virtual bool IsGrounded()
     {
         return Physics2D.BoxCast(groundCheck.position, groundCheckSize, 0f, Vector2.down, 0.1f, whatIsGround);
@@ -57,11 +90,12 @@ public class EnemyBase : Entity
         return Physics2D.BoxCast(wallCheck.position, wallCheckSize, 0f, new Vector2(facingDir, 0), 0.1f, whatIsGround);
     }
 
- protected virtual void HandlePatrol()
+    protected virtual void HandlePatrol()
     {
         patrolTimer -= Time.deltaTime;
         bool isLedgeAhead = ledgeCheck != null && ledgeCheck.IsDetectingLedge();
         bool isWallAhead = IsWallDetected();
+        
         if (patrolTimer <= 0 || isLedgeAhead || isWallAhead)
         {
             StartIdle();
@@ -72,6 +106,7 @@ public class EnemyBase : Entity
             UpdateAnimation(true);
         }
     }
+
     protected virtual void StartIdle()
     {
         isIdle = true;
@@ -80,6 +115,7 @@ public class EnemyBase : Entity
         SetVelocityX(0);
         UpdateAnimation(false);
     }
+
     protected virtual void HandleIdle()
     {
         idleTimer -= Time.deltaTime;
@@ -91,12 +127,6 @@ public class EnemyBase : Entity
         }
     }
 
-    protected override void Die()
-    {
-        base.Die();
-        Destroy(gameObject, despawnDelay);
-    }
-    
     protected virtual void UpdateAnimation(bool isMoving)
     {
         if (anim != null)
@@ -104,6 +134,7 @@ public class EnemyBase : Entity
             anim.SetBool(animIsMoving, isMoving);
         }
     }
+
     protected virtual void OnDrawGizmos()
     {
         if (groundCheck != null)
@@ -111,11 +142,12 @@ public class EnemyBase : Entity
             Gizmos.color = Color.green;
             Gizmos.DrawWireCube(groundCheck.position - new Vector3(0, 0.1f, 0), groundCheckSize);
         }
-
         if (wallCheck != null)
         {
             Gizmos.color = Color.blue;
             Gizmos.DrawWireCube(wallCheck.position + new Vector3(0.1f * facingDir, 0, 0), wallCheckSize);
         }
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, sightRange);
     }
 }
