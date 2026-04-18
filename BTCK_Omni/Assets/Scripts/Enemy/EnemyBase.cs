@@ -56,7 +56,7 @@ public class EnemyBase : Entity
         }
     }
 
-    protected override void Die()
+    public override void Die()
     {
         base.Die(); 
         Destroy(gameObject, despawnDelay); 
