@@ -1,14 +1,18 @@
 using UnityEngine;
 using System;
 
-public class Entity : MonoBehaviour
+public class Entity : MonoBehaviour, IDamageable
 {
-    [Header("Stats")]
-    [SerializeField] protected float maxHP = 100f;
-    [SerializeField] protected float moveSpeed = 5f;
-    [SerializeField] protected float knockbackForce = 3f;
+    [Header("Stats")] [SerializeField] protected float maxHP = 100f;
+    [SerializeField] protected float moveSpeed;
+    [SerializeField] protected float knockbackForce;
+    protected float currentHP;
 
-    [SerializeField] protected float currentHP;
+
+    public float CurrentHP => currentHP;
+    public float MaxHP => maxHP;
+
+
     protected int facingDir = 1;
     protected bool isDead;
 
@@ -16,8 +20,8 @@ public class Entity : MonoBehaviour
     protected Animator anim;
     protected SpriteRenderer sr;
 
-    public Action<float, float> OnHPChanged;
-    public Action OnDeath;
+    public event Action<float, float> OnHPChanged;
+    public event Action OnDeath;
 
     protected virtual void Awake()
     {
@@ -27,29 +31,36 @@ public class Entity : MonoBehaviour
         currentHP = maxHP;
     }
 
+    protected void NotifyHPChanged()
+    {
+        OnHPChanged?.Invoke(currentHP, maxHP);
+    }
+
+    protected void NotifyDeath()
+    {
+        OnDeath?.Invoke();
+    }
+
     public virtual void TakeDamage(float dmg, Vector2 hitDir)
     {
         if (isDead) return;
-
         currentHP = Mathf.Max(0, currentHP - dmg);
-        OnHPChanged?.Invoke(currentHP, maxHP);
-
+        NotifyHPChanged();
         rb.velocity = Vector2.zero;
         rb.AddForce(hitDir.normalized * knockbackForce, ForceMode2D.Impulse);
-
         if (currentHP <= 0)
             Die();
         else
-            anim.SetTrigger("Hit");
+            anim.SetTrigger(GameConfig.ANIM_COL_HIT);
     }
 
-    protected virtual void Die()
+    public virtual void Die()
     {
         isDead = true;
         rb.velocity = Vector2.zero;
         rb.isKinematic = true;
         GetComponent<Collider2D>().enabled = false;
-        anim.SetTrigger("Die");
+        anim.SetTrigger(GameConfig.ANIM_COL_DIE);
         OnDeath?.Invoke();
     }
 
@@ -68,5 +79,5 @@ public class Entity : MonoBehaviour
         rb.velocity = new Vector2(rb.velocity.x, y);
 
     public float GetHPPercent() => currentHP / maxHP;
-    public bool  IsDead()       => isDead;
+    public bool IsDead() => isDead;
 }

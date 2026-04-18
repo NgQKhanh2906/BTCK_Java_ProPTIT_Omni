@@ -1,8 +1,7 @@
 using UnityEngine;
 
-// Tự động gắn Mắt và Vũ khí
 [RequireComponent(typeof(MeleeAttack))]
-[RequireComponent(typeof(PlayerDetector))]
+[RequireComponent(typeof(PlayerDetector))] 
 public class Enemy_Mushroom : EnemyBase
 {
     [Header("Mushroom AI Settings")]
@@ -13,10 +12,6 @@ public class Enemy_Mushroom : EnemyBase
     [SerializeField] private float stunDuration = 2f; 
     private float stunTimer;
 
-    [Header("Knockback Settings")]
-    [SerializeField] private float knockbackDuration = 0.2f;
-    private float knockbackTimer;
-
     private MeleeAttack meleeWeapon;
     private PlayerDetector eyes;
 
@@ -26,58 +21,53 @@ public class Enemy_Mushroom : EnemyBase
         meleeWeapon = GetComponent<MeleeAttack>();
         eyes = GetComponent<PlayerDetector>();
     }
-
-    public override void TakeDamage(float dmg, Vector2 hitDir)
-    {
-        base.TakeDamage(dmg, hitDir);
-        if (!isDead) knockbackTimer = knockbackDuration;
-    }
-
     protected override void Update()
     {
         if (isDead) return;
-        if (knockbackTimer > 0)
+        if (anim != null && anim.GetCurrentAnimatorStateInfo(0).IsName(GameConfig.ANIM_COL_HIT))
         {
-            knockbackTimer -= Time.deltaTime;
             return; 
         }
-
         if (stunTimer > 0)
         {
             stunTimer -= Time.deltaTime;
-            SetVelocityX(0); 
+            SetVelocityX(0);
             return; 
         }
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName(GameConfig.ANIM_COL_ATTACK) || 
+            anim.GetCurrentAnimatorStateInfo(0).IsName("Mushroom_Attack"))
+        {
+            SetVelocityX(0);
+            return;
+        }
+        Transform target = GetVisiblePlayer();
 
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Mushroom_attack"))
+        if (target != null)
         {
-            SetVelocityX(0); 
-            return; 
-        }
-        if (eyes.CanSeePlayer())
-        {
-            Transform target = eyes.GetPlayerTransform();
             float distanceToPlayer = Vector2.Distance(transform.position, target.position);
+            
             if (distanceToPlayer <= attackRange)
             {
                 SetVelocityX(0);
                 anim.SetBool(animIsMoving, false);
                 meleeWeapon.TryAttack();
+                return;
             }
             else
             {
                 ChasePlayer(target);
+                return;
             }
         }
-        else
-        {
-            base.Update();
-        }
+        base.Update();
     }
 
     private void ChasePlayer(Transform target)
     {
-        if (IsWallDetected() || (ledgeCheck != null && ledgeCheck.IsDetectingLedge()))
+        bool isLedgeAhead = ledgeCheck != null && ledgeCheck.IsDetectingLedge();
+        bool isWallAhead = IsWallDetected();
+
+        if (isWallAhead || isLedgeAhead)
         {
             SetVelocityX(0); 
             anim.SetBool(animIsMoving, false); 
@@ -104,7 +94,8 @@ public class Enemy_Mushroom : EnemyBase
     public void TriggerStunAfterAttack()
     {
         stunTimer = stunDuration;
-        anim.SetTrigger(animStun); 
-        Debug.Log("Nấm tự gây choáng bản thân!");
+        if (anim != null) anim.SetTrigger(animStun); 
+        
+        Debug.Log("Mushroom: Đánh xong mệt quá, xin nghỉ mệt 2 giây!");
     }
 }
