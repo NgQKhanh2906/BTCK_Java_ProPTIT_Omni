@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using System.Security.Cryptography;
+//using System.Security.Cryptography;
 using UnityEngine;
 
 public class PlayerBase : Entity, IHealable, ISaveable
