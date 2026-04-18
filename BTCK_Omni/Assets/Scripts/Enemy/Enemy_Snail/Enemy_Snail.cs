@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerDetector))]
+[RequireComponent(typeof(PlayerDetector))] 
 public class Enemy_Snail : EnemyBase
 {
     [Header("Snail Logic")]
@@ -14,13 +14,17 @@ public class Enemy_Snail : EnemyBase
 
     protected override void Awake()
     {
-        base.Awake();
+        base.Awake(); 
         eyes = GetComponent<PlayerDetector>();
     }
 
     protected override void Update()
     {
         if (isDead) return;
+        if (anim != null && anim.GetCurrentAnimatorStateInfo(0).IsName(GameConfig.ANIM_COL_HIT))
+        {
+            return; 
+        }
         if (wakeUpTimer > 0)
         {
             wakeUpTimer -= Time.deltaTime;
@@ -29,8 +33,7 @@ public class Enemy_Snail : EnemyBase
         }
         if (isHiding)
         {
-            SetVelocityX(0);
-
+            SetVelocityX(0); 
             if (!eyes.CanSeePlayer()) 
             {
                 Debug.Log("<color=green>Snail: an toàn rồi, chui ra thôi.</color>");
@@ -46,7 +49,7 @@ public class Enemy_Snail : EnemyBase
         if (isHiding || wakeUpTimer > 0) 
         {
             Debug.Log("Snail: Đang trong vỏ, leng keng, không mất máu!");
-            return;
+            return; 
         }
         base.TakeDamage(dmg, hitDir);
         if (!isDead) 
@@ -58,14 +61,13 @@ public class Enemy_Snail : EnemyBase
     private void EnterHideMode()
     {
         isHiding = true;
-        anim.SetBool(animIsHiding, true); 
+        if (anim != null) anim.SetBool(animIsHiding, true); 
     }
 
     private void ExitHideMode()
     {
         isHiding = false;
-        anim.SetBool(animIsHiding, false);
-    
+        if (anim != null) anim.SetBool(animIsHiding, false);
         wakeUpTimer = wakeUpDuration; 
     }
 }
