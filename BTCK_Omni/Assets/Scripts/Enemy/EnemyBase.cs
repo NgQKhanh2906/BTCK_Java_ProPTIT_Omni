@@ -8,16 +8,12 @@ public class EnemyBase : Entity
     protected readonly int animIsHiding = Animator.StringToHash("isHiding");
 
     [Header("Death Settings")]
-<<<<<<< HEAD
-    [SerializeField] protected float despawnDelay = 3f;
-=======
     [SerializeField] protected float despawnDelay = 3f; 
 
     [Header("Vision Settings (Radar + Eyes)")]
     [SerializeField] protected float sightRange = 7f; 
     [SerializeField] protected LayerMask whatIsPlayer; 
     [SerializeField] protected LayerMask whatIsObstacle; 
->>>>>>> ac3279d35ca811b0fda15dd0195cd37982f13938
 
     [Header("Collision Checks (BoxCast)")]
     [SerializeField] protected Transform groundCheck;
@@ -137,17 +133,6 @@ public class EnemyBase : Entity
         }
     }
 
-<<<<<<< HEAD
-    protected override void Die()
-    {
-        // 1. Gọi cha (Entity) ra làm hết các việc: isDead = true, tắt Collider, khóa Rigidbody, chạy Anim...
-        base.Die();
-
-        // 2. Việc duy nhất Enemy cần làm thêm: Hẹn giờ bốc hơi cái xác
-        Destroy(gameObject, despawnDelay);
-    }
-=======
->>>>>>> ac3279d35ca811b0fda15dd0195cd37982f13938
     protected virtual void UpdateAnimation(bool isMoving)
     {
         if (anim != null)

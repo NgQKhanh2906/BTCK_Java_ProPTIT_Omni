@@ -35,7 +35,7 @@ public class Enemy_Mushroom : EnemyBase
             return; 
         }
         if (anim.GetCurrentAnimatorStateInfo(0).IsName(GameConfig.ANIM_COL_ATTACK) || 
-            anim.GetCurrentAnimatorStateInfo(0).IsName("Mushroom_Attack"))
+            anim.GetCurrentAnimatorStateInfo(0).IsName("Mushroom_attack"))
         {
             SetVelocityX(0);
             return;
