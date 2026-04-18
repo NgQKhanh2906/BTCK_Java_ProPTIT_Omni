@@ -6,8 +6,12 @@ public class PlayerDetector : MonoBehaviour
     [SerializeField] private float detectionRadius = 5f;
     [SerializeField] private LayerMask whatIsPlayer;
     [SerializeField] private LayerMask whatIsWall; 
+    
+    [Header("Offset")]
+    [SerializeField] private float eyeHeight = 0.5f; 
 
     private Transform playerTransform;
+
     public bool CanSeePlayer()
     {
         Collider2D playerCollider = Physics2D.OverlapCircle(transform.position, detectionRadius, whatIsPlayer);
@@ -15,7 +19,11 @@ public class PlayerDetector : MonoBehaviour
         if (playerCollider != null)
         {
             playerTransform = playerCollider.transform;
-            RaycastHit2D hitWall = Physics2D.Linecast(transform.position, playerTransform.position, whatIsWall);
+            Vector2 eyePos = new Vector2(transform.position.x, transform.position.y + eyeHeight);
+            Vector2 targetPos = new Vector2(playerTransform.position.x, playerTransform.position.y + eyeHeight);
+
+            RaycastHit2D hitWall = Physics2D.Linecast(eyePos, targetPos, whatIsWall);
+            
             if (hitWall.collider == null)
             {
                 return true; 
@@ -29,6 +37,7 @@ public class PlayerDetector : MonoBehaviour
     {
         return playerTransform;
     }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;
@@ -37,7 +46,9 @@ public class PlayerDetector : MonoBehaviour
         if (playerTransform != null)
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(transform.position, playerTransform.position);
+            Vector2 eyePos = new Vector2(transform.position.x, transform.position.y + eyeHeight);
+            Vector2 targetPos = new Vector2(playerTransform.position.x, playerTransform.position.y + eyeHeight);
+            Gizmos.DrawLine(eyePos, targetPos);
         }
     }
 }
