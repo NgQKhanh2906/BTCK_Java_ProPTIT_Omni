@@ -1,6 +1,5 @@
 using UnityEngine;
 
-// Ốc sên chỉ cần Mắt để canh chừng Player, không cần Vũ khí (MeleeAttack)
 [RequireComponent(typeof(PlayerDetector))]
 public class Enemy_Snail : EnemyBase
 {
