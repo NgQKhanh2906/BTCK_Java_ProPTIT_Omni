@@ -8,12 +8,21 @@ public class EnemyBase : Entity
     protected readonly int animIsHiding = Animator.StringToHash("isHiding");
 
     [Header("Death Settings")]
+<<<<<<< HEAD
     [SerializeField] protected float despawnDelay = 3f; // Thời gian xác lưu lại trước khi biến mất
 
     [Header("Vision Settings (Radar + Eyes)")]
     [SerializeField] protected float sightRange = 7f; // Bán kính vòng tròn phát hiện
     [SerializeField] protected LayerMask whatIsPlayer; // Layer của Player
     [SerializeField] protected LayerMask whatIsObstacle; // Layer của vật cản (Sàn, Tường, Platform lơ lửng)
+=======
+    [SerializeField] protected float despawnDelay = 3f; 
+
+    [Header("Vision Settings (Radar + Eyes)")]
+    [SerializeField] protected float sightRange = 7f; 
+    [SerializeField] protected LayerMask whatIsPlayer; 
+    [SerializeField] protected LayerMask whatIsObstacle; 
+>>>>>>> f96dfe6c241ef41df446f37cc2cd5091798f2a30
 
     [Header("Collision Checks (BoxCast)")]
     [SerializeField] protected Transform groundCheck;
@@ -34,13 +43,17 @@ public class EnemyBase : Entity
 
     protected override void Awake()
     {
-        base.Awake();
+        base.Awake(); 
         patrolTimer = patrolDuration;
     }
 
     protected virtual void Update()
     {
         if (isDead) return;
+        if (anim != null && anim.GetCurrentAnimatorStateInfo(0).IsName(GameConfig.ANIM_COL_HIT))
+        {
+            return; 
+        }
 
         if (isIdle)
         {
@@ -54,9 +67,16 @@ public class EnemyBase : Entity
 
     protected override void Die()
     {
+<<<<<<< HEAD
         base.Die();
         Destroy(gameObject, despawnDelay); 
     }
+=======
+        base.Die(); 
+        Destroy(gameObject, despawnDelay); 
+    }
+
+>>>>>>> f96dfe6c241ef41df446f37cc2cd5091798f2a30
     public virtual Transform GetVisiblePlayer()
     {
         Collider2D playerCollider = Physics2D.OverlapCircle(transform.position, sightRange, whatIsPlayer);
@@ -71,6 +91,10 @@ public class EnemyBase : Entity
             Vector2 direction = targetCenter - eyePosition;
             float distance = direction.magnitude;
             RaycastHit2D hit = Physics2D.Raycast(eyePosition, direction.normalized, distance, whatIsPlayer | whatIsObstacle);
+<<<<<<< HEAD
+=======
+            
+>>>>>>> f96dfe6c241ef41df446f37cc2cd5091798f2a30
             if (hit.collider != null && ((1 << hit.collider.gameObject.layer) & whatIsPlayer) != 0)
             {
                 return target;
@@ -102,7 +126,7 @@ public class EnemyBase : Entity
         }
         else
         {
-            SetVelocityX(moveSpeed * facingDir);
+            SetVelocityX(moveSpeed * facingDir); 
             UpdateAnimation(true);
         }
     }
@@ -112,7 +136,7 @@ public class EnemyBase : Entity
         isIdle = true;
         idleTimer = idleDuration;
         patrolTimer = patrolDuration;
-        SetVelocityX(0);
+        SetVelocityX(0); 
         UpdateAnimation(false);
     }
 
@@ -123,7 +147,7 @@ public class EnemyBase : Entity
         if (idleTimer <= 0)
         {
             isIdle = false;
-            Flip();
+            Flip(); 
         }
     }
 
