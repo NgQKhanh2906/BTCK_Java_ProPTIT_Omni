@@ -61,7 +61,6 @@ public class PlayerBase : Entity, IHealable, ISaveable
     
     //id
     private int pLayer;
-    [Tooltip("Các layer coi là địch (đánh, pass-through). Có thể gán trong Inspector; nếu để trống sẽ dùng Enemy + FlyingEnemy + Boss.")]
     [SerializeField] protected LayerMask enemyLayerMask;
     private Collider2D col2d;
 
@@ -250,7 +249,6 @@ public class PlayerBase : Entity, IHealable, ISaveable
     #endregion
 
 
-    /// <summary>Bật/tắt bỏ qua va chạm Player với mọi layer trong enemyLayerMask (mỗi cặp layer chỉ gọi IgnoreLayerCollision một lần).</summary>
     private void SetIgnorePlayerVsEnemyLayers(bool ignore)
     {
         int m = enemyLayerMask.value;
