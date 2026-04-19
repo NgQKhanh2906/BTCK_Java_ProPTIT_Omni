@@ -18,7 +18,7 @@ public class SwordmanController : PlayerBase
     [Header("Sword settings")] [SerializeField]
     private float attackDamage;
 
-    [SerializeField] private float atkDuration;
+    //[SerializeField] private float atkDuration;
     [SerializeField] private float comboWindow = 1f;
     [SerializeField] private float spAtkDamage;
 

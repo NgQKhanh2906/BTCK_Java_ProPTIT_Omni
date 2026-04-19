@@ -233,6 +233,7 @@ MonoBehaviour:
   maxHP: 100
   moveSpeed: 8
   knockbackForce: 3
+  currentHP: 0
   playerIndex: 0
   uniqueId: fa9ab6fe-b3e0-45e2-97fb-92519a74d818
   keyLeft: 97
@@ -259,10 +260,6 @@ MonoBehaviour:
   atttackPoint3: {fileID: 3933807227159328517}
   size3: {x: 4.5, y: 4.5}
   attackDamage: 25
-  atkDuration: 0.7
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 0
   comboWindow: 0.9
   spAtkDamage: 40
 --- !u!212 &4203083726366161979
