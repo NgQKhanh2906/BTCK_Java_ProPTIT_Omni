@@ -8,6 +8,11 @@ public class ArcherController : PlayerBase
     [SerializeField] private Transform firePt;
     [SerializeField] private Beam beamPf;
 
+
+    [SerializeField] private Transform atkHitbox;
+    [SerializeField] private Vector2 sizeAtkHitBox;
+
+
     private float manaCostAttack2 = 1f;
     private float manaCostAttack3 = 20f;
     private float manaCostSpecial = 70f;
@@ -60,7 +65,8 @@ public class ArcherController : PlayerBase
 
         if (isRolling || isDefending || isAttacking)
         {
-            return;
+
+                    return;
         }
 
         HandleSpecialAttack();
@@ -130,6 +136,27 @@ public class ArcherController : PlayerBase
         SetVelocityX(0);
         anim.SetTrigger(GameConfig.ANIM_COL_ATTACK);
     }
+    public void Hit()
+    {
+        if(atkHitbox == null)
+        {
+            return;
+        }
+        OnAttackHit(atkHitbox, sizeAtkHitBox, damageAttack1);       
+    }
+    public void OnAttackHit(Transform attackHitBox, Vector2 size, float dmg)
+    {
+         Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(attackHitBox.position, size, 0f, enemyLayerMask);
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            var entity = enemy.GetComponent<Entity>();
+            Vector2 hitDir = (enemy.transform.position - transform.position).normalized;
+            if (entity != null)
+            {
+                entity.TakeDamage(dmg, hitDir);
+            }
+        }
+    }
 
     public void EndAttack()
     {
@@ -176,5 +203,11 @@ public class ArcherController : PlayerBase
 
         Arrow arrow = Instantiate(prefab, firePt.position, Quaternion.identity);
         arrow.Setup(facingDir, damage, type, angle, isAttack3);
+    }
+
+    public void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(atkHitbox.position, sizeAtkHitBox);
     }
 }
