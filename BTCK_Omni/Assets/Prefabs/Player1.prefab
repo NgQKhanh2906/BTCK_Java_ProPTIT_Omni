@@ -216,7 +216,7 @@ MonoBehaviour:
   maxSlope: 45
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 256
   drawGizmos: 1
 --- !u!114 &1098022796007537600
 MonoBehaviour:
@@ -233,17 +233,16 @@ MonoBehaviour:
   maxHP: 100
   moveSpeed: 8
   knockbackForce: 3
-  currentHP: 0
-  playerIndex: 0
+  playerIndex: 1
   uniqueId: fa9ab6fe-b3e0-45e2-97fb-92519a74d818
-  keyLeft: 97
-  keyRight: 100
-  keyJump: 119
-  keyAttack: 106
-  keyDef: 115
-  keySpAtk: 107
-  keyRoll: 108
-  keyInteract: 101
+  keyLeft: 276
+  keyRight: 275
+  keyJump: 273
+  keyAttack: 257
+  keyDef: 274
+  keySpAtk: 258
+  keyRoll: 259
+  keyInteract: 260
   jumpForce: 8
   maxJumps: 2
   rollForce: 8
@@ -253,6 +252,9 @@ MonoBehaviour:
   manaPerHit: 15
   rollManaCost: 20
   manaRegen: 5
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
   atttackPoint1: {fileID: 2159189618114155152}
   size1: {x: 3, y: 5}
   atttackPoint2: {fileID: 119974414485039415}
