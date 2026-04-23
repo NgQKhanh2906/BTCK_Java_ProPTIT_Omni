@@ -76,7 +76,6 @@ public class EnemyBase : Entity
             Vector2 direction = targetCenter - eyePosition;
             float distance = direction.magnitude;
             RaycastHit2D hit = Physics2D.Raycast(eyePosition, direction.normalized, distance, whatIsPlayer | whatIsObstacle);
-            
             if (hit.collider != null && ((1 << hit.collider.gameObject.layer) & whatIsPlayer) != 0)
             {
                 return target;
@@ -111,6 +110,12 @@ public class EnemyBase : Entity
             SetVelocityX(moveSpeed * facingDir); 
             UpdateAnimation(true);
         }
+    }
+
+    protected virtual void ChasePlayer(Transform target)
+    {
+    isIdle = false;
+    anim.SetBool(animIsMoving, true);
     }
 
     protected virtual void StartIdle()
