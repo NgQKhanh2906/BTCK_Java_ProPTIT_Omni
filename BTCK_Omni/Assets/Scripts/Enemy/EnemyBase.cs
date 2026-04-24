@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
+
+[RequireComponent(typeof(PlayerDetector))]
 public class EnemyBase : Entity
 {
     [Header("Animator Parameters")]
@@ -7,144 +10,186 @@ public class EnemyBase : Entity
     protected readonly int animStun = Animator.StringToHash("Stun");
     protected readonly int animIsHiding = Animator.StringToHash("isHiding");
 
+
+    [Header("Unity Events")]
+    public UnityEvent onEnemyDeath;
+
+
     [Header("Death Settings")]
-    [SerializeField] protected float despawnDelay = 3f; 
+    [SerializeField] protected float despawnDelay = 3f;
 
-    [Header("Vision Settings (Radar + Eyes)")]
-    [SerializeField] protected float sightRange = 7f; 
-    [SerializeField] protected LayerMask whatIsPlayer; 
-    [SerializeField] protected LayerMask whatIsObstacle; 
 
-    [Header("Collision Checks (BoxCast)")]
+    [Header("Home & Tethering")]
+    [SerializeField] protected float maxWanderDistance = 4f;
+    protected Vector2 startPosition;
+    protected bool isReturningHome = false;
+    protected float patrolBoundLeft;
+    protected float patrolBoundRight;
+
+
+    [Header("Collision Checks")]
     [SerializeField] protected Transform groundCheck;
-    [SerializeField] protected Vector2 groundCheckSize = new Vector2(0.5f, 0.1f); 
+    [SerializeField] protected Vector2 groundCheckSize = new Vector2(0.5f, 0.1f);
     [SerializeField] protected Transform wallCheck;
     [SerializeField] protected Vector2 wallCheckSize = new Vector2(0.1f, 0.8f);
     [SerializeField] protected LayerMask whatIsGround;
     [SerializeField] protected LedgeDetector ledgeCheck;
 
-    [Header("Patrol Timings")]
-    [SerializeField] protected float patrolDuration = 2f;
-    protected float patrolTimer;
 
     [Header("Idle Settings")]
     [SerializeField] protected float idleDuration = 2f;
     protected float idleTimer;
-    protected bool isIdle; 
+    protected bool isIdle;
+    protected PlayerDetector playerDetector;
+
 
     protected override void Awake()
     {
-        base.Awake(); 
-        patrolTimer = patrolDuration;
+        base.Awake();
+        startPosition = transform.position;
+        playerDetector = GetComponent<PlayerDetector>();
+        this.OnDeath += ForwardDeathEvent;
+        float targetB = startPosition.x + (maxWanderDistance * facingDir);
+        patrolBoundLeft = Mathf.Min(startPosition.x, targetB);
+        patrolBoundRight = Mathf.Max(startPosition.x, targetB);
     }
+
+
+    protected virtual void OnDestroy()
+    {
+        this.OnDeath -= ForwardDeathEvent;
+    }
+
+
+    private void ForwardDeathEvent()
+    {
+        onEnemyDeath?.Invoke();
+    }
+    protected virtual Transform GetVisiblePlayer()
+    {
+        if (playerDetector != null && playerDetector.CanSeePlayer())
+        {
+            return playerDetector.GetPlayerTransform();
+        }
+        return null;
+    }
+
 
     protected virtual void Update()
     {
         if (isDead) return;
-        if (anim != null && anim.GetCurrentAnimatorStateInfo(0).IsName(GameConfig.ANIM_COL_HIT))
+
+
+        if (isReturningHome)
         {
-            return; 
+            ReturnHomeLogic();
+            return;
         }
 
-        if (isIdle)
+
+        if (isIdle) HandleIdle();
+        else HandlePatrol();
+    }
+
+
+    protected virtual void ReturnHomeLogic()
+    {
+        float distanceToHome = startPosition.x - transform.position.x;
+
+
+        if (Mathf.Abs(distanceToHome) < 0.5f)
         {
-            HandleIdle();
+            isReturningHome = false;
+            StartIdle();
+            return;
         }
-        else
+
+
+        bool isLedgeAhead = ledgeCheck != null && ledgeCheck.IsDetectingLedge();
+        bool isWallAhead = IsWallDetected();
+
+
+        if (isLedgeAhead || isWallAhead)
         {
-            HandlePatrol();
+            startPosition = transform.position;
+            isReturningHome = false;
+            StartIdle();
+            return;
         }
+
+
+        int moveDir = distanceToHome > 0 ? 1 : -1;
+        if (moveDir != facingDir) Flip();
+       
+        SetVelocityX(moveSpeed * facingDir);
+        UpdateAnimation(true);
+        isIdle = false;
     }
 
-    public override void Die()
-    {
-        base.Die(); 
-        Destroy(gameObject, despawnDelay); 
-    }
-
-    public virtual Transform GetVisiblePlayer()
-    {
-        Collider2D playerCollider = Physics2D.OverlapCircle(transform.position, sightRange, whatIsPlayer);
-        
-        if (playerCollider != null)
-        {
-            Transform target = playerCollider.transform;
-            Vector3 eyeOffset = new Vector3(0, 0.5f, 0); 
-            Vector2 eyePosition = transform.position + eyeOffset;
-            Vector2 targetCenter = target.position + eyeOffset;
-
-            Vector2 direction = targetCenter - eyePosition;
-            float distance = direction.magnitude;
-            RaycastHit2D hit = Physics2D.Raycast(eyePosition, direction.normalized, distance, whatIsPlayer | whatIsObstacle);
-            if (hit.collider != null && ((1 << hit.collider.gameObject.layer) & whatIsPlayer) != 0)
-            {
-                return target;
-            }
-        }
-        
-        return null; 
-    }
-
-    public virtual bool IsGrounded()
-    {
-        return Physics2D.BoxCast(groundCheck.position, groundCheckSize, 0f, Vector2.down, 0.1f, whatIsGround);
-    }
-
-    public virtual bool IsWallDetected()
-    {
-        return Physics2D.BoxCast(wallCheck.position, wallCheckSize, 0f, new Vector2(facingDir, 0), 0.1f, whatIsGround);
-    }
 
     protected virtual void HandlePatrol()
     {
-        patrolTimer -= Time.deltaTime;
         bool isLedgeAhead = ledgeCheck != null && ledgeCheck.IsDetectingLedge();
         bool isWallAhead = IsWallDetected();
-        
-        if (patrolTimer <= 0 || isLedgeAhead || isWallAhead)
+        bool reachedLeft = transform.position.x <= patrolBoundLeft && facingDir == -1;
+        bool reachedRight = transform.position.x >= patrolBoundRight && facingDir == 1;
+        if (isLedgeAhead || isWallAhead || reachedLeft || reachedRight)
         {
             StartIdle();
         }
         else
         {
-            SetVelocityX(moveSpeed * facingDir); 
+            SetVelocityX(moveSpeed * facingDir);
             UpdateAnimation(true);
         }
     }
 
-    protected virtual void ChasePlayer(Transform target)
-    {
-    isIdle = false;
-    anim.SetBool(animIsMoving, true);
-    }
 
     protected virtual void StartIdle()
     {
         isIdle = true;
         idleTimer = idleDuration;
-        patrolTimer = patrolDuration;
-        SetVelocityX(0); 
+        SetVelocityX(0);
         UpdateAnimation(false);
     }
+
 
     protected virtual void HandleIdle()
     {
         idleTimer -= Time.deltaTime;
-
         if (idleTimer <= 0)
         {
             isIdle = false;
-            Flip(); 
+            Flip();
         }
     }
 
+
+    protected virtual void ChasePlayer(Transform target)
+    {
+        isIdle = false;
+        UpdateAnimation(true);
+    }
+
+
     protected virtual void UpdateAnimation(bool isMoving)
     {
-        if (anim != null)
-        {
-            anim.SetBool(animIsMoving, isMoving);
-        }
+        if (anim != null) anim.SetBool(animIsMoving, isMoving);
     }
+
+
+    public void SetVelocityX(float velocityX)
+    {
+        if (rb != null) rb.velocity = new Vector2(velocityX, rb.velocity.y);
+    }
+
+
+    protected bool IsWallDetected()
+    {
+        if (wallCheck == null) return false;
+        return Physics2D.BoxCast(wallCheck.position, wallCheckSize, 0, new Vector2(facingDir, 0), 0.1f, whatIsGround);
+    }
+
 
     protected virtual void OnDrawGizmos()
     {
@@ -155,10 +200,25 @@ public class EnemyBase : Entity
         }
         if (wallCheck != null)
         {
-            Gizmos.color = Color.blue;
-            Gizmos.DrawWireCube(wallCheck.position + new Vector3(0.1f * facingDir, 0, 0), wallCheckSize);
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(wallCheck.position, wallCheckSize);
         }
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, sightRange);
+        Gizmos.color = new Color(0, 1, 0, 0.3f);
+        if (Application.isPlaying)
+        {
+            float width = patrolBoundRight - patrolBoundLeft;
+            float centerX = patrolBoundLeft + width / 2f;
+            Gizmos.DrawWireCube(new Vector3(centerX, startPosition.y, 0), new Vector3(width, 1, 0));
+        }
+        else
+        {
+            float targetB = transform.position.x + (maxWanderDistance * facingDir);
+            float minX = Mathf.Min(transform.position.x, targetB);
+            float maxX = Mathf.Max(transform.position.x, targetB);
+            float width = maxX - minX;
+            float centerX = minX + width / 2f;
+            Gizmos.DrawWireCube(new Vector3(centerX, transform.position.y, 0), new Vector3(width, 1, 0));
+        }
     }
 }
+
