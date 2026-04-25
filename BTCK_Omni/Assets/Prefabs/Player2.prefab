@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3311627875758197310
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5382975914820841669}
+  m_Layer: 7
+  m_Name: atkHitBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5382975914820841669
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3311627875758197310}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.7, y: 0.52, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8511236101999464951}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4583261297358777042
 GameObject:
   m_ObjectHideFlags: 0
@@ -56,7 +87,7 @@ Transform:
   m_GameObject: {fileID: 5136747321526997598}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.749, y: -1.264, z: 0}
+  m_LocalPosition: {x: 0.696, y: -1.169, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -100,6 +131,7 @@ Transform:
   - {fileID: 1142431226689411365}
   - {fileID: 8275302715597116279}
   - {fileID: 3024538370056542652}
+  - {fileID: 5382975914820841669}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2089894336424572291
@@ -207,7 +239,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.017030478, y: -0.17173576}
+  m_Offset: {x: -0.02927208, y: -0.17173576}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.2}
@@ -218,7 +250,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.6393762, y: 2.761321}
+  m_Size: {x: 1.5071754, y: 2.761321}
   m_EdgeRadius: 0
 --- !u!50 &1734250738595876655
 Rigidbody2D:
@@ -232,10 +264,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 5
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 5
   m_Material: {fileID: 6200000, guid: 0219fb387244148449c8b25c587463c7, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -259,7 +291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e1509902fde458489beb1236d9834bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 500
+  maxHP: 100
   moveSpeed: 8
   knockbackForce: 3
   playerIndex: 0
@@ -288,8 +320,8 @@ MonoBehaviour:
   atk3TriggerPf: {fileID: 6534953149246695103, guid: cc28c43b0e9382941b2ac9c8ac7ac50d, type: 3}
   firePt: {fileID: 3024538370056542652}
   beamPf: {fileID: 441946268232219207, guid: e409124287f6c6347900e560e4696cc8, type: 3}
-  atkHitbox: {fileID: 0}
-  sizeAtkHitBox: {x: 0, y: 0}
+  atkHitbox: {fileID: 5382975914820841669}
+  sizeAtkHitBox: {x: 3, y: 0.4}
 --- !u!114 &1672164593410609960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,7 +368,7 @@ Transform:
   m_GameObject: {fileID: 8294641935576618584}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.805, y: -1.264, z: 0}
+  m_LocalPosition: {x: -0.766, y: -1.169, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
