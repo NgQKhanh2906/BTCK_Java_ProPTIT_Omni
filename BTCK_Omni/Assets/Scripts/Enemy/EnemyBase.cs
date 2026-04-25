@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-
 [RequireComponent(typeof(PlayerDetector))]
 public class EnemyBase : Entity
 {
@@ -10,19 +9,15 @@ public class EnemyBase : Entity
     protected readonly int animStun = Animator.StringToHash("Stun");
     protected readonly int animIsHiding = Animator.StringToHash("isHiding");
 
-
     [Header("Unity Events")]
     public UnityEvent onEnemyDeath;
 
-<<<<<<< HEAD
-=======
     [Header("Hit Flash VFX")]
     [SerializeField] private Material whiteFlashMat; 
     [SerializeField] private float flashDuration = 0.15f; 
     private Material originalMat; 
     private Coroutine flashRoutine;
 
->>>>>>> 949dccedf0e894912a0bfeafbcfeb7a7f407bd5a
     [Header("Home & Tethering")]
     [SerializeField] protected float maxWanderDistance = 6f;
     protected Vector2 startPosition;
@@ -44,7 +39,6 @@ public class EnemyBase : Entity
     protected bool isIdle;
     protected PlayerDetector playerDetector;
 
-
     protected override void Awake()
     {
         base.Awake();
@@ -57,17 +51,16 @@ public class EnemyBase : Entity
         if (sr != null) originalMat = sr.material;
     }
 
-
     protected virtual void OnDestroy()
     {
         this.OnDeath -= ForwardDeathEvent;
     }
 
-
     private void ForwardDeathEvent()
     {
         onEnemyDeath?.Invoke();
     }
+
     protected virtual Transform GetVisiblePlayer()
     {
         if (playerDetector != null && playerDetector.CanSeePlayer())
@@ -77,11 +70,9 @@ public class EnemyBase : Entity
         return null;
     }
 
-
     protected virtual void Update()
     {
         if (isDead) return;
-
 
         if (isReturningHome)
         {
@@ -89,16 +80,13 @@ public class EnemyBase : Entity
             return;
         }
 
-
         if (isIdle) HandleIdle();
         else HandlePatrol();
     }
 
-
     protected virtual void ReturnHomeLogic()
     {
         float distanceToHome = startPosition.x - transform.position.x;
-
 
         if (Mathf.Abs(distanceToHome) < 0.5f)
         {
@@ -107,10 +95,8 @@ public class EnemyBase : Entity
             return;
         }
 
-
         bool isLedgeAhead = ledgeCheck != null && ledgeCheck.IsDetectingLedge();
         bool isWallAhead = IsWallDetected();
-
 
         if (isLedgeAhead || isWallAhead)
         {
@@ -120,7 +106,6 @@ public class EnemyBase : Entity
             return;
         }
 
-
         int moveDir = distanceToHome > 0 ? 1 : -1;
         if (moveDir != facingDir) Flip();
        
@@ -128,13 +113,6 @@ public class EnemyBase : Entity
         UpdateAnimation(true);
         isIdle = false;
     }
-
-    public override void Die()
-    {
-        base.Die();
-        Destroy(gameObject); 
-    }
-
 
     protected virtual void HandlePatrol()
     {
@@ -162,6 +140,7 @@ public class EnemyBase : Entity
             flashRoutine = StartCoroutine(FlashCoroutine());
         }
     }
+
     private System.Collections.IEnumerator FlashCoroutine()
     {
         sr.material = whiteFlashMat; 
@@ -169,6 +148,7 @@ public class EnemyBase : Entity
         sr.material = originalMat; 
     }
 
+    // CHỈ CÒN ĐÚNG 1 HÀM DIE() Ở ĐÂY
     public override void Die()
     {
         base.Die();
@@ -183,7 +163,6 @@ public class EnemyBase : Entity
         UpdateAnimation(false);
     }
 
-
     protected virtual void HandleIdle()
     {
         idleTimer -= Time.deltaTime;
@@ -194,32 +173,27 @@ public class EnemyBase : Entity
         }
     }
 
-
     protected virtual void ChasePlayer(Transform target)
     {
         isIdle = false;
         UpdateAnimation(true);
     }
 
-
     protected virtual void UpdateAnimation(bool isMoving)
     {
         if (anim != null) anim.SetBool(animIsMoving, isMoving);
     }
-
 
     public void SetVelocityX(float velocityX)
     {
         if (rb != null) rb.velocity = new Vector2(velocityX, rb.velocity.y);
     }
 
-
     protected bool IsWallDetected()
     {
         if (wallCheck == null) return false;
         return Physics2D.BoxCast(wallCheck.position, wallCheckSize, 0, new Vector2(facingDir, 0), 0.1f, whatIsGround);
     }
-
 
     protected virtual void OnDrawGizmos()
     {
@@ -251,4 +225,3 @@ public class EnemyBase : Entity
         }
     }
 }
-
