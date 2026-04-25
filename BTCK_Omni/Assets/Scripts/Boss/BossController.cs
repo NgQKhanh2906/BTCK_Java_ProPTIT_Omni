@@ -2,9 +2,12 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-// Đổi từ MonoBehaviour sang Entity để nhận Dame từ Arrow và hệ thống vũ khí của bạn
 public class BossController : Entity
 {
+    [SerializeField] private Material flashMat;
+    [SerializeField] private float flashDuration = 0.15f;
+    private Material defaultMat;
+
     public GameObject rock;
     public GameObject laser;
     public Transform eyeP;
@@ -16,15 +19,14 @@ public class BossController : Entity
     public LayerMask hitMask;
 
     [Header("Facing Direction")]
-    // Tick vào ô này ở Inspector nếu ảnh gốc của con Boss đang nhìn sang phải.
-    // Nếu ảnh gốc nhìn sang trái thì BỎ TICK.
     public bool isFacingRight = false;
 
     Transform t;
 
     protected override void Awake()
     {
-        base.Awake(); // Gọi base.Awake() của Entity nếu có
+        base.Awake();
+        defaultMat = sr.material;
     }
 
     void Start()
@@ -34,7 +36,7 @@ public class BossController : Entity
 
     void Update()
     {
-        if (isDead) return; // Nếu Boss chết thì không tìm hay quay mặt nữa
+        if (isDead) return;
 
         Find();
         LookAtPlayer();
@@ -43,7 +45,7 @@ public class BossController : Entity
     void Find()
     {
         int pL = LayerMask.GetMask("Player");
-        Collider2D[] ps = Physics2D.OverlapCircleAll(transform.position, 50f, pL);
+        Collider2D[] ps = Physics2D.OverlapCircleAll(transform.position, 90f, pL);
         float min = Mathf.Infinity;
         t = null;
 
@@ -59,17 +61,14 @@ public class BossController : Entity
         }
     }
 
-    // --- LOGIC QUAY MẶT VỀ PHÍA PLAYER ---
     void LookAtPlayer()
     {
         if (t != null)
         {
-            // Nếu Player ở bên phải Boss nhưng Boss đang nhìn trái -> Lật
             if (transform.position.x > t.position.x && !isFacingRight)
             {
                 FlipBoss();
             }
-            // Nếu Player ở bên trái Boss nhưng Boss đang nhìn phải -> Lật
             else if (transform.position.x < t.position.x && isFacingRight)
             {
                 FlipBoss();
@@ -77,7 +76,7 @@ public class BossController : Entity
         }
     }
 
-    void FlipBoss() // Đổi tên ở đây
+    void FlipBoss()
     {
         isFacingRight = !isFacingRight;
         Vector3 scale = transform.localScale;
@@ -85,24 +84,27 @@ public class BossController : Entity
         transform.localScale = scale;
     }
 
-    // --- LOGIC NHẬN SÁT THƯƠNG TỪ PLAYER ---
     public override void TakeDamage(float dmg, Vector2 hitDir)
     {
         if (isDead) return;
+        
+        StartCoroutine(Flash());
 
-        // Nếu Entity của bạn có logic giật lùi hoặc nhấp nháy đỏ khi trúng đòn, 
-        // bạn có thể giữ nguyên dòng base.TakeDamage dưới đây.
         base.TakeDamage(dmg, hitDir);
 
         hp -= dmg;
-
-        // Kích hoạt animation bị thương của Boss nếu có
-        // anim.SetTrigger("takehit"); 
 
         if (hp <= 0)
         {
             Die();
         }
+    }
+
+    private IEnumerator Flash()
+    {
+        sr.material = flashMat;
+        yield return new WaitForSeconds(flashDuration);
+        sr.material = defaultMat;
     }
 
     public override void Die()
@@ -117,10 +119,6 @@ public class BossController : Entity
     {
         SceneManager.LoadScene("Menu");
     }
-
-    // ==========================================
-    // CÁC CHIÊU THỨC GIỮ NGUYÊN HOẠT ĐỘNG
-    // ==========================================
 
     IEnumerator Loop()
     {
@@ -161,20 +159,28 @@ public class BossController : Entity
     {
         anim.speed = 0;
         int gl = LayerMask.GetMask("Ground");
-        for (int i = 0; i < 10; i++)
+
+        for (int i = 0; i < 30; i++)
         {
-            float rx = transform.position.x + Random.Range(-15f, 15f);
-            Vector2 rayStart = new Vector2(rx, transform.position.y + 20f);
-            RaycastHit2D hit = Physics2D.Raycast(rayStart, Vector2.down, 40f, gl);
+            float rx = transform.position.x + Random.Range(-90f, 90f);
+            Vector2 rS = new Vector2(rx, transform.position.y + 20f);
+            RaycastHit2D hit = Physics2D.Raycast(rS, Vector2.down, 40f, gl);
+
             if (hit.collider != null)
             {
                 Vector3 p = new Vector3(rx, hit.point.y + 0.2f, 0);
                 GameObject g = Instantiate(rock, p, Quaternion.Euler(0, 0, 90f));
                 RockProjectile rp = g.GetComponent<RockProjectile>();
-                if (rp != null) rp.Setup(Vector2.up, 15f);
+
+                if (rp != null)
+                {
+                    rp.Setup(Vector2.up, 15f);
+                }
             }
-            yield return new WaitForSeconds(0.15f);
+
+            yield return new WaitForSeconds(0.05f);
         }
+
         anim.speed = 1;
     }
 

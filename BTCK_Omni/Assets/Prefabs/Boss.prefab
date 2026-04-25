@@ -116,7 +116,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 5
+  m_Constraints: 4
 --- !u!60 &4883346666598689864
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -224,7 +224,8 @@ MonoBehaviour:
   maxHP: 3000
   moveSpeed: 10
   knockbackForce: 3
-  anim: {fileID: 0}
+  flashMat: {fileID: 2100000, guid: 5ee5f41f3c19ff644953977ab0cea2f5, type: 2}
+  flashDuration: 0.15
   rock: {fileID: 1730591031510617871, guid: 2dd5d7dbc1d42e5408df9c2051b6bd32, type: 3}
   laser: {fileID: 5850405744927635480, guid: f473c740ab9497040a0901aefb837608, type: 3}
   eyeP: {fileID: 491219547176419316}
