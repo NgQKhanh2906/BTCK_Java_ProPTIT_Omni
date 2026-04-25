@@ -246,14 +246,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5f207b6188bdd14f9156d4b8486a11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRadius: 5
+  detectionRadius: 10
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 256
   whatIsWall:
     serializedVersion: 2
     m_Bits: 128
-  eyeHeight: 0.5
 --- !u!114 &2433949677969936310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,7 +271,7 @@ MonoBehaviour:
   onEnemyDeath:
     m_PersistentCalls:
       m_Calls: []
-  whiteFlashMat: {fileID: 2100000, guid: 6918cc93c45972b4d99294b26668bf13, type: 2}
+  whiteFlashMat: {fileID: 2100000, guid: a945af7c3e8098f4da6a6fe39038ca54, type: 2}
   flashDuration: 0.15
   maxWanderDistance: 4
   groundCheck: {fileID: 196000744714363707}
@@ -284,7 +283,6 @@ MonoBehaviour:
     m_Bits: 128
   ledgeCheck: {fileID: 6465409454554881083}
   idleDuration: 2
-  attackRange: 3
   chaseSpeedMultiplier: 1.2
   attackCooldown: 2
   targetLayer:
@@ -352,7 +350,7 @@ Transform:
   m_GameObject: {fileID: 6018896248089261267}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.03, y: -0.66, z: 0}
+  m_LocalPosition: {x: 0.03, y: -0.27, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

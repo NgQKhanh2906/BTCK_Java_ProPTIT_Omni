@@ -3,26 +3,26 @@ using UnityEngine;
 public class Enemy_Minotaur : EnemyBase
 {
     [Header("Minotaur AI Settings")]
-    [SerializeField] private float attackRange = 2f; 
     [SerializeField] private float chaseSpeedMultiplier = 1.2f; 
     [SerializeField] private float attackCooldown = 2f;
     [SerializeField] private LayerMask targetLayer; 
 
-    [Header("Attack 1 Range")] 
+    [Header("Combat & Range (Attack 1 - Hộp Đỏ)")] 
     [SerializeField] private Transform attackPoint1;
     [SerializeField] private Vector2 size1;
     [SerializeField] private float damage1 = 10f;
 
-    [Header("Attack 2 Range")]
+    [Header("Combat & Range (Attack 2 - Hộp Xanh)")]
     [SerializeField] private Transform attackPoint2;
     [SerializeField] private Vector2 size2;
     [SerializeField] private float damage2 = 20f;
+
     private int hitBufferSize = 16;
     private Collider2D[] hitBuffer;
 
     private float lastAttackTime;
     private int comboStep = 0; 
-
+    
     private readonly int hashAttack1 = Animator.StringToHash("Attack1");
     private readonly int hashAttack2 = Animator.StringToHash("Attack2");
     private readonly int hashHit = Animator.StringToHash("Hit");
@@ -38,41 +38,77 @@ public class Enemy_Minotaur : EnemyBase
         if (isDead) return;
 
         var stateInfo = anim.GetCurrentAnimatorStateInfo(0);
+
+        // 1. KHÓA TRẠNG THÁI: Đang bị choáng (Hit)
+        // (Bỏ SetVelocityX(0) để Minotaur có thể bị Player đánh bật lùi về sau)
         if (stateInfo.shortNameHash == hashHit)
         {
             anim.SetBool(animIsMoving, false);
             return;
         }
+
+        // 2. KHÓA TRẠNG THÁI: Đang vung rìu
         if (stateInfo.shortNameHash == hashAttack1 || stateInfo.shortNameHash == hashAttack2)
         {
             SetVelocityX(0); 
             anim.SetBool(animIsMoving, false);
             return; 
         }
+
         Transform target = GetVisiblePlayer();
+
         if (target != null)
         {
             isReturningHome = false; 
-            float distanceToPlayerX = Mathf.Abs(transform.position.x - target.position.x);
 
-            if (distanceToPlayerX <= attackRange)
+            // 3. AI QUÉT MỤC TIÊU BẰNG HITBOX (MẮT = TAY)
+            bool isPlayerInAttackRange = false;
+            
+            // Tự động chọn hộp quét dựa trên đòn đánh tiếp theo trong Combo
+            Transform currentPoint = (comboStep % 2 == 0) ? attackPoint1 : attackPoint2;
+            Vector2 currentSize = (comboStep % 2 == 0) ? size1 : size2;
+
+            if (currentPoint != null)
+            {
+                Collider2D hit = Physics2D.OverlapBox(currentPoint.position, currentSize, 0f, targetLayer);
+                if (hit != null) isPlayerInAttackRange = true;
+            }
+
+            // Nếu lọt vào hộp quét -> Phanh lại và Combo
+            if (isPlayerInAttackRange)
             {
                 SetVelocityX(0); 
                 anim.SetBool(animIsMoving, false); 
                 TryExecuteCombo(); 
             }
+            // Nếu chưa lọt vào hộp quét -> Tiếp tục rượt đuổi
             else 
             {
                 ChasePlayer(target);
             }
             return; 
         }
+
+        // 4. KIỂM TRA ĐIỀU KIỆN VỀ Ổ
+        if (isReturningHome)
+        {
+            ReturnHomeLogic();
+            return;
+        }
+
         float distToHome = Mathf.Abs(transform.position.x - startPosition.x);
-        if (distToHome > (maxWanderDistance + 0.5f) && !isIdle)
+        if (distToHome > maxWanderDistance && !isIdle)
         {
             isReturningHome = true;
         }
 
+        if (isReturningHome)
+        {
+            ReturnHomeLogic();
+            return;
+        }
+
+        // Đi tuần tra mặc định
         base.Update();
     }
 
@@ -82,6 +118,7 @@ public class Enemy_Minotaur : EnemyBase
         {
             lastAttackTime = Time.time;
             comboStep++;
+            
             if (comboStep % 2 != 0)
             {
                 anim.SetTrigger(hashAttack1);
@@ -93,33 +130,35 @@ public class Enemy_Minotaur : EnemyBase
         }
     }
 
-    #region AnimationEventForAttack
+    #region Animation Events For Attack
     public void Hit1()
     {
         OnAttackHit(attackPoint1, size1, damage1);
     }
+    
     public void Hit2()
     {
         OnAttackHit(attackPoint2, size2, damage2);
     }
-
     #endregion
+
     public void OnAttackHit(Transform attackPoint, Vector2 size, float dmg)
     {
         if (attackPoint == null) return;
         
-        if (hitBuffer == null || hitBuffer.Length != hitBufferSize)
-            hitBuffer = new Collider2D[hitBufferSize];
         int hitCount = Physics2D.OverlapBoxNonAlloc(attackPoint.position, size, 0f, hitBuffer, targetLayer);
         
         for (int i = 0; i < hitCount; i++)
         {
             var hit = hitBuffer[i];
             if (hit == null) continue;
-            var entity = hit.GetComponent<Entity>();
-            if (entity == null) continue;
-            Vector2 dir = new Vector2(facingDir, 0.5f).normalized; 
-            entity.TakeDamage(dmg, dir);
+            
+            if (hit.TryGetComponent(out IDamageable damageable))
+            {
+                // Lực hất tiêu chuẩn: Hướng mặt quái và chếch lên trên 0.5f
+                Vector2 dir = new Vector2(facingDir, 0.5f).normalized; 
+                damageable.TakeDamage(dmg, dir);
+            }
         }
     }
 
@@ -127,7 +166,7 @@ public class Enemy_Minotaur : EnemyBase
     {
         bool isLedgeAhead = ledgeCheck != null && ledgeCheck.IsDetectingLedge();
         bool isWallAhead = IsWallDetected();
-
+        
         if (isWallAhead || isLedgeAhead)
         {
             SetVelocityX(0); 
@@ -156,16 +195,15 @@ public class Enemy_Minotaur : EnemyBase
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
-        Gizmos.color = Color.magenta;
-        Vector3 leftBound = transform.position + new Vector3(-attackRange, 0, 0);
-        Vector3 rightBound = transform.position + new Vector3(attackRange, 0, 0);
-        Gizmos.DrawLine(leftBound + Vector3.up * 2f, leftBound + Vector3.down * 2f);
-        Gizmos.DrawLine(rightBound + Vector3.up * 2f, rightBound + Vector3.down * 2f);
+
+        // Vẽ Hộp Đỏ (Attack 1)
         Gizmos.color = Color.red;
         if (attackPoint1 != null)
         {
             Gizmos.DrawWireCube(attackPoint1.position, size1);
         }
+
+        // Vẽ Hộp Xanh Lá (Attack 2)
         Gizmos.color = Color.green;
         if (attackPoint2 != null)
         {
