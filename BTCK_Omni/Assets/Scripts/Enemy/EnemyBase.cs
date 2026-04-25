@@ -14,8 +14,14 @@ public class EnemyBase : Entity
     [Header("Unity Events")]
     public UnityEvent onEnemyDeath;
 
+    [Header("Hit Flash VFX")]
+    [SerializeField] private Material whiteFlashMat; 
+    [SerializeField] private float flashDuration = 0.15f; 
+    private Material originalMat; 
+    private Coroutine flashRoutine;
+
     [Header("Home & Tethering")]
-    [SerializeField] protected float maxWanderDistance = 4f;
+    [SerializeField] protected float maxWanderDistance = 6f;
     protected Vector2 startPosition;
     protected bool isReturningHome = false;
     protected float patrolBoundLeft;
@@ -45,6 +51,7 @@ public class EnemyBase : Entity
         float targetB = startPosition.x + (maxWanderDistance * facingDir);
         patrolBoundLeft = Mathf.Min(startPosition.x, targetB);
         patrolBoundRight = Mathf.Max(startPosition.x, targetB);
+        if (sr != null) originalMat = sr.material;
     }
 
 
@@ -135,6 +142,22 @@ public class EnemyBase : Entity
             SetVelocityX(moveSpeed * facingDir);
             UpdateAnimation(true);
         }
+    }
+
+    public override void TakeDamage(float dmg, Vector2 hitDir)
+    {
+        base.TakeDamage(dmg, hitDir);
+        if (sr != null && whiteFlashMat != null)
+        {
+            if (flashRoutine != null) StopCoroutine(flashRoutine); 
+            flashRoutine = StartCoroutine(FlashCoroutine());
+        }
+    }
+    private System.Collections.IEnumerator FlashCoroutine()
+    {
+        sr.material = whiteFlashMat; 
+        yield return new WaitForSeconds(flashDuration); 
+        sr.material = originalMat; 
     }
 
     public override void Die()
