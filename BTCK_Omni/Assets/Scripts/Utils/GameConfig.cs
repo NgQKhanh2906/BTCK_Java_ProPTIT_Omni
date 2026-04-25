@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class GameConfig
 {
-    // Animator condition
     public static string ANIM_COL_JUMP = "Jump";
     public static string ANIM_COL_ROLL = "Roll";
     public static string ANIM_COL_SPEED = "Speed";

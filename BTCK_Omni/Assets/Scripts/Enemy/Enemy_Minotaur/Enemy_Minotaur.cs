@@ -6,7 +6,7 @@ public class Enemy_Minotaur : EnemyBase
     [SerializeField] private float attackRange = 2f; 
     [SerializeField] private float chaseSpeedMultiplier = 1.2f; 
     [SerializeField] private float attackCooldown = 2f;
-    [SerializeField] private LayerMask targetLayer; // LayerMask để check hit trúng Player
+    [SerializeField] private LayerMask targetLayer; 
 
     [Header("Attack 1 Range")] 
     [SerializeField] private Transform attackPoint1;
@@ -17,8 +17,6 @@ public class Enemy_Minotaur : EnemyBase
     [SerializeField] private Transform attackPoint2;
     [SerializeField] private Vector2 size2;
     [SerializeField] private float damage2 = 20f;
-
-    // Tối ưu bộ nhớ với NonAlloc (giống hệt SwordmanController)
     private int hitBufferSize = 16;
     private Collider2D[] hitBuffer;
 
@@ -32,7 +30,6 @@ public class Enemy_Minotaur : EnemyBase
     protected override void Awake()
     {
         base.Awake();
-        // Khởi tạo mảng hitBuffer 1 lần duy nhất để tối ưu RAM
         hitBuffer = new Collider2D[Mathf.Max(1, hitBufferSize)];
     }
 
