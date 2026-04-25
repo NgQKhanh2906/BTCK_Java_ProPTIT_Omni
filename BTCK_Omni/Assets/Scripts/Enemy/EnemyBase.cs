@@ -14,13 +14,21 @@ public class EnemyBase : Entity
     [Header("Unity Events")]
     public UnityEvent onEnemyDeath;
 
+<<<<<<< HEAD
+=======
+    [Header("Hit Flash VFX")]
+    [SerializeField] private Material whiteFlashMat; 
+    [SerializeField] private float flashDuration = 0.15f; 
+    private Material originalMat; 
+    private Coroutine flashRoutine;
+
+>>>>>>> 949dccedf0e894912a0bfeafbcfeb7a7f407bd5a
     [Header("Home & Tethering")]
-    [SerializeField] protected float maxWanderDistance = 4f;
+    [SerializeField] protected float maxWanderDistance = 6f;
     protected Vector2 startPosition;
     protected bool isReturningHome = false;
     protected float patrolBoundLeft;
     protected float patrolBoundRight;
-
 
     [Header("Collision Checks")]
     [SerializeField] protected Transform groundCheck;
@@ -29,7 +37,6 @@ public class EnemyBase : Entity
     [SerializeField] protected Vector2 wallCheckSize = new Vector2(0.1f, 0.8f);
     [SerializeField] protected LayerMask whatIsGround;
     [SerializeField] protected LedgeDetector ledgeCheck;
-
 
     [Header("Idle Settings")]
     [SerializeField] protected float idleDuration = 2f;
@@ -47,6 +54,7 @@ public class EnemyBase : Entity
         float targetB = startPosition.x + (maxWanderDistance * facingDir);
         patrolBoundLeft = Mathf.Min(startPosition.x, targetB);
         patrolBoundRight = Mathf.Max(startPosition.x, targetB);
+        if (sr != null) originalMat = sr.material;
     }
 
 
@@ -145,6 +153,27 @@ public class EnemyBase : Entity
         }
     }
 
+    public override void TakeDamage(float dmg, Vector2 hitDir)
+    {
+        base.TakeDamage(dmg, hitDir);
+        if (sr != null && whiteFlashMat != null)
+        {
+            if (flashRoutine != null) StopCoroutine(flashRoutine); 
+            flashRoutine = StartCoroutine(FlashCoroutine());
+        }
+    }
+    private System.Collections.IEnumerator FlashCoroutine()
+    {
+        sr.material = whiteFlashMat; 
+        yield return new WaitForSeconds(flashDuration); 
+        sr.material = originalMat; 
+    }
+
+    public override void Die()
+    {
+        base.Die();
+        Destroy(gameObject); 
+    }
 
     protected virtual void StartIdle()
     {
