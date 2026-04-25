@@ -14,11 +14,6 @@ public class EnemyBase : Entity
     [Header("Unity Events")]
     public UnityEvent onEnemyDeath;
 
-
-    [Header("Death Settings")]
-    [SerializeField] protected float despawnDelay = 3f;
-
-
     [Header("Home & Tethering")]
     [SerializeField] protected float maxWanderDistance = 4f;
     protected Vector2 startPosition;
@@ -124,6 +119,12 @@ public class EnemyBase : Entity
         SetVelocityX(moveSpeed * facingDir);
         UpdateAnimation(true);
         isIdle = false;
+    }
+
+    public override void Die()
+    {
+        base.Die();
+        Destroy(gameObject); 
     }
 
 
