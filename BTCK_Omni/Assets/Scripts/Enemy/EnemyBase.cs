@@ -14,18 +14,12 @@ public class EnemyBase : Entity
     [Header("Unity Events")]
     public UnityEvent onEnemyDeath;
 
-
-    [Header("Death Settings")]
-    [SerializeField] protected float despawnDelay = 3f;
-
-
     [Header("Home & Tethering")]
     [SerializeField] protected float maxWanderDistance = 4f;
     protected Vector2 startPosition;
     protected bool isReturningHome = false;
     protected float patrolBoundLeft;
     protected float patrolBoundRight;
-
 
     [Header("Collision Checks")]
     [SerializeField] protected Transform groundCheck;
@@ -34,7 +28,6 @@ public class EnemyBase : Entity
     [SerializeField] protected Vector2 wallCheckSize = new Vector2(0.1f, 0.8f);
     [SerializeField] protected LayerMask whatIsGround;
     [SerializeField] protected LedgeDetector ledgeCheck;
-
 
     [Header("Idle Settings")]
     [SerializeField] protected float idleDuration = 2f;
@@ -144,6 +137,11 @@ public class EnemyBase : Entity
         }
     }
 
+    public override void Die()
+    {
+        base.Die();
+        Destroy(gameObject); 
+    }
 
     protected virtual void StartIdle()
     {
