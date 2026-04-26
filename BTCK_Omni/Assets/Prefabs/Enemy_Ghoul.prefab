@@ -110,8 +110,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -889017627
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: -19306984, guid: e0d2661c151549a4aa4c24b8a787e08f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -232,11 +232,10 @@ MonoBehaviour:
   detectionRadius: 5
   whatIsPlayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 128
   whatIsWall:
     serializedVersion: 2
-    m_Bits: 128
-  eyeHeight: 0.5
+    m_Bits: 512
 --- !u!114 &7370213782679366910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,10 +245,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1921419409086063011}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7bfde379fa0baa4fadcca6adb741bc3, type: 3}
+  m_Script: {fileID: 11500000, guid: 3ac327942e289d84e8550c75271dce19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 111111
+  maxHP: 100
   moveSpeed: 2
   knockbackForce: 3
   onEnemyDeath:
@@ -259,21 +258,21 @@ MonoBehaviour:
   flashDuration: 0.15
   maxWanderDistance: 6
   groundCheck: {fileID: 5174057727270751053}
-  groundCheckSize: {x: 1.5, y: 0.1}
+  groundCheckSize: {x: 0.5, y: 0.1}
   wallCheck: {fileID: 5935698095413538845}
   wallCheckSize: {x: 0.1, y: 0.8}
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 256
   ledgeCheck: {fileID: 4571024690860317183}
   idleDuration: 2
   chaseSpeedMultiplier: 1.5
   attackCooldown: 1.5
   targetLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 128
   attackPoint: {fileID: 682117593124103590}
-  attackSize: {x: 1.2, y: 2.5}
+  attackSize: {x: 1.5, y: 1.2}
   attackDamage: 10
 --- !u!1 &2928240741073989120
 GameObject:
