@@ -9,22 +9,26 @@ public class EnemyBase : Entity
     protected readonly int animStun = Animator.StringToHash("Stun");
     protected readonly int animIsHiding = Animator.StringToHash("isHiding");
 
-    [Header("Unity Events")]
-    public UnityEvent onEnemyDeath; 
 
-    [Header("Death Settings")]
-    [SerializeField] protected float despawnDelay = 3f; 
+    [Header("Unity Events")]
+    public UnityEvent onEnemyDeath;
+
+    [Header("Hit Flash VFX")]
+    [SerializeField] private Material whiteFlashMat; 
+    [SerializeField] private float flashDuration = 0.15f; 
+    private Material originalMat; 
+    private Coroutine flashRoutine;
 
     [Header("Home & Tethering")]
-    [SerializeField] protected float maxWanderDistance = 4f; 
-    protected Vector2 startPosition; 
+    [SerializeField] protected float maxWanderDistance = 6f;
+    protected Vector2 startPosition;
     protected bool isReturningHome = false;
     protected float patrolBoundLeft;
     protected float patrolBoundRight;
 
     [Header("Collision Checks")]
     [SerializeField] protected Transform groundCheck;
-    [SerializeField] protected Vector2 groundCheckSize = new Vector2(0.5f, 0.1f); 
+    [SerializeField] protected Vector2 groundCheckSize = new Vector2(0.5f, 0.1f);
     [SerializeField] protected Transform wallCheck;
     [SerializeField] protected Vector2 wallCheckSize = new Vector2(0.1f, 0.8f);
     [SerializeField] protected LayerMask whatIsGround;
@@ -33,24 +37,28 @@ public class EnemyBase : Entity
     [Header("Idle Settings")]
     [SerializeField] protected float idleDuration = 2f;
     protected float idleTimer;
-    protected bool isIdle; 
-    protected PlayerDetector playerDetector; 
+    protected bool isIdle;
+    protected PlayerDetector playerDetector;
+
 
     protected override void Awake()
     {
         base.Awake();
-        startPosition = transform.position; 
-        playerDetector = GetComponent<PlayerDetector>(); 
+        startPosition = transform.position;
+        playerDetector = GetComponent<PlayerDetector>();
         this.OnDeath += ForwardDeathEvent;
         float targetB = startPosition.x + (maxWanderDistance * facingDir);
         patrolBoundLeft = Mathf.Min(startPosition.x, targetB);
         patrolBoundRight = Mathf.Max(startPosition.x, targetB);
+        if (sr != null) originalMat = sr.material;
     }
+
 
     protected virtual void OnDestroy()
     {
         this.OnDeath -= ForwardDeathEvent;
     }
+
 
     private void ForwardDeathEvent()
     {
@@ -65,49 +73,58 @@ public class EnemyBase : Entity
         return null;
     }
 
+
     protected virtual void Update()
     {
         if (isDead) return;
 
+
         if (isReturningHome)
         {
             ReturnHomeLogic();
-            return; 
+            return;
         }
+
 
         if (isIdle) HandleIdle();
         else HandlePatrol();
     }
 
+
     protected virtual void ReturnHomeLogic()
     {
         float distanceToHome = startPosition.x - transform.position.x;
 
+
         if (Mathf.Abs(distanceToHome) < 0.5f)
         {
-            isReturningHome = false;
-            StartIdle(); 
-            return;
-        }
-
-        bool isLedgeAhead = ledgeCheck != null && ledgeCheck.IsDetectingLedge();
-        bool isWallAhead = IsWallDetected();
-
-        if (isLedgeAhead || isWallAhead)
-        {
-            startPosition = transform.position; 
             isReturningHome = false;
             StartIdle();
             return;
         }
 
+
+        bool isLedgeAhead = ledgeCheck != null && ledgeCheck.IsDetectingLedge();
+        bool isWallAhead = IsWallDetected();
+
+
+        if (isLedgeAhead || isWallAhead)
+        {
+            startPosition = transform.position;
+            isReturningHome = false;
+            StartIdle();
+            return;
+        }
+
+
         int moveDir = distanceToHome > 0 ? 1 : -1;
-        if (moveDir != facingDir) Flip(); 
-        
-        SetVelocityX(moveSpeed * facingDir); 
+        if (moveDir != facingDir) Flip();
+       
+        SetVelocityX(moveSpeed * facingDir);
         UpdateAnimation(true);
-        isIdle = false; 
+        isIdle = false;
     }
+
 
     protected virtual void HandlePatrol()
     {
@@ -121,18 +138,41 @@ public class EnemyBase : Entity
         }
         else
         {
-            SetVelocityX(moveSpeed * facingDir); 
+            SetVelocityX(moveSpeed * facingDir);
             UpdateAnimation(true);
         }
+    }
+
+    public override void TakeDamage(float dmg, Vector2 hitDir)
+    {
+        base.TakeDamage(dmg, hitDir);
+        if (sr != null && whiteFlashMat != null)
+        {
+            if (flashRoutine != null) StopCoroutine(flashRoutine); 
+            flashRoutine = StartCoroutine(FlashCoroutine());
+        }
+    }
+    private System.Collections.IEnumerator FlashCoroutine()
+    {
+        sr.material = whiteFlashMat; 
+        yield return new WaitForSeconds(flashDuration); 
+        sr.material = originalMat; 
+    }
+
+    public override void Die()
+    {
+        base.Die();
+        Destroy(gameObject); 
     }
 
     protected virtual void StartIdle()
     {
         isIdle = true;
         idleTimer = idleDuration;
-        SetVelocityX(0); 
+        SetVelocityX(0);
         UpdateAnimation(false);
     }
+
 
     protected virtual void HandleIdle()
     {
@@ -140,7 +180,7 @@ public class EnemyBase : Entity
         if (idleTimer <= 0)
         {
             isIdle = false;
-            Flip(); 
+            Flip();
         }
     }
 
@@ -150,21 +190,25 @@ public class EnemyBase : Entity
         UpdateAnimation(true);
     }
 
+
     protected virtual void UpdateAnimation(bool isMoving)
     {
         if (anim != null) anim.SetBool(animIsMoving, isMoving);
     }
+
 
     public void SetVelocityX(float velocityX)
     {
         if (rb != null) rb.velocity = new Vector2(velocityX, rb.velocity.y);
     }
 
+
     protected bool IsWallDetected()
     {
         if (wallCheck == null) return false;
         return Physics2D.BoxCast(wallCheck.position, wallCheckSize, 0, new Vector2(facingDir, 0), 0.1f, whatIsGround);
     }
+
 
     protected virtual void OnDrawGizmos()
     {
@@ -179,7 +223,7 @@ public class EnemyBase : Entity
             Gizmos.DrawWireCube(wallCheck.position, wallCheckSize);
         }
         Gizmos.color = new Color(0, 1, 0, 0.3f);
-        if (Application.isPlaying) 
+        if (Application.isPlaying)
         {
             float width = patrolBoundRight - patrolBoundLeft;
             float centerX = patrolBoundLeft + width / 2f;
@@ -196,3 +240,4 @@ public class EnemyBase : Entity
         }
     }
 }
+
