@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 4167052231061539669}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.931, y: -0.313, z: 0}
+  m_LocalPosition: {x: 0.95, y: 0.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -87,7 +87,7 @@ Transform:
   m_GameObject: {fileID: 4175907131885568704}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.62, y: -0.895, z: 0}
+  m_LocalPosition: {x: 0.08, y: -0.89, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -119,7 +119,7 @@ Transform:
   m_GameObject: {fileID: 7179831238922067478}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.865, y: -0.988, z: 0}
+  m_LocalPosition: {x: 0.9, y: -1.03, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -224,7 +224,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 1368662930, guid: 95090b6e00d177148858b7519db1e8be, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 3, y: 2}
@@ -320,19 +320,22 @@ MonoBehaviour:
   maxHP: 1000
   moveSpeed: 0.5
   knockbackForce: 3
-  currentHP: 0
+  onEnemyDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  whiteFlashMat: {fileID: 2100000, guid: a945af7c3e8098f4da6a6fe39038ca54, type: 2}
+  flashDuration: 0.15
+  maxWanderDistance: 6
   groundCheck: {fileID: 7229318131006265820}
-  groundCheckSize: {x: 0.5, y: 0.1}
+  groundCheckSize: {x: 2, y: 0.1}
   wallCheck: {fileID: 7012726100068640116}
   wallCheckSize: {x: 0.1, y: 0.8}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
   ledgeCheck: {fileID: 7627025607438238498}
-  patrolDuration: 10
   idleDuration: 2
   isHiding: 0
-  wakeUpDuration: 0.5
 --- !u!95 &8654856000674497827
 Animator:
   serializedVersion: 5
@@ -373,3 +376,4 @@ MonoBehaviour:
   whatIsWall:
     serializedVersion: 2
     m_Bits: 256
+  eyeHeight: 0.5

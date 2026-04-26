@@ -1,73 +1,82 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerDetector))] 
 public class Enemy_Snail : EnemyBase
 {
-    [Header("Snail Logic")]
+    [Header("Snail Settings")]
     [SerializeField] private bool isHiding = false;
-
-    [Header("Animation Timers")]
-    [SerializeField] private float wakeUpDuration = 0.5f; 
-    private float wakeUpTimer;
-
-    private PlayerDetector eyes; 
+    private readonly int hashExitHideState = Animator.StringToHash("ExitHide");
+    private readonly int animIsHidingParam = Animator.StringToHash("isHiding");
 
     protected override void Awake()
     {
-        base.Awake(); 
-        eyes = GetComponent<PlayerDetector>();
+        base.Awake();
     }
 
     protected override void Update()
     {
         if (isDead) return;
-        if (anim != null && anim.GetCurrentAnimatorStateInfo(0).IsName(GameConfig.ANIM_COL_HIT))
+        var stateInfo = anim.GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.shortNameHash == hashExitHideState)
         {
-            return; 
+            SetVelocityX(0);
+            anim.SetBool(animIsMoving, false);
+            return;
         }
-        if (wakeUpTimer > 0)
-        {
-            wakeUpTimer -= Time.deltaTime;
-            SetVelocityX(0); 
-            return; 
-        }
+        Transform target = GetVisiblePlayer();
         if (isHiding)
         {
-            SetVelocityX(0); 
-            if (!eyes.CanSeePlayer()) 
+            SetVelocityX(0);
+            anim.SetBool(animIsMoving, false);
+            if (target == null)
             {
-                Debug.Log("<color=green>Snail: an toàn rồi, chui ra thôi.</color>");
                 ExitHideMode();
             }
-            return;
+            return; 
+        }
+        float distToHome = Mathf.Abs(transform.position.x - startPosition.x);
+        if (distToHome > (maxWanderDistance + 0.5f) && !isIdle)
+        {
+            isReturningHome = true;
         }
         base.Update();
     }
-
     public override void TakeDamage(float dmg, Vector2 hitDir)
     {
-        if (isHiding || wakeUpTimer > 0) 
+        if (isHiding)
         {
-            Debug.Log("Snail: Đang trong vỏ, leng keng, không mất máu!");
-            return; 
+            return;
         }
         base.TakeDamage(dmg, hitDir);
-        if (!isDead) 
+
+        if (isDead) return;
+        Transform target = GetVisiblePlayer();
+        
+        if (target != null)
         {
             EnterHideMode();
+        }
+        else
+        {
         }
     }
 
     private void EnterHideMode()
     {
-        isHiding = true;
-        if (anim != null) anim.SetBool(animIsHiding, true); 
+        if (!isHiding)
+        {
+            isHiding = true;
+            anim.SetBool(animIsHidingParam, true);
+            SetVelocityX(0);
+            anim.SetBool(animIsMoving, false);
+        }
     }
 
     private void ExitHideMode()
     {
-        isHiding = false;
-        if (anim != null) anim.SetBool(animIsHiding, false);
-        wakeUpTimer = wakeUpDuration; 
+        if (isHiding)
+        {
+            isHiding = false;
+            anim.SetBool(animIsHidingParam, false);
+        }
     }
 }
