@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 780003502175941643}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.956, y: -1.169, z: 0}
+  m_LocalPosition: {x: 0.845, y: -1.169, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 4969874724839332470}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.687, y: -1.169, z: 0}
+  m_LocalPosition: {x: -0.559, y: -1.169, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -243,6 +243,13 @@ MonoBehaviour:
   keySpAtk: 258
   keyRoll: 259
   keyInteract: 260
+  HealthAfterRespawn: 50
+  ManaAfterRespawn: 50
+  invincibilityTime: 5
+  matWhite: {fileID: 2100000, guid: f5141613d4b08b24b9943a8a84f1f747, type: 2}
+  environmentalDeathVFXPrefab: {fileID: 915249307062645355, guid: 3674d0aa6f94451449352ae60c50f976, type: 3}
+  respawnVFXPrefab: {fileID: 8411089992905411634, guid: ad6a7cdf3e1cde7469a190f43ea582e8, type: 3}
+  respawnDelay: 1
   jumpForce: 8
   maxJumps: 2
   rollForce: 8
@@ -302,8 +309,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1488548229
+  m_SortingLayer: 12
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a42b3792e4d181f4c92d101d207e5a92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -369,7 +376,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.14150858, y: -0.18464446}
+  m_Offset: {x: 0.14236832, y: -0.18464446}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.2}
@@ -380,7 +387,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.4967432, y: 2.6985812}
+  m_Size: {x: 1.5567245, y: 2.6985812}
   m_EdgeRadius: 0
 --- !u!50 &4193182728503834754
 Rigidbody2D:
@@ -397,7 +404,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 2
+  m_GravityScale: 4
   m_Material: {fileID: 6200000, guid: 0219fb387244148449c8b25c587463c7, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
