@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d3fdd6d66bd4a141af32d79a5994653, type: 3}
+  m_Script: {fileID: 11500000, guid: bf6e6f7655d26504ebe106359582c719, type: 3}
   m_Name: HP_Large
   m_EditorClassIdentifier: 
-  itemName: LargeHealthPotion
+  itemName: 
   itemType: 0
-  icon: {fileID: 906085431, guid: b62593b42cfd0924a9618912addcbc00, type: 3}
+  icon: {fileID: 0}
   healAmount: 100
   manaAmount: 0
   worldPrefab: {fileID: 4599709528174225890, guid: cfcb592dc5a43ec428bfb2cf8aff2889, type: 3}

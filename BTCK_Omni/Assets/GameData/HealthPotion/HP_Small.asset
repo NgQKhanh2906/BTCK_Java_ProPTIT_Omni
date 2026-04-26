@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d3fdd6d66bd4a141af32d79a5994653, type: 3}
+  m_Script: {fileID: 11500000, guid: bf6e6f7655d26504ebe106359582c719, type: 3}
   m_Name: HP_Small
   m_EditorClassIdentifier: 
-  itemName: SmallHealthPotion
+  itemName: 
   itemType: 0
-  icon: {fileID: -1341204118, guid: b62593b42cfd0924a9618912addcbc00, type: 3}
-  healAmount: 20
+  icon: {fileID: 0}
+  healAmount: 30
   manaAmount: 0
   worldPrefab: {fileID: 6895605473638512058, guid: 230660d8a53b22c4fb60115661083275, type: 3}

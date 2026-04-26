@@ -17,9 +17,9 @@ TagManager:
   - Player
   - Ground
   - Wall
-  - 
-  - 
-  - 
+  - Chest
+  - Item
+  - Corpse
   - 
   - 
   - 
@@ -81,4 +81,13 @@ TagManager:
     locked: 0
   - name: Arrow
     uniqueID: 3179076557
+    locked: 0
+  - name: Chest
+    uniqueID: 4269978413
+    locked: 0
+  - name: Item
+    uniqueID: 3392875951
+    locked: 0
+  - name: VFX
+    uniqueID: 652104941
     locked: 0

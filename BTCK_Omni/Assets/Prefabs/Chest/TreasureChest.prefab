@@ -59,7 +59,7 @@ MonoBehaviour:
     dropWeight: 20
   - item: {fileID: 11400000, guid: e48e55d5e6fe3554a8159468d42571f9, type: 2}
     dropWeight: 30
-  - item: {fileID: 11400000, guid: 577223de3c3dd094897b474ba85818a0, type: 2}
+  - item: {fileID: 11400000, guid: 27ad189ec0c82aa4fb06a32d7580719a, type: 2}
     dropWeight: 5
   - item: {fileID: 11400000, guid: 27ad189ec0c82aa4fb06a32d7580719a, type: 2}
     dropWeight: 12
@@ -110,8 +110,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1678710859
-  m_SortingLayer: 13
+  m_SortingLayerID: -24988883
+  m_SortingLayer: 14
   m_SortingOrder: 0
   m_Sprite: {fileID: 491388162, guid: b62593b42cfd0924a9618912addcbc00, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

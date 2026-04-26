@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d3fdd6d66bd4a141af32d79a5994653, type: 3}
+  m_Script: {fileID: 11500000, guid: bf6e6f7655d26504ebe106359582c719, type: 3}
   m_Name: Data_ExtraLife
   m_EditorClassIdentifier: 
-  itemName: ExtraLife
+  itemName: 
   itemType: 2
-  icon: {fileID: -1496392701, guid: 272781cbe7b2d824993330e044eb7291, type: 3}
+  icon: {fileID: 0}
   healAmount: 0
   manaAmount: 0
   worldPrefab: {fileID: 6895605473638512058, guid: 75e58b219ffe51a47a360210a69dc8cd, type: 3}
