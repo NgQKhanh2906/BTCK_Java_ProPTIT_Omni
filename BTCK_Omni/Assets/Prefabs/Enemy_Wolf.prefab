@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 617083324486986957}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.1, y: -0.3, z: 0}
+  m_LocalPosition: {x: 0.85, y: -0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -109,6 +109,7 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
+  detectionLength: 0.5
 --- !u!1 &4583575624944843299
 GameObject:
   m_ObjectHideFlags: 0
@@ -154,7 +155,6 @@ GameObject:
   - component: {fileID: 1381087839054153541}
   - component: {fileID: 8447030713907743834}
   - component: {fileID: 5928083930479192207}
-  - component: {fileID: 298430740905883837}
   - component: {fileID: 990389224819179806}
   m_Layer: 8
   m_Name: Enemy_Wolf
@@ -172,7 +172,7 @@ Transform:
   m_GameObject: {fileID: 7709153275152958069}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.01, y: 0.6, z: 0}
+  m_LocalPosition: {x: -3.3950424, y: -0.2514478, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -289,7 +289,7 @@ Animator:
   m_GameObject: {fileID: 7709153275152958069}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8a9b817c31ce6f5459e4e16178e16c61, type: 2}
+  m_Controller: {fileID: 9100000, guid: b565ad480f17d1a4c91f7952cd230f88, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -312,17 +312,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d621ec65945e8dd4cbf14123e9612bf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 100
+  maxHP: 1111
   moveSpeed: 2
   knockbackForce: 3
-  currentHP: 1000
-  despawnDelay: 3
-  whatIsObstacle:
-    serializedVersion: 2
-    m_Bits: 64
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 128
+  onEnemyDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  whiteFlashMat: {fileID: 2100000, guid: a945af7c3e8098f4da6a6fe39038ca54, type: 2}
+  flashDuration: 0.15
+  maxWanderDistance: 6
   groundCheck: {fileID: 5078504320977005876}
   groundCheckSize: {x: 1, y: 0.05}
   wallCheck: {fileID: 2585794127479744522}
@@ -331,10 +329,15 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   ledgeCheck: {fileID: 8361878036372507753}
-  patrolDuration: 2
   idleDuration: 2
-  attackRange: 2.1
-  sightRange: 7
+  chaseSpeedMultiplier: 1.5
+  attackCooldown: 1.5
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  attackPoint: {fileID: 1961916861450901512}
+  attackSize: {x: 1, y: 1}
+  attackDamage: 10
 --- !u!50 &5928083930479192207
 Rigidbody2D:
   serializedVersion: 4
@@ -362,25 +365,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &298430740905883837
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7709153275152958069}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85a79b22ab3e51b49b013627462080a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 10
-  attackCooldown: 1.5
-  attackRadius: 0.5
-  attackPoint: {fileID: 1961916861450901512}
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 128
 --- !u!114 &990389224819179806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,10 +377,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5f207b6188bdd14f9156d4b8486a11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRadius: 15
+  detectionRadius: 8
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 128
   whatIsWall:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 64
+  eyeHeight: 0.5
