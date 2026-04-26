@@ -13,12 +13,10 @@ public class BossController : Entity
     public Transform eyeP;
     public Transform handP;
 
-    [Header("Boss Stats")]
     public float hp = 3000f;
     public float maxHp = 3000f;
     public LayerMask hitMask;
 
-    [Header("Facing Direction")]
     public bool isFacingRight = false;
 
     Transform t;
@@ -87,7 +85,7 @@ public class BossController : Entity
     public override void TakeDamage(float dmg, Vector2 hitDir)
     {
         if (isDead) return;
-        
+
         StartCoroutine(Flash());
 
         base.TakeDamage(dmg, hitDir);
@@ -205,8 +203,8 @@ public class BossController : Entity
             }
 
             GameObject l = Instantiate(laser, eyeP.position, Quaternion.Euler(0, 0, a));
-            SpriteRenderer sr = l.GetComponent<SpriteRenderer>();
-            if (sr != null) sr.size = new Vector2(len, sr.size.y);
+            SpriteRenderer srL = l.GetComponent<SpriteRenderer>();
+            if (srL != null) srL.size = new Vector2(len, srL.size.y);
             Destroy(l, 1.5f);
         }
     }
@@ -260,7 +258,7 @@ public class BossController : Entity
         }
 
         GameObject l = Instantiate(laser, eyeP.position, Quaternion.Euler(0, 0, a));
-        SpriteRenderer sr = l.GetComponent<SpriteRenderer>();
+        SpriteRenderer srL = l.GetComponent<SpriteRenderer>();
 
         for (int i = 0; i < 90; i++)
         {
@@ -286,9 +284,9 @@ public class BossController : Entity
                         if (p != null) p.TakeDamage(1f, dir);
                     }
                 }
-                if (sr != null) sr.size = new Vector2(actualLen, sr.size.y);
+                if (srL != null) srL.size = new Vector2(actualLen, srL.size.y);
             }
-            yield return new WaitForSeconds(0.02f);
+            yield return new WaitForSeconds(0.04f);
         }
         Destroy(l);
         anim.speed = 1;
