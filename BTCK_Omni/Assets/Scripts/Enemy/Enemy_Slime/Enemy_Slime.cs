@@ -1,79 +1,136 @@
 using UnityEngine;
 
-[RequireComponent(typeof(MeleeAttack))]
 public class Enemy_Slime : EnemyBase
 {
-    [Header("Slime AI Settings")]
-    [SerializeField] private float attackRange = 1.0f;
-    [SerializeField] private float chaseSpeedMultiplier = 1.5f;
-    private MeleeAttack meleeWeapon;
+    [Header("Slime AI & Combat Settings")]
+    [SerializeField] private float chaseSpeedMultiplier = 1.5f; 
+    [SerializeField] private float attackCooldown = 1.5f;
+    [SerializeField] private LayerMask targetLayer; 
+    [Space]
+    [Header("Hitbox & Damage")]
+    [Tooltip("Vùng quét hình chữ nhật: Quyết định tầm đánh và phạm vi sát thương")]
+    [SerializeField] private Transform attackPoint;
+    [SerializeField] private Vector2 attackSize = new Vector2(1.2f, 0.8f);
+    [SerializeField] private float attackDamage = 5f;
+
+    private float lastAttackTime;
+    private int hitBufferSize = 16;
+    private Collider2D[] hitBuffer;
+    private readonly int hashAttackState = Animator.StringToHash("Attack");
+    private readonly int hashHitState = Animator.StringToHash("Hit");
+    private readonly int hashAttackTrigger = Animator.StringToHash("Attack");
 
     protected override void Awake()
     {
-        base.Awake(); 
-        meleeWeapon = GetComponent<MeleeAttack>();
+        base.Awake();
+        hitBuffer = new Collider2D[Mathf.Max(1, hitBufferSize)];
     }
     protected override void Update()
     {
         if (isDead) return;
-        if (anim != null && anim.GetCurrentAnimatorStateInfo(0).IsName(GameConfig.ANIM_COL_HIT))
+        var stateInfo = anim.GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.shortNameHash == hashHitState)
         {
+            anim.SetBool(animIsMoving, false);
             return;
         }
-        if (anim != null && anim.GetCurrentAnimatorStateInfo(0).IsName("Slime_attack"))
+        if (stateInfo.shortNameHash == hashAttackState)
         {
             SetVelocityX(0);
+            anim.SetBool(animIsMoving, false);
             return;
         }
         Transform target = GetVisiblePlayer();
 
         if (target != null)
         {
-            float distanceToPlayer = Vector2.Distance(transform.position, target.position);
-            
-            if (distanceToPlayer <= attackRange)
+            isReturningHome = false;
+            bool isPlayerInAttackRange = false;
+            if (attackPoint != null)
             {
-                SetVelocityX(0); 
-                anim.SetBool(animIsMoving, false); 
-                meleeWeapon.TryAttack(); 
-                return; 
+                Collider2D hit = Physics2D.OverlapBox(attackPoint.position, attackSize, 0f, targetLayer);
+                if (hit != null) isPlayerInAttackRange = true;
+            }
+
+            if (isPlayerInAttackRange)
+            {
+                SetVelocityX(0);
+                anim.SetBool(animIsMoving, false);
+
+                if (Time.time >= lastAttackTime + attackCooldown)
+                {
+                    lastAttackTime = Time.time;
+                    anim.SetTrigger(hashAttackTrigger); 
+                }
             }
             else
             {
                 ChasePlayer(target);
-                return;
+            }
+            return;
+        }
+        float distToHome = Mathf.Abs(transform.position.x - startPosition.x);
+        if (distToHome > (maxWanderDistance + 0.5f) && !isIdle)
+        {
+            isReturningHome = true;
+        }
+        base.Update();
+    }
+    public void ExecuteAttackHit()
+    {
+        if (attackPoint == null) return;
+
+        int hitCount = Physics2D.OverlapBoxNonAlloc(attackPoint.position, attackSize, 0f, hitBuffer, targetLayer);
+
+        for (int i = 0; i < hitCount; i++)
+        {
+            var hit = hitBuffer[i];
+            if (hit == null) continue;
+
+            if (hit.TryGetComponent(out IDamageable damageable))
+            {
+                Vector2 hitDir = new Vector2(facingDir, 0.5f).normalized; 
+                damageable.TakeDamage(attackDamage, hitDir);
             }
         }
-        base.Update(); 
     }
-
-    private void ChasePlayer(Transform target)
+    protected override void ChasePlayer(Transform target)
     {
         bool isLedgeAhead = ledgeCheck != null && ledgeCheck.IsDetectingLedge();
         bool isWallAhead = IsWallDetected();
 
         if (isWallAhead || isLedgeAhead)
         {
-            SetVelocityX(0); 
-            anim.SetBool(animIsMoving, false); 
+            SetVelocityX(0);
+            anim.SetBool(animIsMoving, false);
             
-            float dirToPlayer = target.position.x - transform.position.x;
-            if ((dirToPlayer > 0 && facingDir == -1) || (dirToPlayer < 0 && facingDir == 1))
+            float dirToPlayerX = target.position.x - transform.position.x;
+            if ((dirToPlayerX > 0 && facingDir == -1) || (dirToPlayerX < 0 && facingDir == 1))
             {
                 Flip();
             }
         }
-        else 
+        else
         {
-            isIdle = false; 
+            isIdle = false;
             anim.SetBool(animIsMoving, true);
+            
+            float dirToPlayerX = target.position.x - transform.position.x;
+            int moveDir = dirToPlayerX > 0 ? 1 : -1;
 
-            float directionToPlayer = target.position.x - transform.position.x;
-            int moveDir = directionToPlayer > 0 ? 1 : -1;
-            
             if (moveDir != facingDir) Flip();
-            
+
             SetVelocityX(moveSpeed * chaseSpeedMultiplier * facingDir);
+        }
+    }
+    protected override void OnDrawGizmos()
+    {
+        base.OnDrawGizmos();
+
+        if (attackPoint != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(attackPoint.position, attackSize);
         }
     }
 }
