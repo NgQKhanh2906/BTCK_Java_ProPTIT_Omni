@@ -16,6 +16,7 @@ public class GameConfig
     public static string ANIM_COL_AIRATTACK = "AirAttack";
     public static string ANIM_COL_ISCHARGING = "IsCharging";
     public static string ANIM_COL_RELEASE_SPATK = "ReleaseSpAtk";
+    public  static string ANIM_COL_RESPAWN = "Respawn";
     
     // UI
     public const string PANEL_SETTINGS = "SettingsPanel"; 

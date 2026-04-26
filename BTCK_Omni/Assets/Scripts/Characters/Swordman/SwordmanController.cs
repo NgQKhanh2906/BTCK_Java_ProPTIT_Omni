@@ -184,6 +184,20 @@ public class SwordmanController : PlayerBase
         if (hasHit) RestoreMana(manaPerHit);
     }
 
+    public override void TakeDamage(float dmg, Vector2 dir)
+    {
+        comboStep = 0;
+        anim.SetInteger(GameConfig.ANIM_COL_COMBO_STEP, comboStep);
+        anim.ResetTrigger(GameConfig.ANIM_COL_ATTACK); 
+        if (isCharging)
+        {
+            isCharging = false;
+            anim.SetBool(GameConfig.ANIM_COL_ISCHARGING, isCharging);
+            RestoreMana(-CurrentMana);
+        }
+        base.TakeDamage(dmg, dir);
+    }
+    
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
