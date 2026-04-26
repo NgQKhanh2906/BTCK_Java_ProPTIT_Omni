@@ -11,7 +11,6 @@ public class PlayerDetector : MonoBehaviour
     public bool CanSeePlayer()
     {
         Collider2D playerCollider = Physics2D.OverlapCircle(transform.position, detectionRadius, whatIsPlayer);
-
         if (playerCollider != null)
         {
             playerTransform = playerCollider.transform;
