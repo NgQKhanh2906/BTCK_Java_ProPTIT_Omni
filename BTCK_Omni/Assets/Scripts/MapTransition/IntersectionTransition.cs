@@ -4,10 +4,17 @@ public class IntersectionTransition : MonoBehaviour
 {
     [Header("Kéo các Room xung quanh ngã 3/ngã 4 vào đây")]
     [Tooltip("Hướng nào không có Room thì cứ để trống (None)")]
-    public GameObject phongTrai;
+    public GameObject phongTrai; 
     public GameObject phongPhai;
     public GameObject phongTren;
     public GameObject phongDuoi;
+
+    private Collider2D myCollider;
+
+    private void Awake()
+    {
+        myCollider = GetComponent<Collider2D>();
+    }
     
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -24,39 +31,43 @@ public class IntersectionTransition : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Vector2 huongThoat = other.transform.position - transform.position;
-            
-            if (Mathf.Abs(huongThoat.x) > Mathf.Abs(huongThoat.y))
-            {
-                if (huongThoat.x > 0) 
-                {
-                    TatCacPhongNgoaiTru(phongPhai);
-                }
-                else 
-                {
-                    TatCacPhongNgoaiTru(phongTrai);
-                }
-            }
-            else
-            {
-                if (huongThoat.y > 0)
-                {
-                    TatCacPhongNgoaiTru(phongTren);
-                }
-                else
-                {
-                    TatCacPhongNgoaiTru(phongDuoi);
-                }
-            }
+            KiemTraVaTatMap();
         }
     }
     
-    private void TatCacPhongNgoaiTru(GameObject phongGiuLai)
+    private void KiemTraVaTatMap()
     {
-        if (phongGiuLai != null) phongGiuLai.SetActive(true);
-        if (phongTrai != null && phongTrai != phongGiuLai) phongTrai.SetActive(false);
-        if (phongPhai != null && phongPhai != phongGiuLai) phongPhai.SetActive(false);
-        if (phongTren != null && phongTren != phongGiuLai) phongTren.SetActive(false);
-        if (phongDuoi != null && phongDuoi != phongGiuLai) phongDuoi.SetActive(false);
+        GameObject[] tatCaNguoiChoi = GameObject.FindGameObjectsWithTag("Player");
+        
+        foreach (GameObject p in tatCaNguoiChoi)
+        {
+            if (myCollider.bounds.Contains(p.transform.position))
+            {
+                return; 
+            }
+        }
+        
+        bool giuTrai = false, giuPhai = false, giuTren = false, giuDuoi = false;
+
+        foreach (GameObject p in tatCaNguoiChoi)
+        {
+            Vector2 huong = p.transform.position - myCollider.bounds.center;
+            
+            if (Mathf.Abs(huong.x) > Mathf.Abs(huong.y))
+            {
+                if (huong.x < 0) giuTrai = true;  
+                else giuPhai = true;
+            }
+            else
+            {
+                if (huong.y < 0) giuDuoi = true;
+                else giuTren = true;
+            }
+        }
+        
+        if (phongTrai != null) phongTrai.SetActive(giuTrai);
+        if (phongPhai != null) phongPhai.SetActive(giuPhai);
+        if (phongTren != null) phongTren.SetActive(giuTren);
+        if (phongDuoi != null) phongDuoi.SetActive(giuDuoi);
     }
 }

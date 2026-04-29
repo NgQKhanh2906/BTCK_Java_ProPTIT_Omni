@@ -14,7 +14,14 @@ public class MenuController : MonoBehaviour
 
     public void PlayGame()
     {
-        GameManager.Instance.LoadMap1();
+        if (GlobalFader.Instance != null)
+        {
+            GlobalFader.Instance.ChuyenMap("Map1");
+        }
+        else
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Map1");
+        }
     }
 
     public void QuitGame()
