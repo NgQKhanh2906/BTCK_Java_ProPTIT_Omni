@@ -51,9 +51,10 @@ public class PanelManager : Singleton<PanelManager>
 
     public void CloseAllPanels()
     {
-        foreach (var panel in activePanels.Values)
+        List<string> keysToClose = new List<string>(activePanels.Keys); 
+        foreach (string key in keysToClose)
         {
-            panel.Close();
+            ClosePanel(key); 
         }
     }
 
