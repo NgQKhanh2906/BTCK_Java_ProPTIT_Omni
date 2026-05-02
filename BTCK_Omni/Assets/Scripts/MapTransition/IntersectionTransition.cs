@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class IntersectionTransition : MonoBehaviour
@@ -18,7 +19,7 @@ public class IntersectionTransition : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if ((other.CompareTag("Player1") || other.CompareTag("Player2")))
         {
             if (phongTrai != null) phongTrai.SetActive(true);
             if (phongPhai != null) phongPhai.SetActive(true);
@@ -29,7 +30,7 @@ public class IntersectionTransition : MonoBehaviour
     
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if ((other.CompareTag("Player1") || other.CompareTag("Player2")))
         {
             KiemTraVaTatMap();
         }
@@ -37,7 +38,9 @@ public class IntersectionTransition : MonoBehaviour
     
     private void KiemTraVaTatMap()
     {
-        GameObject[] tatCaNguoiChoi = GameObject.FindGameObjectsWithTag("Player");
+        List<GameObject> tatCaNguoiChoi = new List<GameObject>();
+        tatCaNguoiChoi.AddRange(GameObject.FindGameObjectsWithTag("Player1"));
+        tatCaNguoiChoi.AddRange(GameObject.FindGameObjectsWithTag("Player2"));
         
         foreach (GameObject p in tatCaNguoiChoi)
         {

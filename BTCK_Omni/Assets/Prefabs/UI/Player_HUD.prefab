@@ -502,7 +502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b97f66a3953a5c54aa596a41b2de5b95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1098022796007537600, guid: 616be5d0f1fd06a4d839c64193bd5086, type: 3}
+  targetPlayerIndex: 1
   healthBar: {fileID: 1310175633208919906}
   manaBar: {fileID: 278622193326611221}
   avatarImage: {fileID: 6632170329493587078}
@@ -578,7 +578,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b97f66a3953a5c54aa596a41b2de5b95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 3114695940106712115, guid: 118e89e9fd4e6e34b9f56dab2b860be1, type: 3}
+  targetPlayerIndex: 2
   healthBar: {fileID: 5657406506066346645}
   manaBar: {fileID: 1185436993002027282}
   avatarImage: {fileID: 730121520940381690}

@@ -9,7 +9,7 @@ public class MapTransition : MonoBehaviour
     public GameObject phongBenPhai;
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if ((other.CompareTag("Player1") || other.CompareTag("Player2")))
         {
             if (phongBenTrai != null) phongBenTrai.SetActive(true);
             if (phongBenPhai != null) phongBenPhai.SetActive(true);
@@ -18,7 +18,7 @@ public class MapTransition : MonoBehaviour
     
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if ((other.CompareTag("Player1") || other.CompareTag("Player2")))
         {
             if (other.transform.position.x > transform.position.x)
             {
