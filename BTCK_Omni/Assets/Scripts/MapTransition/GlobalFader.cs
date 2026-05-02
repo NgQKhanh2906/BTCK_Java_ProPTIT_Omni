@@ -33,6 +33,38 @@ public class GlobalFader : MonoBehaviour
         }
     }
     
+    public IEnumerator ToiDan()
+    {
+        if (manHinhDen != null)
+        {
+            manHinhDen.blocksRaycasts = true;
+            float timer = 0;
+            while (timer < thoiGianFade)
+            {
+                timer += Time.unscaledDeltaTime; 
+                manHinhDen.alpha = timer / thoiGianFade;
+                yield return null;
+            }
+            manHinhDen.alpha = 1;
+        }
+    }
+    
+    public IEnumerator SangDan()
+    {
+        if (manHinhDen != null)
+        {
+            float timer = 0;
+            while (timer < thoiGianFade)
+            {
+                timer += Time.unscaledDeltaTime;
+                manHinhDen.alpha = 1 - (timer / thoiGianFade);
+                yield return null;
+            }
+            manHinhDen.alpha = 0;
+            manHinhDen.blocksRaycasts = false;
+        }
+    }
+    
     public void ChuyenMap(string tenMapMoi)
     {
         StartCoroutine(HieuUngChuyenMap(tenMapMoi));
@@ -40,37 +72,21 @@ public class GlobalFader : MonoBehaviour
 
     private IEnumerator HieuUngChuyenMap(string tenMapMoi)
     {
-        if (manHinhDen != null) manHinhDen.blocksRaycasts = true;
-        float timer = 0;
-        if (manHinhDen != null)
-        {
-            while (timer < thoiGianFade)
-            {
-                timer += Time.deltaTime;
-                manHinhDen.alpha = timer / thoiGianFade;
-                yield return null;
-            }
-            manHinhDen.alpha = 1;
-        }
+        yield return StartCoroutine(ToiDan());
+        
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(tenMapMoi);
         while (!asyncLoad.isDone)
         {
             yield return null;
         }
         
-        yield return new WaitForSeconds(0.2f);
+        yield return null; 
+        yield return null;
+        yield return null;
+        yield return null; 
         
-        timer = 0;
-        if (manHinhDen != null)
-        {
-            while (timer < thoiGianFade)
-            {
-                timer += Time.deltaTime;
-                manHinhDen.alpha = 1 - (timer / thoiGianFade);
-                yield return null;
-            }
-            manHinhDen.alpha = 0;
-            manHinhDen.blocksRaycasts = false;
-        }
+        yield return new WaitForSecondsRealtime(1.0f); 
+        
+        yield return StartCoroutine(SangDan());
     }
 }

@@ -22,4 +22,5 @@ public class GameConfig
     public const string PANEL_TUTORIAL = "TutorialPanel";
     public const string PANEL_PAUSE = "PausePanel";
     public const string PANEL_LOSE = "LosePanel";
+    public const string PANEL_WIN = "WinPanel";
 }

@@ -115,7 +115,14 @@ public class BossController : Entity
 
     void EndGame()
     {
-        SceneManager.LoadScene("Menu");
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.Victory();
+        }
+        else
+        {
+            Debug.LogError("Không tìm thấy GameManager để gọi Victory!");
+        }
     }
 
     IEnumerator Loop()
