@@ -6,8 +6,11 @@ public class IceCone : MonoBehaviour
     [SerializeField] private float speed = 10f;
     [SerializeField] private LayerMask hitMask; 
     
-    [Header("Effects")]
+    [Header("Effects & Audio")]
     [SerializeField] private GameObject hitEffectPrefab; 
+    [Tooltip("File âm thanh khi băng vỡ")]
+    [SerializeField] private AudioClip hitSound; 
+    [Range(0f, 1f)] [SerializeField] private float hitVolume = 0.8f; // Chỉnh âm lượng từ 0 đến 1
 
     private float damage;
     private int direction;
@@ -17,16 +20,19 @@ public class IceCone : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
     }
+
     public void Setup(int dir, float dmg)
     {
         direction = dir;
         damage = dmg;
+
         if (direction < 0)
         {
             Vector3 scale = transform.localScale;
             scale.x *= -1;
             transform.localScale = scale;
         }
+
         Destroy(gameObject, 4f); 
     }
 
@@ -45,24 +51,38 @@ public class IceCone : MonoBehaviour
             
             if (entity != null)
             {
+                // Trúng người chơi
                 Vector2 knockDir = new Vector2(direction, 0).normalized;
                 entity.TakeDamage(damage, knockDir);
 
-                if (hitEffectPrefab != null)
-                    Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
-
+                PlayHitEffects();
                 Destroy(gameObject);
             }
             else 
             {
+                // Chạm vào Tường/Đất
                 if (((1 << collision.gameObject.layer) & LayerMask.GetMask("Ground", "Wall")) != 0)
                 {
-                    if (hitEffectPrefab != null)
-                        Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
-                        
+                    PlayHitEffects();
                     Destroy(gameObject);
                 }
             }
+        }
+    }
+
+    // Hàm phụ để code gọn gàng hơn
+    private void PlayHitEffects()
+    {
+        // 1. Sinh ra hiệu ứng hình ảnh (Particle/Animation)
+        if (hitEffectPrefab != null)
+        {
+            Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
+        }
+
+        // 2. Phát âm thanh (SFX)
+        if (hitSound != null)
+        {
+            AudioSource.PlayClipAtPoint(hitSound, transform.position, hitVolume);
         }
     }
 }

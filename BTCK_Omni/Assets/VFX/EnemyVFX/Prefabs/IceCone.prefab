@@ -104,6 +104,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 896
   hitEffectPrefab: {fileID: 4294166397192903109, guid: 078baa4d54a44df4c9fc995b69156293, type: 3}
+  hitSound: {fileID: 8300000, guid: 4c9ecd4aa4e81e9438197bcde6501b51, type: 3}
+  hitVolume: 0.8
 --- !u!61 &8562890656601393872
 BoxCollider2D:
   m_ObjectHideFlags: 0
