@@ -11,7 +11,7 @@ public class DoorSensor : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player1") || other.CompareTag("Player2"))
         {
             soNguoiTrongCua++;
             coNguoi = true; 
@@ -20,7 +20,7 @@ public class DoorSensor : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player1") || other.CompareTag("Player2"))
         {
             soNguoiTrongCua--;
             if (soNguoiTrongCua <= 0)

@@ -24,8 +24,8 @@ public class CoopDoorSystem : MonoBehaviour
     private void Update()
     {
         if (dangChuyenCanh) return;
+        
         int soNguoiConSong = (CamController.Instance != null) ? CamController.Instance.players.Count : 2;
-
         bool duDieuKienQuaCua = false;
         
         if (soNguoiConSong >= 2)
@@ -48,9 +48,17 @@ public class CoopDoorSystem : MonoBehaviour
         dangChuyenCanh = true;
         
         List<GameObject> nguoiChoiHienTai = new List<GameObject>();
-        foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
+        List<GameObject> tatCaNguoiChoi = new List<GameObject>();
+        
+        tatCaNguoiChoi.AddRange(GameObject.FindGameObjectsWithTag("Player1"));
+        tatCaNguoiChoi.AddRange(GameObject.FindGameObjectsWithTag("Player2"));
+        
+        foreach (GameObject p in tatCaNguoiChoi)
         {
-            if (p.activeInHierarchy) nguoiChoiHienTai.Add(p);
+            if (p != null && p.activeInHierarchy)
+            {
+                nguoiChoiHienTai.Add(p);
+            }
         }
         
         foreach (GameObject p in nguoiChoiHienTai)
@@ -75,13 +83,15 @@ public class CoopDoorSystem : MonoBehaviour
             manHinhDen.alpha = 1;
         }
         
-        
         if (roomHienTai != null) roomHienTai.SetActive(false);
         if (roomTiepTheo != null) roomTiepTheo.SetActive(true);
         
         for (int i = 0; i < nguoiChoiHienTai.Count; i++)
         {
-            nguoiChoiHienTai[i].transform.position = diemSpawnMoi.position + new Vector3(i * 2.0f, 0, 0);
+            if (nguoiChoiHienTai[i] != null)
+            {
+                nguoiChoiHienTai[i].transform.position = diemSpawnMoi.position + new Vector3(i * 2.0f, 0, 0);
+            }
         }
         
         if (CamController.Instance != null && newCameraLimit != null)
@@ -103,10 +113,14 @@ public class CoopDoorSystem : MonoBehaviour
             }
             manHinhDen.alpha = 0;
         }
+        
         foreach (GameObject p in nguoiChoiHienTai)
         {
-            Rigidbody2D rb = p.GetComponent<Rigidbody2D>();
-            if (rb != null) rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            if (p != null)
+            {
+                Rigidbody2D rb = p.GetComponent<Rigidbody2D>();
+                if (rb != null) rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            }
         }
 
         dangChuyenCanh = false;

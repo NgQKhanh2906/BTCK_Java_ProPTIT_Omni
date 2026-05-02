@@ -3,21 +3,44 @@ using UnityEngine.UI;
 
 public class PlayerHUD : MonoBehaviour
 {
+    
+    public int targetPlayerIndex = 1;
+
     [SerializeField] private HealthBar healthBar;
     [SerializeField] private ManaBar manaBar;
     [SerializeField] private Image avatarImage;
-    [SerializeField] private PlayerBase player;
+    
+    
+    private PlayerBase player; 
+    private bool isInit = false;
 
-    private void Start()
+    private void Update()
     {
-        if (player == null)
-        {
-            return;
-        }
+        
+        if (!isInit) ConnectToPlayer();
+    }
 
-        healthBar?.Init(player);
-        manaBar?.Init(player);
-        player.OnDeath += OnPlayerDied;
+    private void ConnectToPlayer()
+    {
+        string tagToFind = targetPlayerIndex == 1 ? "Player1" : "Player2";
+        GameObject pObj = GameObject.FindGameObjectWithTag(tagToFind);
+        
+        if (pObj)
+        {
+            player = pObj.GetComponent<PlayerBase>();
+            if (player)
+            {
+                if (healthBar) healthBar.Init(player);
+                if (manaBar) manaBar.Init(player);
+                player.OnDeath += OnPlayerDied;
+                PlayerBase p1 = player.playerIndex == 1 ? player : null;
+                PlayerBase p2 = player.playerIndex == 2 ? player : null;
+                if (GameManager.Instance) GameManager.Instance.SetScenePlayers(p1, p2);
+                if (PlayerDataManager.Instance) PlayerDataManager.Instance.RestorePlayerData(p1, p2);
+                if (SaveSystem.Instance) SaveSystem.Instance.RestoreAfterLoad(p1, p2);
+                isInit = true; 
+            }
+        }
     }
 
     private void OnPlayerDied()

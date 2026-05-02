@@ -3,6 +3,16 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
+    
+    [SerializeField] private PlayerBase player1;
+    [SerializeField] private PlayerBase player2;
+    
+    public void SetScenePlayers(PlayerBase p1, PlayerBase p2)
+    {
+        player1 = p1;
+        player2 = p2;
+    }
+    
     private bool isPaused = false;
     
     
@@ -32,8 +42,10 @@ public class GameManager : Singleton<GameManager>
 
     public void LoadScene(string sceneName)
     {
+        PlayerDataManager.Instance?.SaveBeforeSceneChange(player1, player2);
         Time.timeScale = 1f;
         isPaused = false;
+        if (GlobalFader.Instance != null) GlobalFader.Instance.ChuyenMap(sceneName);
         SceneManager.LoadScene(sceneName);
     }
     
@@ -95,5 +107,20 @@ public class GameManager : Singleton<GameManager>
         //     PanelManager.Instance.OpenPanel(GameConfig.PANEL_LOSE);
         //     Time.timeScale = 0f; 
         // }
+    }
+    public void NewGame()
+    {
+        if (PlayerDataManager.Instance != null) PlayerDataManager.Instance.Clear();
+        if (LivesManager.Instance != null)
+        {
+            LivesManager.Instance.SetLivesDirectly(1, 2); 
+            LivesManager.Instance.SetLivesDirectly(2, 2);
+        }
+        LoadScene("Map1");
+    }
+ 
+    public void ContinueFromSave()
+    {
+        SaveSystem.Instance?.Load();
     }
 }

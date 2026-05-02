@@ -46,9 +46,12 @@ public class CamController : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        GameObject[] playerObjs = GameObject.FindGameObjectsWithTag("Player");
         players.Clear();
-        foreach (GameObject p in playerObjs) players.Add(p.transform);
+        GameObject p1 = GameObject.FindGameObjectWithTag("Player1");
+        GameObject p2 = GameObject.FindGameObjectWithTag("Player2");
+        
+        if (p1 != null) players.Add(p1.transform);
+        if (p2 != null) players.Add(p2.transform);
     }
 
     void LateUpdate()

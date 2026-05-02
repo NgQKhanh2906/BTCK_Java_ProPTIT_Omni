@@ -11,7 +11,7 @@ public class OmniLevelPortal : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && !playersInZone.Contains(other))
+        if ((other.CompareTag("Player1") || other.CompareTag("Player2")) && !playersInZone.Contains(other))
         {
             playersInZone.Add(other);
         }
@@ -19,7 +19,7 @@ public class OmniLevelPortal : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && playersInZone.Contains(other))
+        if ((other.CompareTag("Player1") || other.CompareTag("Player2")) && playersInZone.Contains(other))
         {
             playersInZone.Remove(other);
         }
@@ -44,14 +44,7 @@ public class OmniLevelPortal : MonoBehaviour
         {
             dangChuyenMap = true; 
             playersInZone.Clear(); 
-            if (GlobalFader.Instance != null)
-            {
-                GlobalFader.Instance.ChuyenMap(nextSceneName);
-            }
-            else
-            {
-                UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
-            }
+            if (GameManager.Instance != null) GameManager.Instance.LoadScene(nextSceneName);
         }
     }
 }
