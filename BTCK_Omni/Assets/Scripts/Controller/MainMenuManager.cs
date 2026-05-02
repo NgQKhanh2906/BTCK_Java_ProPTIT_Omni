@@ -14,14 +14,7 @@ public class MenuController : MonoBehaviour
 
     public void PlayGame()
     {
-        if (GlobalFader.Instance != null)
-        {
-            GlobalFader.Instance.ChuyenMap("Map1");
-        }
-        else
-        {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Map1");
-        }
+        if(GameManager.Instance != null) GameManager.Instance.NewGame();
     }
 
     public void QuitGame()
@@ -34,9 +27,13 @@ public class MenuController : MonoBehaviour
         GameManager.Instance.TogglePauseGame();
     }
 
+    public void ContinueFromSave()
+    {
+        if(GameManager.Instance != null) GameManager.Instance.ContinueFromSave();
+    }
+    
     public void QuitToMenu()
     {
-        PanelManager.Instance.CloseAllPanels(); 
         GameManager.Instance.LoadMenu();
     }
 }
