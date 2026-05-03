@@ -201,3 +201,4 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 768
+  hitSound: {fileID: 8300000, guid: 8275ac57725828a4181d01493d44dc59, type: 3}

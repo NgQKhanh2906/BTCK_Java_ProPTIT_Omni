@@ -195,9 +195,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 200
   lifeTime: 3
+  turnSpd: 15
+  scanR: 30
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 768
+  hitSound: {fileID: 0}

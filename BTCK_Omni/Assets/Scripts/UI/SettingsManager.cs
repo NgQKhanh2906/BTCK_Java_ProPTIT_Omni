@@ -9,30 +9,54 @@ public class SettingsPanel : Panel
 
     private void OnEnable()
     {
-        if (musicSlider != null) 
+        if (musicSlider != null)
+        {
             musicSlider.value = PlayerPrefs.GetFloat("MusicVolume", 1f);
-        
-        if (sfxSlider != null) 
+        }
+
+        if (sfxSlider != null)
+        {
             sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume", 1f);
+        }
     }
-    
+
     public void SaveAndClose()
     {
         PlayerPrefs.SetFloat("MusicVolume", musicSlider.value);
         PlayerPrefs.SetFloat("SFXVolume", sfxSlider.value);
         PlayerPrefs.Save();
-
-        Debug.Log("Đã lưu cấu hình OMNI!");
         Close();
     }
-    
+
     public void BackWithoutSaving()
     {
-        Close(); 
+        if (musicSlider != null)
+        {
+            musicSlider.value = PlayerPrefs.GetFloat("MusicVolume", 1f);
+            OnMusicVolumeChanged(musicSlider.value);
+        }
+
+        if (sfxSlider != null)
+        {
+            sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume", 1f);
+            OnSFXVolumeChanged(sfxSlider.value);
+        }
+        Close();
     }
 
     public void OnMusicVolumeChanged(float value)
     {
-        Debug.Log("Âm lượng nhạc: " + value);
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.SetBackgroundMusicVolume(value);
+        }
+    }
+
+    public void OnSFXVolumeChanged(float value)
+    {
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.SetSoundEffectsVolume(value);
+        }
     }
 }
