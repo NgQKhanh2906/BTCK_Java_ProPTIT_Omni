@@ -31,6 +31,7 @@ public class Entity : MonoBehaviour, IDamageable
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
         currentHP = maxHP;
+        isDead = false;
     }
 
     protected void NotifyHPChanged()

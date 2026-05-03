@@ -31,6 +31,9 @@ public class CamController : MonoBehaviour
     private Camera cam;
     private Vector3 velocity;
     private BoxCollider2D topWall, bottomWall, leftWall, rightWall;
+    
+    private Transform p1Ref;
+    private Transform p2Ref;
 
     void Awake()
     {
@@ -50,15 +53,38 @@ public class CamController : MonoBehaviour
         GameObject p1 = GameObject.FindGameObjectWithTag("Player1");
         GameObject p2 = GameObject.FindGameObjectWithTag("Player2");
         
-        if (p1 != null) players.Add(p1.transform);
-        if (p2 != null) players.Add(p2.transform);
+        p1Ref = p1 != null ? p1.transform : null;
+        p2Ref = p2 != null ? p2.transform : null;
+        if (p1Ref != null) 
+        {
+            SnapCamera(p1Ref.position);
+        }
+        else if (p2Ref != null)
+        {
+            SnapCamera(p2Ref.position);
+        }
     }
 
     void LateUpdate()
     {
-        players.RemoveAll(item => item == null || !item.gameObject.activeInHierarchy);
+        players.Clear();
+        if (p1Ref != null && p1Ref.gameObject.activeInHierarchy)
+        {
+            PlayerBase pb1 = p1Ref.GetComponent<PlayerBase>();
+            if (pb1 != null && !pb1.IsDead())
+            {
+                players.Add(p1Ref);
+            }
+        }
+        if (p2Ref != null && p2Ref.gameObject.activeInHierarchy)
+        {
+            PlayerBase pb2 = p2Ref.GetComponent<PlayerBase>();
+            if (pb2 != null && !pb2.IsDead())
+            {
+                players.Add(p2Ref);
+            }
+        }
         if (players.Count == 0) return;
-
         UpdateCameraLogic();
         CheckAndTeleport();
     }

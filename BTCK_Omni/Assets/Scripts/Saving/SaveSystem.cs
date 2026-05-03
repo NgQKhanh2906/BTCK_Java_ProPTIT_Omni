@@ -14,26 +14,31 @@ public class SaveData
     public PlayerBase.PlayerSaveState player1;
     public PlayerBase.PlayerSaveState player2;
     public List<string> openedChestIds = new List<string>();
+    public int roomIdx;
 }
 
 public class SaveSystem : Singleton<SaveSystem>
 {
-    [SerializeField] private PlayerBase player1;
-    [SerializeField] private PlayerBase player2;
-
+    private PlayerBase player1;
+    private PlayerBase player2;
     private SaveData pendingRestore;
 
     private static string SavePath => Path.Combine(Application.persistentDataPath, "save.json");
 
     public void Save()
     {
-        if (player1 == null) player1 = GameObject.FindGameObjectWithTag("Player1")?.GetComponent<PlayerBase>();
-        if (player2 == null) player2 = GameObject.FindGameObjectWithTag("Player2")?.GetComponent<PlayerBase>();
+        PlayerBase[] allPlayers = FindObjectsOfType<PlayerBase>();
+        foreach (PlayerBase p in allPlayers)
+        {
+            if (p.playerIndex == 1) player1 = p;
+            if (p.playerIndex == 2) player2 = p;
+        }
 
         SaveData data = new SaveData
         {
             sceneName = SceneManager.GetActiveScene().name,
             savedAt = DateTime.Now.ToString("dd/MM/yyyy HH:mm"),
+            roomIdx = MapManager.Instance != null ? MapManager.Instance.GetCurIdx() : 0,
             lives1 = LivesManager.Instance != null ? LivesManager.Instance.GetLives(1) : 0,
             lives2 = LivesManager.Instance != null ? LivesManager.Instance.GetLives(2) : 0,
             openedChestIds = new List<string>()
@@ -54,15 +59,7 @@ public class SaveSystem : Singleton<SaveSystem>
     public void Load()
     {
         if (!HasSave()) return;
-
         SaveData data = JsonUtility.FromJson<SaveData>(File.ReadAllText(SavePath));
-
-        if (PlayerDataManager.Instance != null && data.player1 != null)
-        {
-            float hp2 = data.player2 != null ? data.player2.hp : 0f;
-            float mana2 = data.player2 != null ? data.player2.mana : 0f;
-            PlayerDataManager.Instance.InjectFromSave(data.player1.hp, data.player1.mana, hp2, mana2);
-        }
 
         if (LivesManager.Instance != null)
         {
@@ -77,19 +74,42 @@ public class SaveSystem : Singleton<SaveSystem>
     public void RestoreAfterLoad(PlayerBase p1, PlayerBase p2)
     {
         if (pendingRestore == null) return;
+        if (MapManager.Instance != null)
+        {
+            MapManager.Instance.SetRoom(pendingRestore.roomIdx);
+        }
+        bool daNhanThongTin = false;
 
-        if (p1 != null && pendingRestore.player1 != null) p1.RestoreState(pendingRestore.player1);
-        if (p2 != null && pendingRestore.player2 != null) p2.RestoreState(pendingRestore.player2);
+        if (p1 != null && pendingRestore.player1 != null)
+        {
+            p1.RestoreState(pendingRestore.player1);
+            pendingRestore.player1 = null;
+            daNhanThongTin = true;
+        }
 
-        if (pendingRestore.openedChestIds != null)
+        if (p2 != null && pendingRestore.player2 != null)
+        {
+            p2.RestoreState(pendingRestore.player2);
+            pendingRestore.player2 = null;
+            daNhanThongTin = true;
+        }
+
+        if (daNhanThongTin && pendingRestore.openedChestIds != null)
         {
             foreach (TreasureChest chest in FindObjectsOfType<TreasureChest>())
             {
-                if (pendingRestore.openedChestIds.Contains(chest.UniqueId)) chest.RestoreState(new TreasureChest.ChestSaveData { isOpen = true });
+                if (pendingRestore.openedChestIds.Contains(chest.UniqueId))
+                {
+                    chest.RestoreState(new TreasureChest.ChestSaveData { isOpen = true });
+                }
             }
+            pendingRestore.openedChestIds = null;
         }
 
-        pendingRestore = null;
+        if (pendingRestore.player1 == null && pendingRestore.player2 == null)
+        {
+            pendingRestore = null;
+        }
     }
 
     public bool HasSave() => File.Exists(SavePath);
@@ -104,5 +124,10 @@ public class SaveSystem : Singleton<SaveSystem>
     public void DeleteSave()
     {
         if (File.Exists(SavePath)) File.Delete(SavePath);
+    }
+    public bool IsLoading() => pendingRestore != null;
+    public int GetPendingRoomIdx()
+    {
+        return pendingRestore != null ? pendingRestore.roomIdx : 0;
     }
 }

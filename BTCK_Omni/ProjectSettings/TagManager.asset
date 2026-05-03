@@ -12,18 +12,18 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
   - Enemy
   - Player
   - Ground
   - Wall
-  - Chest
   - Item
   - Corpse
-  - 
-  - 
+  - DeathZone
+  - Platform
+  - Chest
   - 
   - 
   - 
@@ -69,6 +69,9 @@ TagManager:
   - name: Ground2
     uniqueID: 1183346065
     locked: 0
+  - name: DeathZone
+    uniqueID: 1614915719
+    locked: 0
   - name: Decorate
     uniqueID: 2740962503
     locked: 0
@@ -78,8 +81,11 @@ TagManager:
   - name: Enemy
     uniqueID: 3405949669
     locked: 0
-  - name: Player
+  - name: Player1
     uniqueID: 2806419067
+    locked: 0
+  - name: Player2
+    uniqueID: 3022651329
     locked: 0
   - name: Arrow
     uniqueID: 3179076557

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class RockProjectile : MonoBehaviour
 {
@@ -6,14 +7,27 @@ public class RockProjectile : MonoBehaviour
     public LayerMask groundLayer;
     public float dmg = 20f;
 
+    [Header("SFX")]
+    public AudioClip shootSound;
+    public AudioClip hitSound;
+
     private Vector2 moveDir;
     private float speed;
     private bool hasHit = false;
 
+    private IObjectPool<RockProjectile> pool;
+    public void SetPool(IObjectPool<RockProjectile> p) => pool = p;
+
     public void Setup(Vector2 dir, float s)
     {
+        CancelInvoke();
+        hasHit = false;
+
         moveDir = dir.normalized;
         speed = s;
+
+        PlaySfx(shootSound);
+
         Invoke("DestroyRock", 5f);
     }
 
@@ -37,11 +51,13 @@ public class RockProjectile : MonoBehaviour
                 if (p != null) p.TakeDamage(dmg, moveDir);
 
                 hasHit = true;
+                PlaySfx(hitSound);
                 DestroyRock();
             }
             else if (((1 << l) & groundLayer) != 0)
             {
                 hasHit = true;
+                PlaySfx(hitSound);
                 DestroyRock();
             }
         }
@@ -51,8 +67,23 @@ public class RockProjectile : MonoBehaviour
         }
     }
 
+    private void PlaySfx(AudioClip clip)
+    {
+        if (clip != null)
+        {
+            float v = 1f;
+            if (AudioManager.instance != null)
+            {
+                v = AudioManager.instance.soundEffectsVolume;
+            }
+
+            AudioSource.PlayClipAtPoint(clip, transform.position, v);
+        }
+    }
+
     void DestroyRock()
     {
-        Destroy(gameObject);
+        if (pool != null) pool.Release(this);
+        else Destroy(gameObject);
     }
 }
