@@ -1,68 +1,104 @@
 using UnityEngine;
-
-[RequireComponent(typeof(MeleeAttack))]
-[RequireComponent(typeof(PlayerDetector))] 
 public class Enemy_Mushroom : EnemyBase
 {
     [Header("Mushroom AI Settings")]
-    [SerializeField] private float attackRange = 1.5f; 
     [SerializeField] private float chaseSpeedMultiplier = 1.5f;
+    [SerializeField] private float attackCooldown = 1f;
+    [SerializeField] private LayerMask targetLayer;
 
+    [Header("Combat & Range (Gộp Mắt và Bào tử Nấm)")]
+    [SerializeField] private Transform attackPoint;
+    [SerializeField] private Vector2 attackSize = new Vector2(1.5f, 1.5f);
+    [SerializeField] private float attackDamage = 5f;
     [Header("Stun Settings")]
     [SerializeField] private float stunDuration = 2f; 
     private float stunTimer;
-
-    private MeleeAttack meleeWeapon;
-    private PlayerDetector eyes;
-
+    private float lastAttackTime;
+    private int hitBufferSize = 16;
+    private Collider2D[] hitBuffer;
+    private readonly int hashAttack = Animator.StringToHash("Attack");
+    private readonly int hashHit = Animator.StringToHash("Hit");
+    private readonly int hashStunState = Animator.StringToHash("Stun"); 
     protected override void Awake()
     {
         base.Awake();
-        meleeWeapon = GetComponent<MeleeAttack>();
-        eyes = GetComponent<PlayerDetector>();
+        hitBuffer = new Collider2D[Mathf.Max(1, hitBufferSize)];
     }
+
     protected override void Update()
     {
         if (isDead) return;
-        if (anim != null && anim.GetCurrentAnimatorStateInfo(0).IsName(GameConfig.ANIM_COL_HIT))
+        var stateInfo = anim.GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.shortNameHash == hashHit)
         {
-            return; 
-        }
-        if (stunTimer > 0)
-        {
-            stunTimer -= Time.deltaTime;
-            SetVelocityX(0);
-            return; 
-        }
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName(GameConfig.ANIM_COL_ATTACK) || 
-            anim.GetCurrentAnimatorStateInfo(0).IsName("Mushroom_attack"))
-        {
-            SetVelocityX(0);
+            anim.SetBool(animIsMoving, false);
             return;
         }
-        Transform target = GetVisiblePlayer();
+        if (stunTimer > 0 || stateInfo.shortNameHash == hashStunState)
+        {
+            if (stunTimer > 0) stunTimer -= Time.deltaTime;
+            
+            SetVelocityX(0);
+            anim.SetBool(animIsMoving, false);
+            return; 
+        }
+        if (stateInfo.shortNameHash == hashAttack)
+        {
+            SetVelocityX(0);
+            anim.SetBool(animIsMoving, false);
+            return;
+        }
 
+        Transform target = GetVisiblePlayer();
         if (target != null)
         {
-            float distanceToPlayer = Vector2.Distance(transform.position, target.position);
-            
-            if (distanceToPlayer <= attackRange)
+            isReturningHome = false;
+            bool isPlayerInAttackRange = false;
+            if (attackPoint != null)
+            {
+                Collider2D hit = Physics2D.OverlapBox(attackPoint.position, attackSize, 0f, targetLayer);
+                if (hit != null) isPlayerInAttackRange = true;
+            }
+
+            if (isPlayerInAttackRange)
             {
                 SetVelocityX(0);
                 anim.SetBool(animIsMoving, false);
-                meleeWeapon.TryAttack();
-                return;
+
+                if (Time.time >= lastAttackTime + attackCooldown)
+                {
+                    lastAttackTime = Time.time;
+                    anim.SetTrigger(hashAttack);
+                }
             }
             else
             {
                 ChasePlayer(target);
-                return;
             }
+            return;
         }
+        if (isReturningHome)
+        {
+            ReturnHomeLogic();
+            return;
+        }
+
+        float distToHome = Mathf.Abs(transform.position.x - startPosition.x);
+        if (distToHome > maxWanderDistance && !isIdle)
+        {
+            isReturningHome = true;
+        }
+
+        if (isReturningHome)
+        {
+            ReturnHomeLogic();
+            return;
+        }
+
         base.Update();
     }
 
-    private void ChasePlayer(Transform target)
+    protected override void ChasePlayer(Transform target)
     {
         bool isLedgeAhead = ledgeCheck != null && ledgeCheck.IsDetectingLedge();
         bool isWallAhead = IsWallDetected();
@@ -72,30 +108,56 @@ public class Enemy_Mushroom : EnemyBase
             SetVelocityX(0); 
             anim.SetBool(animIsMoving, false); 
             
-            float dirToPlayer = target.position.x - transform.position.x;
-            if ((dirToPlayer > 0 && facingDir == -1) || (dirToPlayer < 0 && facingDir == 1))
+            float dirToPlayerX = target.position.x - transform.position.x;
+            if ((dirToPlayerX > 0 && facingDir == -1) || (dirToPlayerX < 0 && facingDir == 1))
             {
-                Flip();
+                Flip(); 
             }
         }
-        else
+        else 
         {
             isIdle = false; 
             anim.SetBool(animIsMoving, true);
-
-            float directionToPlayer = target.position.x - transform.position.x;
-            int moveDir = directionToPlayer > 0 ? 1 : -1;
+            float dirToPlayerX = target.position.x - transform.position.x;
+            int moveDir = dirToPlayerX > 0 ? 1 : -1;
             
             if (moveDir != facingDir) Flip();
             
             SetVelocityX(moveSpeed * chaseSpeedMultiplier * facingDir);
         }
     }
+    public void ExecuteAttackHit()
+    {
+        if (attackPoint == null) return;
+
+        int hitCount = Physics2D.OverlapBoxNonAlloc(attackPoint.position, attackSize, 0f, hitBuffer, targetLayer);
+
+        for (int i = 0; i < hitCount; i++)
+        {
+            var hit = hitBuffer[i];
+            if (hit == null) continue;
+
+            var entity = hit.GetComponent<Entity>();
+            if (entity == null) continue;
+
+            Vector2 hitDir = new Vector2(facingDir, 0.5f).normalized; 
+            entity.TakeDamage(attackDamage, hitDir);
+        }
+    }
     public void TriggerStunAfterAttack()
     {
         stunTimer = stunDuration;
         if (anim != null) anim.SetTrigger(animStun); 
-        
-        Debug.Log("Mushroom: Đánh xong mệt quá, xin nghỉ mệt 2 giây!");
+    }
+
+    protected override void OnDrawGizmos()
+    {
+        base.OnDrawGizmos();
+
+        Gizmos.color = Color.red;
+        if (attackPoint != null)
+        {
+            Gizmos.DrawWireCube(attackPoint.position, attackSize);
+        }
     }
 }
