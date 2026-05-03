@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Pool;
 
 public class ArcherController : PlayerBase
 {
@@ -8,10 +9,8 @@ public class ArcherController : PlayerBase
     [SerializeField] private Transform firePt;
     [SerializeField] private Beam beamPf;
 
-
     [SerializeField] private Transform atkHitbox;
     [SerializeField] private Vector2 sizeAtkHitBox;
-
 
     private float manaCostAttack2 = 1f;
     private float manaCostAttack3 = 20f;
@@ -35,40 +34,44 @@ public class ArcherController : PlayerBase
     private int localJumpCount;
     private int autoMaxJumps = 1;
 
+    // Object Pooling
+    private ObjectPool<Arrow> normalArrowPool;
+    private ObjectPool<Arrow> atk3ArrowPool;
+
     protected override void Awake()
     {
         base.Awake();
 
+        // Khởi tạo Pool mũi tên thường
+        normalArrowPool = new ObjectPool<Arrow>(
+            () => { Arrow a = Instantiate(arrowPf); a.SetPool(normalArrowPool); return a; },
+            a => a.gameObject.SetActive(true),
+            a => a.gameObject.SetActive(false),
+            a => Destroy(a.gameObject),
+            false, 30, 100
+        );
+
+        // Khởi tạo Pool Atk3
+        atk3ArrowPool = new ObjectPool<Arrow>(
+            () => { Arrow a = Instantiate(atk3TriggerPf); a.SetPool(atk3ArrowPool); return a; },
+            a => a.gameObject.SetActive(true),
+            a => a.gameObject.SetActive(false),
+            a => Destroy(a.gameObject),
+            false, 15, 50
+        );
+
         System.Reflection.FieldInfo field = typeof(PlayerBase).GetField("maxJumps", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        if (field != null)
-        {
-            autoMaxJumps = (int)field.GetValue(this);
-        }
+        if (field != null) autoMaxJumps = (int)field.GetValue(this);
     }
 
     protected override void OnUpdate()
     {
-        if (isGrounded)
-        {
-            hasUsedAirAttack2 = false;
-            localJumpCount = 0;
-        }
-
+        if (isGrounded) { hasUsedAirAttack2 = false; localJumpCount = 0; }
         if (Input.GetKeyDown(keyJump) && !isAttacking && !isDefending && !isRolling)
         {
-            if (isGrounded || localJumpCount < autoMaxJumps)
-            {
-                localJumpCount++;
-                hasUsedAirAttack2 = false;
-            }
+            if (isGrounded || localJumpCount < autoMaxJumps) { localJumpCount++; hasUsedAirAttack2 = false; }
         }
-
-        if (isRolling || isDefending || isAttacking)
-        {
-
-                    return;
-        }
-
+        if (isRolling || isDefending || isAttacking) return;
         HandleSpecialAttack();
         HandleAttack2();
         HandleAttack3();
@@ -102,12 +105,7 @@ public class ArcherController : PlayerBase
                     SetVelocityX(0);
                 }
             }
-            else if (!hasUsedAirAttack2)
-            {
-                hasUsedAirAttack2 = true;
-                isAttacking = true;
-                anim.SetTrigger(GameConfig.ANIM_COL_AIRATTACK);
-            }
+            else if (!hasUsedAirAttack2) { hasUsedAirAttack2 = true; isAttacking = true; anim.SetTrigger(GameConfig.ANIM_COL_AIRATTACK); }
         }
     }
 
@@ -127,41 +125,29 @@ public class ArcherController : PlayerBase
 
     protected override void Attack(bool hasUsedAirAttack)
     {
-        if (hasUsedAirAttack)
-        {
-            return;
-        }
+        if (hasUsedAirAttack) return;
+
+        if (sfx != null) sfx.PlayAttack1();
 
         isAttacking = true;
         SetVelocityX(0);
         anim.SetTrigger(GameConfig.ANIM_COL_ATTACK);
     }
-    public void Hit()
-    {
-        if(atkHitbox == null)
-        {
-            return;
-        }
-        OnAttackHit(atkHitbox, sizeAtkHitBox, damageAttack1);       
-    }
+
+    public void Hit() { if (atkHitbox != null) OnAttackHit(atkHitbox, sizeAtkHitBox, damageAttack1); }
+
     public void OnAttackHit(Transform attackHitBox, Vector2 size, float dmg)
     {
-         Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(attackHitBox.position, size, 0f, enemyLayerMask);
+        Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(attackHitBox.position, size, 0f, enemyLayerMask);
         foreach (Collider2D enemy in hitEnemies)
         {
             var entity = enemy.GetComponent<Entity>();
             Vector2 hitDir = (enemy.transform.position - transform.position).normalized;
-            if (entity != null)
-            {
-                entity.TakeDamage(dmg, hitDir);
-            }
+            if (entity != null) entity.TakeDamage(dmg, hitDir);
         }
     }
 
-    public void EndAttack()
-    {
-        isAttacking = false;
-    }
+    public void EndAttack() { isAttacking = false; }
 
     public void ShootAtk1()
     {
@@ -170,44 +156,39 @@ public class ArcherController : PlayerBase
 
     public void ShootAtk2()
     {
+        if (sfx != null) sfx.PlayAttack2();
         SpawnProjectile(arrowPf, damageAttack2, 1, 0f, false);
     }
 
     public void ShootAtk3()
     {
+        if (sfx != null) sfx.PlayAttack3();
         SpawnProjectile(atk3TriggerPf, damageAttack3, 2, 0f, true);
     }
 
     public void ShootAir()
     {
+        if (sfx != null) sfx.PlayAirAttack();
         SpawnProjectile(arrowPf, damageAirAttack, 1, -45f, false);
     }
 
     public void ShootSp()
     {
-        if (!beamPf || !firePt)
-        {
-            return;
-        }
-
+        if (!beamPf || !firePt) return;
+        if (sfx != null) sfx.PlaySpecialAttack();
         Beam beam = Instantiate(beamPf, firePt.position, Quaternion.identity);
         beam.Setup(facingDir, damageSpecialAttack);
     }
 
     private void SpawnProjectile(Arrow prefab, float damage, int type, float angle = 0f, bool isAttack3 = false)
     {
-        if (!prefab || !firePt)
-        {
-            return;
-        }
+        if (!prefab || !firePt) return;
 
-        Arrow arrow = Instantiate(prefab, firePt.position, Quaternion.identity);
+        Arrow arrow = isAttack3 ? atk3ArrowPool.Get() : normalArrowPool.Get();
+        arrow.transform.position = firePt.position;
+        arrow.transform.rotation = Quaternion.identity;
         arrow.Setup(facingDir, damage, type, angle, isAttack3);
     }
 
-    public void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(atkHitbox.position, sizeAtkHitBox);
-    }
+    public void OnDrawGizmos() { Gizmos.color = Color.red; Gizmos.DrawWireCube(atkHitbox.position, sizeAtkHitBox); }
 }
