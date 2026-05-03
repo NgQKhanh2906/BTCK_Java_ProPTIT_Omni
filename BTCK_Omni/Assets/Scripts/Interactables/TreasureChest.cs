@@ -37,6 +37,14 @@ public class TreasureChest : MonoBehaviour, IInteractable, ISaveable
     public string UniqueId => chestId;
     public bool CanInteract => !_isOpen && !_isOpening;
     
+    private void OnValidate() 
+    {
+        if (string.IsNullOrEmpty(chestId)) 
+        {
+            chestId = System.Guid.NewGuid().ToString();
+            UnityEditor.EditorUtility.SetDirty(this); 
+        }
+    }
     
     public void Interact(PlayerBase player)
     {
@@ -61,7 +69,6 @@ public class TreasureChest : MonoBehaviour, IInteractable, ISaveable
 
         _isOpen = true;
         _isOpening= false;
-        //SaveManager.Instance?.RegisterOpenedChest(chestId);
     }
     public void SpawnItems()
     {

@@ -216,7 +216,7 @@ MonoBehaviour:
   maxSlope: 45
   groundLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 8448
   drawGizmos: 1
 --- !u!114 &1098022796007537600
 MonoBehaviour:
@@ -310,7 +310,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1488548229
-  m_SortingLayer: 12
+  m_SortingLayer: 13
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a42b3792e4d181f4c92d101d207e5a92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

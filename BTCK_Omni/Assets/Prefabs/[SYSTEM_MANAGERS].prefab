@@ -125,8 +125,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
-  player1: {fileID: 0}
-  player2: {fileID: 0}
 --- !u!114 &2623965561432958153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,9 +154,7 @@ MonoBehaviour:
   startingLives: 2
   maxLives: 9
   respawnDelay: 2
-  player1: {fileID: 0}
-  player2: {fileID: 0}
-  respawnVFXPrefab: {fileID: 0}
+  respawnVFXPrefab: {fileID: 8411089992905411634, guid: ad6a7cdf3e1cde7469a190f43ea582e8, type: 3}
 --- !u!114 &6467785239415660597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,6 +187,8 @@ MonoBehaviour:
   - {fileID: 7903625598968089349, guid: fea5950292782684f9c4372c7c0042de, type: 3}
   - {fileID: 8641927540789662960, guid: b2d1d941e63abf048ab08fb96d70aaf4, type: 3}
   - {fileID: 3967333466903289553, guid: 1b52e96a33dfccf47adc3ac795b42536, type: 3}
+  - {fileID: 2880464229542448902, guid: cf34187b1a8295848a9638de4e97b75a, type: 3}
+  - {fileID: 1925515884489803384, guid: ac9d950adf9db034b8ee6209c54bc75f, type: 3}
 --- !u!223 &1894603838803022931
 Canvas:
   m_ObjectHideFlags: 0

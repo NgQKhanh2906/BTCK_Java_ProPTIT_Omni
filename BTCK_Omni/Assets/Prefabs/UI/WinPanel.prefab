@@ -265,6 +265,7 @@ GameObject:
   - component: {fileID: 4212862581757424678}
   - component: {fileID: 2164703037870226539}
   - component: {fileID: 8058305214821758622}
+  - component: {fileID: 4137045724348178228}
   - component: {fileID: 1925515884489803384}
   m_Layer: 0
   m_Name: WinPanel
@@ -377,9 +378,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8416108525084154170}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
-        m_MethodName: QuitToMenu
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -389,6 +390,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4137045724348178228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6546134114442903690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 901c5e774904334479f03edc9fbde35f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1925515884489803384
 MonoBehaviour:
   m_ObjectHideFlags: 0
