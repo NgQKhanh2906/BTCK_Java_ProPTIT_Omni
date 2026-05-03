@@ -252,15 +252,15 @@ MonoBehaviour:
   environmentalDeathVFXPrefab: {fileID: 915249307062645355, guid: 3674d0aa6f94451449352ae60c50f976, type: 3}
   respawnVFXPrefab: {fileID: 8411089992905411634, guid: ad6a7cdf3e1cde7469a190f43ea582e8, type: 3}
   respawnDelay: 1
-  jumpForce: 10
+  jumpForce: 14
   maxJumps: 2
   rollForce: 8
   rollDuration: 0.5
   _groundChecker: {fileID: 1936254362410215311}
   maxMana: 100
-  manaPerHit: 15
+  manaPerHit: 5
   rollManaCost: 20
-  manaRegen: 5
+  manaRegen: 2
   sfx: {fileID: 7397562471531514476}
   stepInterval: 0.35
   enemyLayerMask:
@@ -408,7 +408,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 4
+  m_GravityScale: 3
   m_Material: {fileID: 6200000, guid: 0219fb387244148449c8b25c587463c7, type: 2}
   m_IncludeLayers:
     serializedVersion: 2

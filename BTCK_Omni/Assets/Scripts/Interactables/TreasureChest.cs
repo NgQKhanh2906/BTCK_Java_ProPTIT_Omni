@@ -41,7 +41,9 @@ public class TreasureChest : MonoBehaviour, IInteractable, ISaveable
         if (string.IsNullOrEmpty(chestId)) 
         {
             chestId = System.Guid.NewGuid().ToString();
-            UnityEditor.EditorUtility.SetDirty(this); 
+            #if UNITY_EDITOR
+                UnityEditor.EditorUtility.SetDirty(this);
+            #endif
         }
     }
     
@@ -76,8 +78,6 @@ public class TreasureChest : MonoBehaviour, IInteractable, ISaveable
     public void SpawnItems()
     {
         if (lootTable == null || lootTable.Count == 0) return;
-
-        // Chỉ định rõ UnityEngine.Random để tránh conflict với System.Random
         int dropCount = UnityEngine.Random.Range(minItemCount, maxItemCount + 1);
         int totalWeight = 0;
         foreach (var loot in lootTable) totalWeight += loot.dropWeight;
