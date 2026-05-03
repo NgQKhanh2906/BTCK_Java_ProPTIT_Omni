@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections;
 
 public class Entity : MonoBehaviour, IDamageable
 {
@@ -15,6 +16,7 @@ public class Entity : MonoBehaviour, IDamageable
 
     protected int facingDir = 1;
     protected bool isDead;
+    protected bool isInvincible;
 
     protected Rigidbody2D rb;
     protected Animator anim;
@@ -29,6 +31,7 @@ public class Entity : MonoBehaviour, IDamageable
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
         currentHP = maxHP;
+        isDead = false;
     }
 
     protected void NotifyHPChanged()
@@ -43,7 +46,7 @@ public class Entity : MonoBehaviour, IDamageable
 
     public virtual void TakeDamage(float dmg, Vector2 hitDir)
     {
-        if (isDead) return;
+        if (isDead || isInvincible) return;
         currentHP = Mathf.Max(0, currentHP - dmg);
         NotifyHPChanged();
         rb.velocity = Vector2.zero;
@@ -53,15 +56,29 @@ public class Entity : MonoBehaviour, IDamageable
         else
             anim.SetTrigger(GameConfig.ANIM_COL_HIT);
     }
-
+    
     public virtual void Die()
     {
+        if (isDead) return;
         isDead = true;
-        rb.velocity = Vector2.zero;
-        rb.isKinematic = true;
-        GetComponent<Collider2D>().enabled = false;
+        gameObject.layer = LayerMask.NameToLayer("Corpse");
         anim.SetTrigger(GameConfig.ANIM_COL_DIE);
-        OnDeath?.Invoke();
+        NotifyDeath();
+        StartCoroutine(FinalizeDeathPhysics());
+    }
+    
+    private IEnumerator FinalizeDeathPhysics()
+    {
+        float timeout = 2f;
+        float elapsed = 0f;
+        while (elapsed < timeout)
+        {
+            elapsed += Time.deltaTime;
+            if (rb.velocity.y >= -0.1f && elapsed > 0.3f) break;
+            yield return null;
+        }
+        rb.velocity = Vector2.zero;
+        rb.isKinematic  = true;
     }
 
     protected void Flip()
