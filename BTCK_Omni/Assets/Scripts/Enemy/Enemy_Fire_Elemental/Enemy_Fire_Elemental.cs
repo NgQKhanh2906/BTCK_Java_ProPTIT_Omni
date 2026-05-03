@@ -10,6 +10,10 @@ public class Enemy_FireElemental : EnemyBase
     [SerializeField] private GameObject explosionVfxPrefab; 
     [SerializeField] private Vector2 explosionBoxSize = new Vector2(2f, 2f); 
     [SerializeField] private float explosionDamage = 20f; 
+
+    [Header("Audio Settings")]
+    [SerializeField] private AudioClip explosionSFX; 
+    [SerializeField] [Range(0f, 1f)] private float explosionVolume = 1f;
     private readonly int hashHit = Animator.StringToHash("Hit");
 
     protected override void Update()
@@ -91,6 +95,10 @@ public class Enemy_FireElemental : EnemyBase
     {
         isDead = true; 
         SetVelocityX(0);
+        if (explosionSFX != null)
+        {
+            AudioSource.PlayClipAtPoint(explosionSFX, transform.position, explosionVolume);
+        }
         if (explosionVfxPrefab != null)
         {
             Instantiate(explosionVfxPrefab, transform.position, Quaternion.identity);
