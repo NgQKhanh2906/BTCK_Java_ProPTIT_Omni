@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.Pool;
 
 public class BossController : Entity
 {
@@ -18,13 +19,32 @@ public class BossController : Entity
     public LayerMask hitMask;
 
     public bool isFacingRight = false;
-
     Transform t;
+
+    private ObjectPool<RockProjectile> rockPool;
+
+    [Header("SFX")]
+    [SerializeField] protected EnemySfxManager sfx;
 
     protected override void Awake()
     {
         base.Awake();
         defaultMat = sr.material;
+
+        rockPool = new ObjectPool<RockProjectile>(
+            createFunc: () => {
+                GameObject g = Instantiate(rock);
+                RockProjectile rp = g.GetComponent<RockProjectile>();
+                rp.SetPool(rockPool);
+                return rp;
+            },
+            actionOnGet: (rp) => rp.gameObject.SetActive(true),
+            actionOnRelease: (rp) => rp.gameObject.SetActive(false),
+            actionOnDestroy: (rp) => Destroy(rp.gameObject),
+            collectionCheck: false,
+            defaultCapacity: 50,
+            maxSize: 200
+        );
     }
 
     void Start()
@@ -35,7 +55,6 @@ public class BossController : Entity
     void Update()
     {
         if (isDead) return;
-
         Find();
         LookAtPlayer();
     }
@@ -50,7 +69,6 @@ public class BossController : Entity
         foreach (Collider2D p in ps)
         {
             float d = Vector2.Distance(transform.position, p.transform.position);
-
             if (d < min)
             {
                 min = d;
@@ -63,14 +81,8 @@ public class BossController : Entity
     {
         if (t != null)
         {
-            if (transform.position.x > t.position.x && !isFacingRight)
-            {
-                FlipBoss();
-            }
-            else if (transform.position.x < t.position.x && isFacingRight)
-            {
-                FlipBoss();
-            }
+            if (transform.position.x > t.position.x && !isFacingRight) FlipBoss();
+            else if (transform.position.x < t.position.x && isFacingRight) FlipBoss();
         }
     }
 
@@ -86,16 +98,13 @@ public class BossController : Entity
     {
         if (isDead) return;
 
-        StartCoroutine(Flash());
+        if (sfx != null) sfx.PlayTakeHit();
 
+        StartCoroutine(Flash());
         base.TakeDamage(dmg, hitDir);
 
         hp -= dmg;
-
-        if (hp <= 0)
-        {
-            Die();
-        }
+        if (hp <= 0) Die();
     }
 
     private IEnumerator Flash()
@@ -107,6 +116,7 @@ public class BossController : Entity
 
     public override void Die()
     {
+        if (sfx != null) sfx.PlayDie();
         base.Die();
         anim.SetTrigger("die");
         StopAllCoroutines();
@@ -115,14 +125,8 @@ public class BossController : Entity
 
     void EndGame()
     {
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.Victory();
-        }
-        else
-        {
-            Debug.LogError("Không tìm thấy GameManager để gọi Victory!");
-        }
+        if (GameManager.Instance != null) GameManager.Instance.Victory();
+        else Debug.LogError("Không tìm thấy GameManager!");
     }
 
     IEnumerator Loop()
@@ -130,7 +134,6 @@ public class BossController : Entity
         while (true)
         {
             yield return new WaitForSeconds(10f);
-
             if (hp > 0 && t != null)
             {
                 int r = Random.Range(1, 6);
@@ -149,9 +152,11 @@ public class BossController : Entity
         {
             Vector2 d = (t.position - handP.position).normalized;
             float a = Mathf.Atan2(d.y, d.x) * Mathf.Rad2Deg;
-            GameObject r = Instantiate(rock, handP.position, Quaternion.Euler(0, 0, a));
-            RockProjectile rp = r.GetComponent<RockProjectile>();
-            if (rp != null) rp.Setup(d, 15f);
+
+            RockProjectile rp = rockPool.Get();
+            rp.transform.position = handP.position;
+            rp.transform.rotation = Quaternion.Euler(0, 0, a);
+            rp.Setup(d, 15f);
         }
     }
 
@@ -164,7 +169,6 @@ public class BossController : Entity
     {
         anim.speed = 0;
         int gl = LayerMask.GetMask("Ground");
-
         for (int i = 0; i < 30; i++)
         {
             float rx = transform.position.x + Random.Range(-90f, 90f);
@@ -174,23 +178,21 @@ public class BossController : Entity
             if (hit.collider != null)
             {
                 Vector3 p = new Vector3(rx, hit.point.y + 0.2f, 0);
-                GameObject g = Instantiate(rock, p, Quaternion.Euler(0, 0, 90f));
-                RockProjectile rp = g.GetComponent<RockProjectile>();
 
-                if (rp != null)
-                {
-                    rp.Setup(Vector2.up, 15f);
-                }
+                RockProjectile rp = rockPool.Get();
+                rp.transform.position = p;
+                rp.transform.rotation = Quaternion.Euler(0, 0, 90f);
+                rp.Setup(Vector2.up, 15f);
             }
-
             yield return new WaitForSeconds(0.05f);
         }
-
         anim.speed = 1;
     }
 
     public void F_Atk3()
     {
+        if (sfx != null) sfx.PlayLaser();
+
         if (t != null)
         {
             Vector2 d = (t.position - eyeP.position).normalized;
@@ -230,19 +232,19 @@ public class BossController : Entity
             if (hp > maxHp) hp = maxHp;
             float off = (i % 2 == 0) ? 0f : 15f;
             Vector2 bD = Vector2.left;
+
             if (t != null) bD = (t.position - handP.position).normalized;
             float bA = Mathf.Atan2(bD.y, bD.x) * Mathf.Rad2Deg;
 
             for (int j = -2; j <= 2; j++)
             {
                 float fA = bA + (j * 20f) + off;
-                GameObject r = Instantiate(rock, handP.position, Quaternion.Euler(0, 0, fA));
-                RockProjectile rp = r.GetComponent<RockProjectile>();
-                if (rp != null)
-                {
-                    Vector2 v = new Vector2(Mathf.Cos(fA * Mathf.Deg2Rad), Mathf.Sin(fA * Mathf.Deg2Rad));
-                    rp.Setup(v, 12f);
-                }
+
+                RockProjectile rp = rockPool.Get();
+                rp.transform.position = handP.position;
+                rp.transform.rotation = Quaternion.Euler(0, 0, fA);
+                Vector2 v = new Vector2(Mathf.Cos(fA * Mathf.Deg2Rad), Mathf.Sin(fA * Mathf.Deg2Rad));
+                rp.Setup(v, 12f);
             }
             yield return new WaitForSeconds(0.5f);
         }
@@ -251,6 +253,7 @@ public class BossController : Entity
 
     public void F_Heal()
     {
+        if (sfx != null) sfx.PlaySweepLaser();
         StartCoroutine(SpHeal());
     }
 

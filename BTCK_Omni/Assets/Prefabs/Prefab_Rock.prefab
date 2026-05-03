@@ -178,3 +178,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   dmg: 20
+  shootSound: {fileID: 8300000, guid: abc21fe1ee21d03489629713904ee26c, type: 3}
+  hitSound: {fileID: 8300000, guid: abc21fe1ee21d03489629713904ee26c, type: 3}
