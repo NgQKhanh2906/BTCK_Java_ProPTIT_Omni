@@ -59,6 +59,7 @@ public class PlayerBase : Entity, IHealable, ISaveable
     public float CurrentMana => currentMana;
     public float MaxMana => maxMana;
     public event Action<float, float> OnManaChanged;
+    public event Action OnRespawnEvent;
 
     protected Vector3 lastSafePos;
     public Vector3 LastSafePos => lastSafePos;
@@ -107,6 +108,24 @@ public class PlayerBase : Entity, IHealable, ISaveable
         ManaAfterRespawn = maxMana * 0.5f;
     }
 
+    protected virtual void Start()
+    {
+        inputEnabled = true;
+        isDead = false;
+        isAttacking = false;
+        isDefending = false;
+        isRolling = false;
+        isKnockedBack = false;
+        if (rb != null) 
+        {
+            rb.isKinematic = false;
+            rb.velocity = Vector2.zero;
+        }
+        if (anim != null) anim.speed = 1f;
+        if (sr != null) sr.enabled = true;
+        if (col2d != null) col2d.enabled = true;
+    }
+    //Update
     protected void Update()
     {
         if (!inputEnabled || isDead) return;
@@ -536,6 +555,8 @@ public class PlayerBase : Entity, IHealable, ISaveable
     public class PlayerSaveState
     {
         public float hp, mana, posX, posY;
+        public float safeX, safeY;
+        public bool isDead;
     }
 
     public object CaptureState() => new PlayerSaveState
@@ -543,7 +564,10 @@ public class PlayerBase : Entity, IHealable, ISaveable
         hp = currentHP,
         mana = currentMana,
         posX = transform.position.x,
-        posY = transform.position.y
+        posY = transform.position.y,
+        safeX = lastSafePos.x,
+        safeY = lastSafePos.y, 
+        isDead = isDead
     };
 
     public void RestoreState(object state)
@@ -554,6 +578,20 @@ public class PlayerBase : Entity, IHealable, ISaveable
         currentMana = s.mana;
         OnManaChanged?.Invoke(currentMana, maxMana);
         transform.position = new Vector3(s.posX, s.posY, 0);
+        lastSafePos = new Vector3(s.safeX, s.safeY, 0);
+
+        if (s.isDead)
+        {
+            isDead = true;
+            inputEnabled = false;
+            isAttacking = false;
+            rb.velocity = Vector2.zero;
+            rb.isKinematic = true;
+            if (sr != null) sr.enabled = true;
+            if (col2d != null) col2d.enabled = false;
+            anim.Play(GameConfig.ANIMATOR_DIE, 0, 1f);
+            anim.speed = 0f;
+        }
     }
 
     public override void Die()
@@ -650,15 +688,22 @@ public class PlayerBase : Entity, IHealable, ISaveable
 
         anim.SetTrigger(GameConfig.ANIM_COL_RESPAWN);
         StartCoroutine(InvincibleRoutine(invincibilityTime));
+        OnRespawnEvent?.Invoke();
     }
 
     private IEnumerator InvincibleRoutine(float time)
     {
         isInvincible = true;
-        sr.DOFade(0.2f, 0.15f).SetLoops(-1, LoopType.Yoyo).SetId("InvincibilityBlink");
+        if (sr != null)
+        {
+            sr.DOFade(0.2f, 0.15f).SetLoops(-1, LoopType.Yoyo).SetId("InvincibilityBlink").SetLink(gameObject);
+        }
         yield return new WaitForSeconds(time);
         isInvincible = false;
         DOTween.Kill("InvincibilityBlink");
-        sr.DOFade(1f, 0.1f);
+        if (sr != null)
+        {
+            sr.DOFade(1f, 0.1f).SetLink(gameObject);
+        }
     }
 }

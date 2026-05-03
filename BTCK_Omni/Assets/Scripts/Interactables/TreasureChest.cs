@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,7 +35,16 @@ public class TreasureChest : MonoBehaviour, IInteractable, ISaveable
 
     public string UniqueId => chestId;
     public bool CanInteract => !_isOpen && !_isOpening;
-
+    
+    private void OnValidate() 
+    {
+        if (string.IsNullOrEmpty(chestId)) 
+        {
+            chestId = System.Guid.NewGuid().ToString();
+            UnityEditor.EditorUtility.SetDirty(this); 
+        }
+    }
+    
     public void Interact(PlayerBase player)
     {
         if (!CanInteract) return;
@@ -61,7 +70,7 @@ public class TreasureChest : MonoBehaviour, IInteractable, ISaveable
         SpawnItems();
 
         _isOpen = true;
-        _isOpening = false;
+        _isOpening= false;
     }
 
     public void SpawnItems()

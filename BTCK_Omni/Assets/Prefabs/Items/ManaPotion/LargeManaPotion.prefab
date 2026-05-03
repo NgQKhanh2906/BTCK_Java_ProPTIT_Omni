@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4637964027383817056}
   - component: {fileID: 1959082962657828617}
   - component: {fileID: 4243990756729730244}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: LargeManaPotion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902091345
-  m_SortingLayer: 15
+  m_SortingLayer: 17
   m_SortingOrder: 0
   m_Sprite: {fileID: 477997373, guid: ed9447f093378834998202e8476f4730, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

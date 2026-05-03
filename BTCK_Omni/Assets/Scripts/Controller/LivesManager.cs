@@ -9,9 +9,7 @@ public class LivesManager : Singleton<LivesManager>
     [SerializeField] private int startingLives = 2;
     [SerializeField] private int maxLives = 9;
     [SerializeField] private float respawnDelay = 2f;
-    [Header("References")] 
-    [SerializeField] private PlayerBase player1;
-    [SerializeField] private PlayerBase player2;
+    
     [Header("Respawn effect")] 
     [SerializeField] private GameObject respawnVFXPrefab;
 
@@ -20,6 +18,12 @@ public class LivesManager : Singleton<LivesManager>
     private int _lives1;
     private int _lives2;
 
+    private PlayerBase player1;
+    private PlayerBase player2;
+
+    private bool isRespawning1 = false;
+    private bool isRespawning2 = false;
+
     public override void Awake()
     {
         base.Awake();
@@ -27,20 +31,92 @@ public class LivesManager : Singleton<LivesManager>
         _lives2 = startingLives;
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        if (player1 != null) player1.OnDeath += () => PlayerDied(1);
-        if (player2 != null) player2.OnDeath += () => PlayerDied(2);
+        SceneManager.sceneLoaded += OnMapLoaded;
+    }
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnMapLoaded;
+    }
+    private void OnMapLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Menu") return;
+        StartCoroutine(SetupPlayersAfterLoad());
     }
 
-    public void SetPlayers(PlayerBase p1, PlayerBase p2)
+    private IEnumerator SetupPlayersAfterLoad()
     {
-        if (player1 != null) player1.OnDeath -= () => PlayerDied(1);
-        if (player2 != null) player2.OnDeath -= () => PlayerDied(2);
-        player1 = p1;
-        player2 = p2;
-        if (player1 != null) player1.OnDeath += () => PlayerDied(1);
-        if (player2 != null) player2.OnDeath += () => PlayerDied(2);
+        yield return null;
+        HandlePlayerConnection();
+        CheckLoadDeadState();
+    }
+
+    private void HandlePlayerConnection()
+    {
+        
+        if (!player1 )
+        {
+            GameObject p1Obj = GameObject.FindGameObjectWithTag("Player1");
+            if (p1Obj)
+            {
+                player1 = p1Obj.GetComponent<PlayerBase>();
+                if (player1) player1.OnDeath += OnPlayer1Died;
+            }
+        }
+        
+        if (!player2 )
+        {
+            GameObject p2Obj = GameObject.FindGameObjectWithTag("Player2");
+            if (p2Obj)
+            {
+                player2 = p2Obj.GetComponent<PlayerBase>();
+                if (player2) player2.OnDeath += OnPlayer2Died;
+            }
+        }
+    }
+
+    private void CheckLoadDeadState()
+    {
+        if (player1&& player1.CurrentHP <= 0 && !isRespawning1)
+        {
+            if (_lives1 > 0)
+            {
+                StartCoroutine(RespawnAfterLoad(1));
+            }
+            else
+            {
+                TransformToCorpse(player1);
+            }
+        }
+        if (player2 && player2.CurrentHP <= 0 && !isRespawning2)
+        {
+            if (_lives2 > 0)
+            {
+                StartCoroutine(RespawnAfterLoad(2));
+            }
+            else
+            {
+                TransformToCorpse(player2);
+            }
+        }
+    }
+
+    private void OnPlayer1Died() => PlayerDied(1);
+    private void OnPlayer2Died() => PlayerDied(2);
+    
+    public void AddLife(int playerIndex)
+    {
+        if (playerIndex == 1)
+        {
+            _lives1 = Mathf.Min(_lives1 + 1, maxLives);
+            OnLivesChanged?.Invoke(1, _lives1);
+        }
+        else
+        {
+            _lives2 = Mathf.Min(_lives2 + 1, maxLives);
+            OnLivesChanged?.Invoke(2, _lives2);
+        }
     }
 
     public void SetLivesDirectly(int index, int lives)
@@ -56,28 +132,32 @@ public class LivesManager : Singleton<LivesManager>
             OnLivesChanged?.Invoke(2, _lives2);
         }
     }
-
-    public int GetLives(int playerIndex) =>
-        playerIndex == 1 ? _lives1 : _lives2;
-
-    public void AddLife(int playerIndex)
+    private void TransformToCorpse(PlayerBase p)
     {
-        if (playerIndex == 1)
+        if (!p) return;
+        p.tag = "Untagged";
+        p.gameObject.layer = LayerMask.NameToLayer("Corpse");
+        Rigidbody2D rb = p.GetComponent<Rigidbody2D>();
+        if (rb)
         {
-            _lives1 = Mathf.Min(_lives1 + 1, maxLives);
-            OnLivesChanged?.Invoke(1, _lives1);
+            rb.velocity = Vector2.zero;
+            rb.bodyType = RigidbodyType2D.Static; 
         }
-        else
+        Collider2D col = p.GetComponent<Collider2D>();
+        if (col)
         {
-            _lives2 = Mathf.Min(_lives2 + 1, maxLives);
-            OnLivesChanged?.Invoke(2, _lives2);
+            col.enabled = false;
         }
+        
     }
+
+    public int GetLives(int playerIndex) => playerIndex == 1 ? _lives1 : _lives2;
 
     private void PlayerDied(int playerIndex)
     {
-        PlayerBase deadPlayer = playerIndex == 1 ? player1 : player2;
+        PlayerBase deadPlayer = (playerIndex == 1) ? player1 : player2;
         if (!deadPlayer) return;
+
         if (playerIndex == 1)
         {
             _lives1 = Mathf.Max(0, _lives1 - 1);
@@ -88,52 +168,53 @@ public class LivesManager : Singleton<LivesManager>
             _lives2 = Mathf.Max(0, _lives2 - 1);
             OnLivesChanged?.Invoke(2, _lives2);
         }
-        bool hasLives = playerIndex == 1 ? _lives1 > 0 : _lives2 > 0;
-        if (hasLives)
+
+        bool conMang = (playerIndex == 1) ? _lives1 > 0 : _lives2 > 0;
+
+        if (conMang)
         {
-            StartCoroutine(RespawnRoutine(playerIndex));
+            StartCoroutine(RespawnRoutine(playerIndex, deadPlayer));
         }
         else
         {
-            CheckGameOver();
+            TransformToCorpse(deadPlayer);
         }
     }
 
-    private IEnumerator RespawnRoutine(int playerIndex)
+    private IEnumerator RespawnRoutine(int playerIndex, PlayerBase player)
     {
+        if (playerIndex == 1) isRespawning1 = true;
+        else isRespawning2 = true;
         yield return new WaitForSeconds(respawnDelay);
-        PlayerBase player = playerIndex == 1 ? player1 : player2;
-        Vector3 deathPos = player.LastSafePos;
-        if (respawnVFXPrefab != null)
+        if (player)
         {
-            GameObject vfx = Instantiate(respawnVFXPrefab, deathPos, Quaternion.identity);
-            Destroy(vfx, respawnDelay);
+            Vector3 spawnPos = player.LastSafePos;
+            if (respawnVFXPrefab)
+            {
+                GameObject vfx = Instantiate(respawnVFXPrefab, spawnPos, Quaternion.identity);
+                Destroy(vfx, 1f);
+            }
+            player.Respawn(spawnPos);
         }
-        if (!player) yield break;
-        player.Respawn(deathPos);
+        if (playerIndex == 1) isRespawning1 = false;
+        else isRespawning2 = false;
     }
 
-    private void CheckGameOver()
+    private IEnumerator RespawnAfterLoad(int index)
     {
-        bool p1Dead = !player1 || _lives1 <= 0;
-        bool p2Dead = !player2 || _lives2 <= 0;
-        if (p1Dead && p2Dead)
-        {
-            StartCoroutine(GameOverRoutine());
-        }
-    }
+        if (index == 1) isRespawning1 = true;
+        else isRespawning2 = true;
+        yield return new WaitForSeconds(0.1f);
+        PlayerBase p = (index == 1) ? player1 : player2;
+        if (p) StartCoroutine(RespawnRoutine(index, p));
 
-    private IEnumerator GameOverRoutine()
-    {
-        yield return new WaitForSeconds(respawnDelay);
-        _lives1 = startingLives;
-        _lives2 = startingLives;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (index == 1) isRespawning1 = false;
+        else isRespawning2 = false;
     }
 
     private void OnDestroy()
     {
-        if (player1 != null) player1.OnDeath -= () => PlayerDied(1);
-        if (player2 != null) player2.OnDeath -= () => PlayerDied(2);
+        if (player1 != null) player1.OnDeath -= OnPlayer1Died;
+        if (player2 != null) player2.OnDeath -= OnPlayer2Died;
     }
 }
