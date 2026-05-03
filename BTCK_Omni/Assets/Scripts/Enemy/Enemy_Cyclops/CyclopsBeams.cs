@@ -5,9 +5,11 @@ public class CyclopsBeam : MonoBehaviour
     [Header("Laser Settings")]
     [SerializeField] private float speed = 15f;
     [SerializeField] private LayerMask hitMask; 
-    
-    [Header("Effects")]
+
+    [Header("Effects & Audio")]
     [SerializeField] private GameObject hitEffectPrefab; 
+    [SerializeField] private AudioClip laserHitSFX; 
+    [SerializeField] [Range(0f, 1f)] private float hitVolume = 1f;
 
     private float damage;
     private int direction;
@@ -40,37 +42,30 @@ public class CyclopsBeam : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Bỏ qua va chạm với chính quái vật
         if (collision.CompareTag("Enemy")) return;
-
-        // Nếu chạm vào mục tiêu nằm trong hitMask (Player, Ground, Wall...)
+        
         if (((1 << collision.gameObject.layer) & hitMask) != 0)
         {
-            // SỬA Ở ĐÂY: Dùng GetComponentInParent thay vì GetComponent
-            // Để dù laser bắn trúng "Bàn chân" (GroundCheck) thì vẫn tìm được script ở "Thân"
             Entity entity = collision.GetComponentInParent<Entity>();
             
             if (entity != null)
             {
-                // Trừ máu và truyền hướng knockback
                 Vector2 knockDir = new Vector2(direction, 0).normalized;
                 entity.TakeDamage(damage, knockDir);
-
-                // Sinh ra hiệu ứng máu/chớp nháy (nếu có)
+                PlayHitSound();
+                
                 if (hitEffectPrefab != null)
                 {
                     Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
                 }
-
-                // Hủy đạn
                 Destroy(gameObject);
             }
             else 
             {
-                // Lọc trường hợp: Đạn chạm vào Tường / Mặt đất (Layer Ground) thì nổ
-                // Còn chạm vào những thứ linh tinh khác của Player mà ko có Entity thì xuyên qua luôn
                 if (((1 << collision.gameObject.layer) & LayerMask.GetMask("Ground", "Wall")) != 0)
                 {
+                    PlayHitSound();
+                    
                     if (hitEffectPrefab != null)
                     {
                         Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
@@ -78,6 +73,14 @@ public class CyclopsBeam : MonoBehaviour
                     Destroy(gameObject);
                 }
             }
+        }
+    }
+
+    private void PlayHitSound()
+    {
+        if (laserHitSFX != null)
+        {
+            AudioSource.PlayClipAtPoint(laserHitSFX, transform.position, hitVolume);
         }
     }
 }

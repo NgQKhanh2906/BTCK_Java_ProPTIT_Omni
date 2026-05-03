@@ -5,7 +5,7 @@ public class Enemy_Cyclops : EnemyBase
     [Header("Cyclops AI Settings")]
     [SerializeField] private float chaseSpeedMultiplier = 1.2f;
     [SerializeField] private float attackCooldown = 2.5f;
-    [SerializeField] private LayerMask targetLayer; // Layer của Player
+    [SerializeField] private LayerMask targetLayer; 
 
     [Header("Stomp Attack (Cận chiến)")]
     [SerializeField] private Transform attackPoint;
@@ -13,7 +13,7 @@ public class Enemy_Cyclops : EnemyBase
     [SerializeField] private float stompDamage = 15f;
 
     [Header("Laser Eye Attack (Viễn chiến)")]
-    [SerializeField] private CyclopsBeam laserPrefab; // Kéo Prefab CyclopsBeam vào đây
+    [SerializeField] private CyclopsBeam laserPrefab; 
     [SerializeField] private Transform eyePoint;
     [SerializeField] private float laserDamage = 20f;
     [Tooltip("Dùng để AI biết nên dừng lại bắn ở khoảng cách bao xa")]
@@ -21,18 +21,17 @@ public class Enemy_Cyclops : EnemyBase
     [Tooltip("Mask chặn tầm nhìn của quái (Cả Player và Tường)")]
     [SerializeField] private LayerMask laserSightMask; 
 
-    private float lastAttackTime;
+    [Header("Audio Settings")]
+    [SerializeField] private AudioClip laserShootSFX; 
 
-    // Tối ưu bộ nhớ cho chiêu Stomp
+    private float lastAttackTime;
     private int hitBufferSize = 16;
     private Collider2D[] hitBuffer;
-
-    // Hash để điều khiển Animator
     private readonly int hashHit = Animator.StringToHash("Hit");
-    private readonly int hashStompState = Animator.StringToHash("Stomp");
-    private readonly int hashLaserState = Animator.StringToHash("ShootLaser");
-    private readonly int hashTriggerStomp = Animator.StringToHash("Attack"); 
-    private readonly int hashTriggerLaser = Animator.StringToHash("ShootLaser");
+    private readonly int hashAttackState = Animator.StringToHash("Attack");
+    private readonly int hashLaserState = Animator.StringToHash("ShootLaser"); 
+    private readonly int hashAttackTrigger = Animator.StringToHash("Attack"); 
+    private readonly int hashLaserTrigger = Animator.StringToHash("ShootLaser");
 
     protected override void Awake()
     {
@@ -45,9 +44,8 @@ public class Enemy_Cyclops : EnemyBase
         if (isDead) return;
 
         var stateInfo = anim.GetCurrentAnimatorStateInfo(0);
-
         if (stateInfo.shortNameHash == hashHit || 
-            stateInfo.shortNameHash == hashStompState || 
+            stateInfo.shortNameHash == hashAttackState || 
             stateInfo.shortNameHash == hashLaserState)
         {
             SetVelocityX(0);
@@ -56,12 +54,9 @@ public class Enemy_Cyclops : EnemyBase
         }
 
         Transform target = GetVisiblePlayer();
-
-        // [QUAN TRỌNG] Lọc lỗi 3: Kiểm tra target có tồn tại và đang "sống" không
         if (target != null && target.gameObject.activeInHierarchy)
         {
             isReturningHome = false;
-
             bool isPlayerInStompRange = false;
             if (attackPoint != null)
             {
@@ -77,7 +72,7 @@ public class Enemy_Cyclops : EnemyBase
                 if (Time.time >= lastAttackTime + attackCooldown)
                 {
                     FaceTarget(target); 
-                    PerformAttack(hashTriggerStomp);
+                    PerformAttack(hashAttackTrigger); 
                 }
                 return; 
             }
@@ -87,14 +82,12 @@ public class Enemy_Cyclops : EnemyBase
 
             if (distToPlayer <= laserSightRange)
             {
-                // [QUAN TRỌNG] Lọc lỗi 2: Bỏ qua collider của chính con Cyclops khi bắn tia Raycast
-                // Mẹo: Tạm thời tắt collider của con quái đi để bắn tia, sau đó bật lại
                 Collider2D myCollider = GetComponent<Collider2D>();
                 if (myCollider != null) myCollider.enabled = false;
 
                 RaycastHit2D sightTest = Physics2D.Raycast(eyePoint.position, dirToPlayer, laserSightRange, laserSightMask);
                 
-                if (myCollider != null) myCollider.enabled = true; // Bật lại ngay lập tức
+                if (myCollider != null) myCollider.enabled = true; 
                 
                 if (sightTest.collider != null && ((1 << sightTest.collider.gameObject.layer) & targetLayer) != 0)
                 {
@@ -104,16 +97,14 @@ public class Enemy_Cyclops : EnemyBase
                     if (Time.time >= lastAttackTime + attackCooldown)
                     {
                         FaceTarget(target);
-                        PerformAttack(hashTriggerLaser);
+                        PerformAttack(hashLaserTrigger); 
                     }
                     return; 
                 }
             }
-
             ChasePlayer(target);
             return;
         }
-
         if (isReturningHome)
         {
             ReturnHomeLogic();
@@ -147,37 +138,17 @@ public class Enemy_Cyclops : EnemyBase
 
     protected override void ChasePlayer(Transform target)
     {
-        bool isLedgeAhead = ledgeCheck != null && ledgeCheck.IsDetectingLedge();
-        bool isWallAhead = IsWallDetected();
-
-        if (isWallAhead || isLedgeAhead)
+        base.ChasePlayer(target);
+        anim.SetBool(animIsMoving, true);
+        float dirToPlayerX = target.position.x - transform.position.x;
+        if ((dirToPlayerX > 0 && facingDir == -1) || (dirToPlayerX < 0 && facingDir == 1))
         {
-            SetVelocityX(0); 
-            anim.SetBool(animIsMoving, false); 
-            
-            float dirToPlayerX = target.position.x - transform.position.x;
-            if ((dirToPlayerX > 0 && facingDir == -1) || (dirToPlayerX < 0 && facingDir == 1))
-            {
-                Flip(); 
-            }
+            Flip();
         }
-        else 
-        {
-            isIdle = false; 
-            anim.SetBool(animIsMoving, true);
-            
-            float dirToPlayerX = target.position.x - transform.position.x;
-            int moveDir = dirToPlayerX > 0 ? 1 : -1;
-            
-            if (moveDir != facingDir) Flip();
-            
-            SetVelocityX(moveSpeed * chaseSpeedMultiplier * facingDir);
-        }
+        
+        SetVelocityX(chaseSpeedMultiplier * moveSpeed * facingDir);
     }
 
-    // ==========================================
-    // ANIMATION EVENT: GỌI LÚC ĐẬP TAY XUỐNG
-    // ==========================================
     public void ExecuteStompHit()
     {
         if (attackPoint == null) return;
@@ -196,16 +167,18 @@ public class Enemy_Cyclops : EnemyBase
             entity.TakeDamage(stompDamage, knockDir);
         }
     }
+
     public void ShootLaser_AnimEvent()
     {
         if (laserPrefab == null || eyePoint == null) return;
+        if (laserShootSFX != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(laserShootSFX); 
+        }
+
         CyclopsBeam beam = Instantiate(laserPrefab, eyePoint.position, Quaternion.identity);
         beam.Setup(facingDir, laserDamage);
     }
-
-    // ==========================================
-    // VẼ HỘP VÀ TIA NHÌN
-    // ==========================================
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
@@ -218,8 +191,8 @@ public class Enemy_Cyclops : EnemyBase
 
         if (eyePoint != null)
         {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(eyePoint.position, eyePoint.position + new Vector3(laserSightRange * (facingDir != 0 ? facingDir : 1), 0, 0));
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(eyePoint.position, eyePoint.position + (Vector3)(Vector2.right * facingDir * laserSightRange));
         }
     }
 }

@@ -104,6 +104,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 896
   hitEffectPrefab: {fileID: 0}
+  laserHitSFX: {fileID: 8300000, guid: ce37b200d16a4f646918f8380b7e59df, type: 3}
+  hitVolume: 1
 --- !u!61 &506166016056604755
 BoxCollider2D:
   m_ObjectHideFlags: 0
