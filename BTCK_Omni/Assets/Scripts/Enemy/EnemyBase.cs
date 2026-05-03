@@ -3,12 +3,20 @@ using UnityEngine.Events;
 
 
 [RequireComponent(typeof(PlayerDetector))]
+[RequireComponent(typeof(AudioSource))]
 public class EnemyBase : Entity
 {
     [Header("Animator Parameters")]
     protected readonly int animIsMoving = Animator.StringToHash("isMoving");
     protected readonly int animStun = Animator.StringToHash("Stun");
     protected readonly int animIsHiding = Animator.StringToHash("isHiding");
+
+    [Header("--- SOUND EFFECTS (SFX) ---")] 
+    [SerializeField] protected AudioClip hitSound;
+    [SerializeField] protected AudioClip attackSound;
+    [Range(0f, 1f)] [SerializeField] protected float sfxVolume = 0.8f;
+    
+    protected AudioSource audioSource; 
 
 
     [Header("Unity Events")]
@@ -52,6 +60,8 @@ public class EnemyBase : Entity
         patrolBoundLeft = Mathf.Min(startPosition.x, targetB);
         patrolBoundRight = Mathf.Max(startPosition.x, targetB);
         if (sr != null) originalMat = sr.material;
+        audioSource = GetComponent<AudioSource>();
+        audioSource.playOnAwake = false;
     }
 
 
@@ -72,6 +82,24 @@ public class EnemyBase : Entity
             return playerDetector.GetPlayerTransform();
         }
         return null;
+    }
+
+    public virtual void PlayHitSFX()
+    {
+        if (hitSound != null && audioSource != null)
+        {
+            audioSource.pitch = Random.Range(0.9f, 1.1f); 
+            audioSource.PlayOneShot(hitSound, sfxVolume);
+        }
+    }
+
+    public virtual void PlayAttackSFX()
+    {
+        if (attackSound != null && audioSource != null)
+        {
+            audioSource.pitch = Random.Range(0.95f, 1.05f);
+            audioSource.PlayOneShot(attackSound, sfxVolume);
+        }
     }
 
 
@@ -152,6 +180,7 @@ public class EnemyBase : Entity
             if (flashRoutine != null) StopCoroutine(flashRoutine); 
             flashRoutine = StartCoroutine(FlashCoroutine());
         }
+        PlayHitSFX();
     }
     private System.Collections.IEnumerator FlashCoroutine()
     {
