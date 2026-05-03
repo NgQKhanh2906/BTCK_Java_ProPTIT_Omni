@@ -7,15 +7,27 @@ public class FireTrap : TrapBase
     [SerializeField] private float delay = 2f;
 
     private Animator anim;
+    private Coroutine fireCoroutine;
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
     }
-
-    private void Start()
+    private void OnEnable()
     {
-        StartCoroutine(FireLoop());
+        if (fireCoroutine != null)
+        {
+            StopCoroutine(fireCoroutine);
+        }
+        fireCoroutine = StartCoroutine(FireLoop());
+    }
+
+    private void OnDisable()
+    {
+        if (anim != null)
+        {
+            anim.SetBool("Fire", false);
+        }
     }
 
     private IEnumerator FireLoop()

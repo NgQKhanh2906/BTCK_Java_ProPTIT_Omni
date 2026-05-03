@@ -203,7 +203,7 @@ public class PlayerBase : Entity, IHealable, ISaveable
         }
         else
         {
-            rb.gravityScale = 2f;
+            rb.gravityScale = 3f;
         }
     }
 
