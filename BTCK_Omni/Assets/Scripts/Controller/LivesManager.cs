@@ -55,7 +55,7 @@ public class LivesManager : Singleton<LivesManager>
     private void HandlePlayerConnection()
     {
         
-        if (!player1 )
+        if (!player1)
         {
             GameObject p1Obj = GameObject.FindGameObjectWithTag("Player1");
             if (p1Obj)
@@ -65,7 +65,7 @@ public class LivesManager : Singleton<LivesManager>
             }
         }
         
-        if (!player2 )
+        if (!player2)
         {
             GameObject p2Obj = GameObject.FindGameObjectWithTag("Player2");
             if (p2Obj)

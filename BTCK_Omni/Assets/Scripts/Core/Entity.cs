@@ -59,6 +59,10 @@ public class Entity : MonoBehaviour, IDamageable
     
     public virtual void Die()
     {
+        if (anim != null)
+        {
+            anim.ResetTrigger(GameConfig.ANIM_COL_RESPAWN);
+        }
         if (isDead) return;
         isDead = true;
         gameObject.layer = LayerMask.NameToLayer("Corpse");
