@@ -77,7 +77,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -889017627
-  m_SortingLayer: 11
+  m_SortingLayer: 12
   m_SortingOrder: 0
   m_Sprite: {fileID: 41462567, guid: 34bd6b47ee05d9e43af25a495d0aeb66, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -224,7 +224,7 @@ MonoBehaviour:
   maxHP: 3000
   moveSpeed: 0
   knockbackForce: 0
-  flashMat: {fileID: 2100000, guid: 5ee5f41f3c19ff644953977ab0cea2f5, type: 2}
+  flashMat: {fileID: 2100000, guid: a945af7c3e8098f4da6a6fe39038ca54, type: 2}
   flashDuration: 0.15
   rock: {fileID: 1730591031510617871, guid: 2dd5d7dbc1d42e5408df9c2051b6bd32, type: 3}
   laser: {fileID: 5850405744927635480, guid: f473c740ab9497040a0901aefb837608, type: 3}
@@ -234,9 +234,10 @@ MonoBehaviour:
   maxHp: 3000
   hitMask:
     serializedVersion: 2
-    m_Bits: 384
+    m_Bits: 9096
   isFacingRight: 0
-  sfx: {fileID: 0}
+  straightLaserSound: {fileID: 8300000, guid: 7101533f897cd1b458052531cea0c612, type: 3}
+  sweepLaserSound: {fileID: 8300000, guid: 1c0c3779b61eb8940b5206cf5d9a755b, type: 3}
 --- !u!1 &7523039098762373218
 GameObject:
   m_ObjectHideFlags: 0

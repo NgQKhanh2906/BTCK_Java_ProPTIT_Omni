@@ -22,6 +22,10 @@ public class BossController : Entity
     Transform t;
 
     private ObjectPool<RockProjectile> rockPool;
+    [Header("Laser SFX")]
+    public AudioClip straightLaserSound; 
+    public AudioClip sweepLaserSound;    
+
 
     protected override void Awake()
     {
@@ -192,6 +196,7 @@ public class BossController : Entity
             Vector2 origin = (Vector2)eyeP.position + d * 1.2f;
             RaycastHit2D hit = Physics2D.Raycast(origin, d, 50f, hitMask);
             float len = 50f;
+            if (eyeP != null) PlaySfx(straightLaserSound, eyeP.position);
 
             if (hit.collider != null)
             {
@@ -245,6 +250,8 @@ public class BossController : Entity
 
     public void F_Heal()
     {
+        if (eyeP != null) PlaySfx(sweepLaserSound, eyeP.position);
+        
         StartCoroutine(SpHeal());
     }
 
@@ -291,5 +298,17 @@ public class BossController : Entity
         }
         Destroy(l);
         anim.speed = 1;
+    }
+    private void PlaySfx(AudioClip clip, Vector3 position)
+    {
+        if (clip != null)
+        {
+            float v = 1f;
+            if (AudioManager.instance != null)
+            {
+                v = AudioManager.instance.soundEffectsVolume;
+            }
+            AudioSource.PlayClipAtPoint(clip, position, v);
+        }
     }
 }
