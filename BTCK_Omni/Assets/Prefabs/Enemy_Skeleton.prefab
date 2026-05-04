@@ -108,7 +108,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 8
 --- !u!1 &8894510736339399461
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,14 +326,14 @@ MonoBehaviour:
   wallCheckSize: {x: 0.1, y: 0.8}
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 8
   ledgeCheck: {fileID: 145979095231686747}
   idleDuration: 2
   chaseSpeedMultiplier: 1.8
   attackCooldown: 1.5
   targetLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 384
   attackPoint: {fileID: 1345603957226996117}
   attackSize: {x: 1.2, y: 2}
   attackDamage: 10
@@ -352,11 +352,10 @@ MonoBehaviour:
   detectionRadius: 10
   whatIsPlayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 384
   whatIsWall:
     serializedVersion: 2
-    m_Bits: 128
-  eyeHeight: 0.5
+    m_Bits: 8712
 --- !u!82 &6845751037256011376
 AudioSource:
   m_ObjectHideFlags: 0

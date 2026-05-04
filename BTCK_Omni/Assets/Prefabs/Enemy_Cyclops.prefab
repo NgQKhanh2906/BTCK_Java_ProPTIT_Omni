@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3419267015188989842}
-  - component: {fileID: 3484278163939597232}
+  - component: {fileID: 1857070973116605531}
   m_Layer: 6
   m_Name: LedgeCheck
   m_TagString: Untagged
@@ -26,13 +26,13 @@ Transform:
   m_GameObject: {fileID: 1284717142851390791}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.67, y: -2.01, z: 0}
+  m_LocalPosition: {x: 0.74, y: -1.92, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2769539680346858812}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3484278163939597232
+--- !u!114 &1857070973116605531
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 8
 --- !u!1 &3361301317680366753
 GameObject:
   m_ObjectHideFlags: 0
@@ -72,7 +72,7 @@ Transform:
   m_GameObject: {fileID: 3361301317680366753}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.07, y: -1.88, z: 0}
+  m_LocalPosition: {x: -0.05, y: -1.86, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -204,7 +204,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.4664345, y: -0.020882607, z: 0}
-  m_LocalScale: {x: 1.1709955, y: 1.1977407, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8395706085465008644}
@@ -350,13 +350,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5f207b6188bdd14f9156d4b8486a11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRadius: 7
+  detectionRadius: 10
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 128
   whatIsWall:
     serializedVersion: 2
-    m_Bits: 768
+    m_Bits: 8968
 --- !u!114 &2651743341257617982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374,7 +374,7 @@ MonoBehaviour:
   knockbackForce: 3
   hitSound: {fileID: 8300000, guid: c798359cb1c204c43b6050986ae82dc4, type: 3}
   attackSound: {fileID: 8300000, guid: 62572e57aca59804dbfeced37b268c68, type: 3}
-  sfxVolume: 1
+  sfxVolume: 0.5
   onEnemyDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -382,13 +382,13 @@ MonoBehaviour:
   flashDuration: 0.15
   maxWanderDistance: 6
   groundCheck: {fileID: 8395706085465008644}
-  groundCheckSize: {x: 1.5, y: 0.1}
+  groundCheckSize: {x: 1, y: 0.1}
   wallCheck: {fileID: 5396911397111088896}
   wallCheckSize: {x: 0.1, y: 0.8}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 256
-  ledgeCheck: {fileID: 3484278163939597232}
+  ledgeCheck: {fileID: 1857070973116605531}
   idleDuration: 2
   chaseSpeedMultiplier: 1.2
   attackCooldown: 2.5
@@ -401,10 +401,10 @@ MonoBehaviour:
   laserPrefab: {fileID: 5764066910881187863, guid: 7009b2427fb3b7048ae06a8ae21bb94e, type: 3}
   eyePoint: {fileID: 3036039144633327365}
   laserDamage: 20
-  laserSightRange: 10
+  laserSightRange: 6
   laserSightMask:
     serializedVersion: 2
-    m_Bits: 384
+    m_Bits: 9096
   laserShootSFX: {fileID: 8300000, guid: 1dc4401fb701bc14a9fdf1f03e105a09, type: 3}
 --- !u!95 &5693177408480456889
 Animator:

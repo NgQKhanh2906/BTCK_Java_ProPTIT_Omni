@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8158668942163246578}
-  - component: {fileID: 6465409454554881083}
+  - component: {fileID: 5641344693593927691}
   m_Layer: 6
   m_Name: LedgeCheck
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4835620817435444989}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6465409454554881083
+--- !u!114 &5641344693593927691
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 8
 --- !u!1 &2902928574718027821
 GameObject:
   m_ObjectHideFlags: 0
@@ -80,7 +80,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.24262667, y: -0.2238062, z: 0}
-  m_LocalScale: {x: 1.2889, y: 1.3114, z: 1}
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 196000744714363707}
@@ -250,10 +250,10 @@ MonoBehaviour:
   detectionRadius: 10
   whatIsPlayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 384
   whatIsWall:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 8712
 --- !u!114 &2433949677969936310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,14 +284,14 @@ MonoBehaviour:
   wallCheckSize: {x: 0.1, y: 0.8}
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 128
-  ledgeCheck: {fileID: 6465409454554881083}
+    m_Bits: 8
+  ledgeCheck: {fileID: 5641344693593927691}
   idleDuration: 2
   chaseSpeedMultiplier: 1.2
   attackCooldown: 2
   targetLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 384
   attackPoint1: {fileID: 8856209078698806175}
   size1: {x: 3, y: 5}
   damage1: 10

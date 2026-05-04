@@ -23,8 +23,6 @@ public class Enemy_Flying_Eye : EnemyBase
     {
         base.Awake();
         hitBuffer = new Collider2D[hitBufferSize];
-        
-        // Tắt trọng lực để quái bay không rớt
         if (rb != null) rb.gravityScale = 0f;
     }
 
@@ -48,8 +46,6 @@ public class Enemy_Flying_Eye : EnemyBase
         }
 
         Transform target = GetVisiblePlayer();
-
-        // NẾU THẤY PLAYER -> LAO VÀO RƯỢT THEO ĐƯỜNG CHÉO
         if (target != null)
         {
             isReturningHome = false;
@@ -78,35 +74,21 @@ public class Enemy_Flying_Eye : EnemyBase
             }
             return; 
         }
-
-        // ====================================================
-        // NẾU KHÔNG THẤY PLAYER -> BAY TUẦN TRA QUANH Ổ
-        // ====================================================
-        
-        // Kiểm tra xem có bị bay đi quá xa ổ không?
         float distToHome = Vector2.Distance(transform.position, startPosition);
         if (distToHome > maxWanderDistance + 1f)
         {
             isReturningHome = true;
         }
-
-        // Lựa chọn trạng thái lúc nhàn rỗi
         if (isReturningHome)
         {
             ReturnHomeFly();
         }
         else
         {
-            if (isIdle) HandleIdle(); // Đứng yên tại chỗ 1 lúc (dùng chung của EnemyBase)
-            else HandlePatrol();      // Bay qua bay lại (Đã được Ghi đè ở dưới)
+            if (isIdle) HandleIdle(); 
+            else HandlePatrol(); 
         }
     }
-
-    // ===================================================
-    // GHI ĐÈ LẠI HỆ THỐNG TUẦN TRA DÀNH RIÊNG CHO QUÁI BAY
-    // ===================================================
-
-    // Khi đi tuần tra, quái bay CHỈ cần quan tâm đụng tường, không sợ rớt hố (Ledge)
     protected override void HandlePatrol()
     {
         bool isWallAhead = IsWallDetected();
@@ -115,28 +97,22 @@ public class Enemy_Flying_Eye : EnemyBase
 
         if (isWallAhead || reachedLeft || reachedRight)
         {
-            StartIdle(); // Tới giới hạn thì dừng lại nghỉ
+            StartIdle();
         }
         else
         {
-            // Bay tà tà theo phương ngang
             rb.velocity = new Vector2(flySpeed * facingDir, 0); 
             anim.SetBool(animIsMoving, true);
         }
     }
 
-    // Khi nghỉ ngơi (Idle) trên không, phải ép vận tốc Y về 0 để không bị trôi
     protected override void StartIdle()
     {
         isIdle = true;
-        idleTimer = idleDuration; // Thời gian nghỉ lấy từ EnemyBase
+        idleTimer = idleDuration; 
         rb.velocity = Vector2.zero; 
         anim.SetBool(animIsMoving, false);
     }
-
-    // ===================================================
-    // HỆ THỐNG BAY RƯỢT ĐUỔI VÀ TÌM ĐƯỜNG VỀ
-    // ===================================================
     private void ChasePlayerFly(Vector3 targetPos)
     {
         isIdle = false;
@@ -162,7 +138,6 @@ public class Enemy_Flying_Eye : EnemyBase
 
     private void ReturnHomeFly()
     {
-        // Khi bay gần tới ổ rồi thì hủy trạng thái Về nhà, chuyển sang trạng thái Nghỉ ngơi
         float distToHome = Vector2.Distance(transform.position, startPosition);
         if (distToHome < 0.5f)
         {

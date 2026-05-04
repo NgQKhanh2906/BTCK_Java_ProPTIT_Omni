@@ -138,15 +138,30 @@ public class Enemy_Cyclops : EnemyBase
 
     protected override void ChasePlayer(Transform target)
     {
-        base.ChasePlayer(target);
-        anim.SetBool(animIsMoving, true);
-        float dirToPlayerX = target.position.x - transform.position.x;
-        if ((dirToPlayerX > 0 && facingDir == -1) || (dirToPlayerX < 0 && facingDir == 1))
+        bool isLedgeAhead = ledgeCheck != null && ledgeCheck.IsDetectingLedge();
+        bool isWallAhead = IsWallDetected();
+        if (isWallAhead || isLedgeAhead)
         {
-            Flip();
+            SetVelocityX(0); 
+            anim.SetBool(animIsMoving, false); 
+            float dirToPlayerX = target.position.x - transform.position.x;
+            if ((dirToPlayerX > 0 && facingDir == -1) || (dirToPlayerX < 0 && facingDir == 1))
+            {
+                Flip();
+            }
         }
-        
-        SetVelocityX(chaseSpeedMultiplier * moveSpeed * facingDir);
+        else
+        {
+            base.ChasePlayer(target); 
+            anim.SetBool(animIsMoving, true);
+            
+            float dirToPlayerX = target.position.x - transform.position.x;
+            if ((dirToPlayerX > 0 && facingDir == -1) || (dirToPlayerX < 0 && facingDir == 1))
+            {
+                Flip();
+            }
+            SetVelocityX(chaseSpeedMultiplier * moveSpeed * facingDir);
+        }
     }
 
     public void ExecuteStompHit()

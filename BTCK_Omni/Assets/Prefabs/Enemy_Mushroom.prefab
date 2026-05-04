@@ -33,7 +33,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.1911125, y: -1.3005104, z: 0}
-  m_LocalScale: {x: 0.6336475, y: 0.63949794, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1518195013768990869}
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8ce9ed36431e584b9f829463a36efc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 111111
+  maxHP: 200
   moveSpeed: 2
   knockbackForce: 3
   hitSound: {fileID: 8300000, guid: c798359cb1c204c43b6050986ae82dc4, type: 3}
@@ -218,16 +218,16 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 256
-  ledgeCheck: {fileID: 6961082045154731555}
+  ledgeCheck: {fileID: 7856252571699358464}
   idleDuration: 2
   chaseSpeedMultiplier: 1.5
-  attackCooldown: 1
+  attackCooldown: 2.5
   targetLayer:
     serializedVersion: 2
     m_Bits: 128
   attackPoint: {fileID: 559462374257137505}
   attackSize: {x: 1.5, y: 1.5}
-  attackDamage: 5
+  attackDamage: 30
   stunDuration: 2
 --- !u!114 &4339388070017738578
 MonoBehaviour:
@@ -247,8 +247,7 @@ MonoBehaviour:
     m_Bits: 128
   whatIsWall:
     serializedVersion: 2
-    m_Bits: 512
-  eyeHeight: 0.5
+    m_Bits: 8712
 --- !u!82 &1305816302570958401
 AudioSource:
   m_ObjectHideFlags: 0
@@ -447,7 +446,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3684521448241132966}
-  - component: {fileID: 6961082045154731555}
+  - component: {fileID: 7856252571699358464}
   m_Layer: 6
   m_Name: LedgeCheck
   m_TagString: Untagged
@@ -464,13 +463,13 @@ Transform:
   m_GameObject: {fileID: 8892443718596568755}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.92, y: -2.08, z: 0}
+  m_LocalPosition: {x: 0.95, y: -2.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8864084401018671517}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6961082045154731555
+--- !u!114 &7856252571699358464
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -484,4 +483,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 8

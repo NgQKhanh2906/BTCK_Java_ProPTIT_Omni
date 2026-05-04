@@ -71,7 +71,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 363062826460176941}
-  - component: {fileID: 4807117965416701309}
+  - component: {fileID: 4437755925953324634}
   m_Layer: 6
   m_Name: LedgeCheck
   m_TagString: Untagged
@@ -94,7 +94,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8488152563262564765}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4807117965416701309
+--- !u!114 &4437755925953324634
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,7 +108,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 8
 --- !u!1 &5300783940224349821
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,7 +377,7 @@ MonoBehaviour:
     m_Bits: 128
   whatIsWall:
     serializedVersion: 2
-    m_Bits: 768
+    m_Bits: 8968
 --- !u!114 &3024498610279342131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -409,7 +409,7 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 256
-  ledgeCheck: {fileID: 4807117965416701309}
+  ledgeCheck: {fileID: 4437755925953324634}
   idleDuration: 2
   chaseSpeedMultiplier: 1
   targetLayer:
@@ -422,7 +422,7 @@ MonoBehaviour:
   iceConePrefab: {fileID: 1019687629936330463, guid: 7229429782303ee45b23706f2c2d7b0a, type: 3}
   spellSpawnPoint: {fileID: 8139108718699661076}
   spellDamage: 15
-  castRange: 8
+  castRange: 7
   spellCooldown: 2
   spellSightMask:
     serializedVersion: 2

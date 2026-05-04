@@ -23,9 +23,6 @@ public class BossController : Entity
 
     private ObjectPool<RockProjectile> rockPool;
 
-    [Header("SFX")]
-    [SerializeField] protected EnemySfxManager sfx;
-
     protected override void Awake()
     {
         base.Awake();
@@ -98,8 +95,6 @@ public class BossController : Entity
     {
         if (isDead) return;
 
-        if (sfx != null) sfx.PlayTakeHit();
-
         StartCoroutine(Flash());
         base.TakeDamage(dmg, hitDir);
 
@@ -116,7 +111,6 @@ public class BossController : Entity
 
     public override void Die()
     {
-        if (sfx != null) sfx.PlayDie();
         base.Die();
         anim.SetTrigger("die");
         StopAllCoroutines();
@@ -191,8 +185,6 @@ public class BossController : Entity
 
     public void F_Atk3()
     {
-        if (sfx != null) sfx.PlayLaser();
-
         if (t != null)
         {
             Vector2 d = (t.position - eyeP.position).normalized;
@@ -253,7 +245,6 @@ public class BossController : Entity
 
     public void F_Heal()
     {
-        if (sfx != null) sfx.PlaySweepLaser();
         StartCoroutine(SpHeal());
     }
 

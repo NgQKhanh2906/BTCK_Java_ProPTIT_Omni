@@ -33,7 +33,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.007275, y: 0.2220999, z: 0}
-  m_LocalScale: {x: 0.8408, y: 0.8977, z: 1}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6965006300375820353}
@@ -205,8 +205,7 @@ MonoBehaviour:
     m_Bits: 128
   whatIsWall:
     serializedVersion: 2
-    m_Bits: 256
-  eyeHeight: 0.5
+    m_Bits: 8712
 --- !u!114 &4272630926407963389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,7 +223,7 @@ MonoBehaviour:
   knockbackForce: 3
   hitSound: {fileID: 8300000, guid: c798359cb1c204c43b6050986ae82dc4, type: 3}
   attackSound: {fileID: 8300000, guid: 62572e57aca59804dbfeced37b268c68, type: 3}
-  sfxVolume: 0.8
+  sfxVolume: 0.4
   onEnemyDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -234,11 +233,11 @@ MonoBehaviour:
   groundCheck: {fileID: 6965006300375820353}
   groundCheckSize: {x: 0.5, y: 0.1}
   wallCheck: {fileID: 604089071669286562}
-  wallCheckSize: {x: 0.1, y: 0.8}
+  wallCheckSize: {x: 0.1, y: 0.2}
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 256
-  ledgeCheck: {fileID: 7830681541446205429}
+    m_Bits: 8
+  ledgeCheck: {fileID: 9181119298036831439}
   idleDuration: 2
   chaseSpeedMultiplier: 1.5
   attackCooldown: 1.5
@@ -247,7 +246,7 @@ MonoBehaviour:
     m_Bits: 128
   attackPoint: {fileID: 257212198484895223}
   attackSize: {x: 1.5, y: 1.2}
-  attackDamage: 5
+  attackDamage: 10
 --- !u!82 &8471894066849961272
 AudioSource:
   m_ObjectHideFlags: 0
@@ -353,7 +352,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 245452231549968710}
-  - component: {fileID: 7830681541446205429}
+  - component: {fileID: 9181119298036831439}
   m_Layer: 6
   m_Name: LedgeCheck
   m_TagString: Untagged
@@ -376,7 +375,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1315309233111980501}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7830681541446205429
+--- !u!114 &9181119298036831439
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -390,7 +389,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 8
 --- !u!1 &4095961706482262403
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,7 +415,7 @@ Transform:
   m_GameObject: {fileID: 4095961706482262403}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.331, y: -0.088, z: 0}
+  m_LocalPosition: {x: 0.268, y: -0.084, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -478,7 +477,7 @@ Transform:
   m_GameObject: {fileID: 9126786772264406041}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.57, y: -0.04, z: 0}
+  m_LocalPosition: {x: 0.595, y: 0.206, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -102,7 +102,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1686721373609931673}
-  - component: {fileID: 7627025607438238498}
+  - component: {fileID: 2467927368658897084}
   m_Layer: 6
   m_Name: LedgeCheck
   m_TagString: Untagged
@@ -125,7 +125,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4160487154247903074}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7627025607438238498
+--- !u!114 &2467927368658897084
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -337,7 +337,7 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
-  ledgeCheck: {fileID: 7627025607438238498}
+  ledgeCheck: {fileID: 2467927368658897084}
   idleDuration: 2
   isHiding: 0
 --- !u!95 &8654856000674497827
@@ -379,8 +379,7 @@ MonoBehaviour:
     m_Bits: 128
   whatIsWall:
     serializedVersion: 2
-    m_Bits: 256
-  eyeHeight: 0.5
+    m_Bits: 8968
 --- !u!82 &8560500603014642248
 AudioSource:
   m_ObjectHideFlags: 0

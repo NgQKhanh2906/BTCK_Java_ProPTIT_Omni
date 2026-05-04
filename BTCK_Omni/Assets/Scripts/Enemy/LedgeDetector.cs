@@ -3,19 +3,11 @@ using UnityEngine;
 public class LedgeDetector : MonoBehaviour
 {
     [SerializeField] private LayerMask whatIsGround;
-    private bool isGrounded;
-
-    private void Update()
-    {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.5f, whatIsGround);
-        isGrounded = hit.collider != null;
-    }
-
     public bool IsDetectingLedge()
     {
-        return !isGrounded;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.5f, whatIsGround);
+        return hit.collider == null; 
     }
-
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
