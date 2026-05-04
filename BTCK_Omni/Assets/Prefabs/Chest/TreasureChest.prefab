@@ -52,7 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chestId: 77d753ce-3d28-4b0f-981f-e9c96dae77c5
   spriteRenderer: {fileID: 8989372373883641237}
-  openSprite: {fileID: 1629579900, guid: b62593b42cfd0924a9618912addcbc00, type: 3}
+  openSprite: {fileID: -1771607526, guid: eb4b7534664101a4e9766b5339e9c0dc, type: 3}
   lootTable:
   - item: {fileID: 11400000, guid: 7fb2377311dee934fbfc4e40817f7b29, type: 2}
     dropWeight: 5
@@ -114,7 +114,7 @@ SpriteRenderer:
   m_SortingLayerID: -24988883
   m_SortingLayer: 16
   m_SortingOrder: 0
-  m_Sprite: {fileID: 491388162, guid: b62593b42cfd0924a9618912addcbc00, type: 3}
+  m_Sprite: {fileID: 1422076647, guid: eb4b7534664101a4e9766b5339e9c0dc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -161,7 +161,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 2}
+    oldSize: {x: 1.875, y: 1.6875}
     newSize: {x: 2, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
