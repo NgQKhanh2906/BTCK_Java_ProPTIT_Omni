@@ -8,7 +8,6 @@ public class Enemy_Slime : EnemyBase
     [SerializeField] private LayerMask targetLayer; 
     [Space]
     [Header("Hitbox & Damage")]
-    [Tooltip("Vùng quét hình chữ nhật: Quyết định tầm đánh và phạm vi sát thương")]
     [SerializeField] private Transform attackPoint;
     [SerializeField] private Vector2 attackSize = new Vector2(1.2f, 0.8f);
     [SerializeField] private float attackDamage = 5f;

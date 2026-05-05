@@ -4,7 +4,6 @@ public class Enemy_Small_Golem : EnemyBase
 {
     [Header("Small Golem AI & Combat Settings")]
     [SerializeField] private float chaseSpeedMultiplier = 1.2f; 
-    [Tooltip("Tốc độ vung đòn chậm hơn, cooldown lâu hơn")]
     [SerializeField] private float attackCooldown = 2.0f;
     [SerializeField] private LayerMask targetLayer; 
 

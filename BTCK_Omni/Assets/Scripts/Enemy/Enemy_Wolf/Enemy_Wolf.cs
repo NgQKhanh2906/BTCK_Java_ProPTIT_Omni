@@ -8,7 +8,6 @@ public class Enemy_Wolf : EnemyBase
     [SerializeField] private LayerMask targetLayer; 
 
     [Space]
-    [Tooltip("Vùng này vừa dùng để AI quyết định dừng lại cắn, vừa là vùng gây sát thương")]
     [SerializeField] private Transform attackPoint;
     [SerializeField] private Vector2 attackSize = new Vector2(1.5f, 1.2f);
     [SerializeField] private float attackDamage = 10f;
@@ -27,6 +26,11 @@ public class Enemy_Wolf : EnemyBase
 
     protected override void Update()
     {
+        if (ledgeCheck != null)
+        {
+            float debugRayLength = 2f; 
+            RaycastHit2D hit = Physics2D.Raycast(ledgeCheck.transform.position, Vector2.down, debugRayLength);
+        }
         if (isDead) return;
 
         var stateInfo = anim.GetCurrentAnimatorStateInfo(0);

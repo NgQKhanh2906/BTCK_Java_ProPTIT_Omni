@@ -46,28 +46,16 @@ public class Enemy_Snail : EnemyBase
         base.Update();
     }
 
-    // [ĐÃ SỬA] Hàm nhận sát thương
     public override void TakeDamage(float dmg, Vector2 hitDir)
     {
-        // 1. NẾU ĐANG TRỐN TRONG VỎ
         if (isHiding)
         {
-            // Giảm 90% sát thương (tức là chỉ nhận 10%)
             float reducedDamage = dmg * 0.1f; 
-            
-            // Xóa bỏ lực hất văng (Knockback = 0)
             Vector2 noKnockback = Vector2.zero; 
-
-            // Gửi sát thương đã giảm và lực hất = 0 lên lớp cha (Entity/EnemyBase) để xử lý trừ máu
             base.TakeDamage(reducedDamage, noKnockback);
-            
-            // [Tùy chọn] Phát một âm thanh đặc biệt (tiếng gõ keng keng vào mai rùa) ở đây
-            // PlayTingSound();
 
-            return; // Dừng lại ở đây, không chạy các lệnh bên dưới nữa
+            return; 
         }
-
-        // 2. NẾU ĐANG BÒ BÌNH THƯỜNG (Không trốn)
         base.TakeDamage(dmg, hitDir);
 
         if (isDead) return;
@@ -86,7 +74,7 @@ public class Enemy_Snail : EnemyBase
         {
             isHiding = true;
             anim.SetBool(animIsHidingParam, true);
-            SetVelocityX(0); // Dừng lại ngay lập tức
+            SetVelocityX(0); 
         }
     }
 

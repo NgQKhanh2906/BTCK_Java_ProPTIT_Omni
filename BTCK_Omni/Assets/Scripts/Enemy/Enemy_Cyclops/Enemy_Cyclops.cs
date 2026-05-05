@@ -16,9 +16,7 @@ public class Enemy_Cyclops : EnemyBase
     [SerializeField] private CyclopsBeam laserPrefab; 
     [SerializeField] private Transform eyePoint;
     [SerializeField] private float laserDamage = 20f;
-    [Tooltip("Dùng để AI biết nên dừng lại bắn ở khoảng cách bao xa")]
     [SerializeField] private float laserSightRange = 12f; 
-    [Tooltip("Mask chặn tầm nhìn của quái (Cả Player và Tường)")]
     [SerializeField] private LayerMask laserSightMask; 
 
     [Header("Audio Settings")]
