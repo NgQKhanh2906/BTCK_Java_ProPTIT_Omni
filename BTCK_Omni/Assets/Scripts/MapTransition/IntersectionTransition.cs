@@ -4,13 +4,14 @@ using UnityEngine;
 public class IntersectionTransition : MonoBehaviour
 {
     [Header("Kéo các Room xung quanh ngã 3/ngã 4 vào đây")]
-    [Tooltip("Hướng nào không có Room thì cứ để trống (None)")]
     public GameObject phongTrai; 
     public GameObject phongPhai;
     public GameObject phongTren;
     public GameObject phongDuoi;
 
     private Collider2D myCollider;
+    
+    private List<Collider2D> playersInZone = new List<Collider2D>();
 
     private void Awake()
     {
@@ -19,8 +20,13 @@ public class IntersectionTransition : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if ((other.CompareTag("Player1") || other.CompareTag("Player2")))
+        if (other.CompareTag("Player1") || other.CompareTag("Player2") || other.CompareTag("Player"))
         {
+            if (!playersInZone.Contains(other))
+            {
+                playersInZone.Add(other);
+            }
+            
             if (phongTrai != null) phongTrai.SetActive(true);
             if (phongPhai != null) phongPhai.SetActive(true);
             if (phongTren != null) phongTren.SetActive(true);
@@ -30,29 +36,37 @@ public class IntersectionTransition : MonoBehaviour
     
     private void OnTriggerExit2D(Collider2D other)
     {
-        if ((other.CompareTag("Player1") || other.CompareTag("Player2")))
+        if (other.CompareTag("Player1") || other.CompareTag("Player2") || other.CompareTag("Player"))
         {
+            if (playersInZone.Contains(other))
+            {
+                playersInZone.Remove(other);
+            }
             KiemTraVaTatMap();
         }
     }
     
     private void KiemTraVaTatMap()
     {
-        List<GameObject> tatCaNguoiChoi = new List<GameObject>();
-        tatCaNguoiChoi.AddRange(GameObject.FindGameObjectsWithTag("Player1"));
-        tatCaNguoiChoi.AddRange(GameObject.FindGameObjectsWithTag("Player2"));
-        
-        foreach (GameObject p in tatCaNguoiChoi)
+        playersInZone.RemoveAll(item => item == null || !item.gameObject.activeInHierarchy);
+        if (playersInZone.Count > 0)
         {
-            if (myCollider.bounds.Contains(p.transform.position))
-            {
-                return; 
-            }
+            return; 
         }
-        
-        bool giuTrai = false, giuPhai = false, giuTren = false, giuDuoi = false;
 
-        foreach (GameObject p in tatCaNguoiChoi)
+        List<GameObject> nguoiChoiConSong = new List<GameObject>();
+        foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player1")) 
+            if (p.activeInHierarchy) nguoiChoiConSong.Add(p);
+            
+        foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player2")) 
+            if (p.activeInHierarchy) nguoiChoiConSong.Add(p);
+
+        foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player")) 
+            if (p.activeInHierarchy && !nguoiChoiConSong.Contains(p)) nguoiChoiConSong.Add(p);
+
+        bool giuTrai = false, giuPhai = false, giuTren = false, giuDuoi = false;
+        
+        foreach (GameObject p in nguoiChoiConSong)
         {
             Vector2 huong = p.transform.position - myCollider.bounds.center;
             
