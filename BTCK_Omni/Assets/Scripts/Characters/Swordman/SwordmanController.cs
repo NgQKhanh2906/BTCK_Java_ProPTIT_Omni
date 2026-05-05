@@ -15,6 +15,10 @@ public class SwordmanController : PlayerBase
     [SerializeField] private Transform atttackPoint3;
     [SerializeField] private Vector2 size3;
 
+    [SerializeField] private Transform airAtttackPoint;
+    [SerializeField] private Vector2 size4;
+
+    
     [Header("Sword settings")]
     [SerializeField] private float attackDamage;
     [SerializeField] private float comboWindow = 1f;
@@ -158,6 +162,15 @@ public class SwordmanController : PlayerBase
         OnAttackHit(atttackPoint3, size3, attackDamage * 1.3f);
     }
 
+    public void HitAir()
+    {
+        if (sfx != null)
+        {
+            sfx.PlayAttack1();
+        }
+        OnAttackHit(airAtttackPoint, size4, attackDamage);
+    }
+
     public void HitSpecial()
     {
         if (sfx != null)
@@ -233,6 +246,10 @@ public class SwordmanController : PlayerBase
         if (atttackPoint3 != null)
         {
             Gizmos.DrawWireCube(atttackPoint3.position, size3);
+        }
+        if (airAtttackPoint != null)
+        {
+            Gizmos.DrawWireCube(airAtttackPoint.position, size4);
         }
     }
 }
