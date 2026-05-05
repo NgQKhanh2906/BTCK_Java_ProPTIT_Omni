@@ -97,7 +97,8 @@ public class CoopDoorSystem : MonoBehaviour
         if (CamController.Instance != null && newCameraLimit != null)
         {
             CamController.Instance.ChangeLimit(newCameraLimit);
-            CamController.Instance.SnapCamera(newCameraLimit.bounds.center);
+            
+            CamController.Instance.SnapCamera(diemSpawnMoi.position);
         }
         
         yield return new WaitForSeconds(0.2f); 
