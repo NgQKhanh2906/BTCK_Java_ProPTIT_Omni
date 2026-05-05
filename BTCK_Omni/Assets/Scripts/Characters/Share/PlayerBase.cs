@@ -28,8 +28,6 @@ public class PlayerBase : Entity, IHealable, ISaveable
     [SerializeField] protected float invincibilityTime = 5f;
     [SerializeField] private Material matWhite;
     [SerializeField] private GameObject environmentalDeathVFXPrefab;
-    [SerializeField] protected GameObject respawnVFXPrefab;
-    [SerializeField] protected float respawnDelay = 1.0f;
 
     [Header("Jump Settings")]
     [SerializeField] private float jumpForce;
@@ -42,6 +40,8 @@ public class PlayerBase : Entity, IHealable, ISaveable
 
     [Header("Groundcheck settings")]
     [SerializeField] private GroundChecker _groundChecker;
+    [SerializeField] protected Transform headPlatform;
+    [SerializeField] protected Vector2 headSize;
 
     [Header("Mana Settings")]
     [SerializeField] protected float maxMana = 100f;
@@ -706,4 +706,14 @@ public class PlayerBase : Entity, IHealable, ISaveable
             sr.DOFade(1f, 0.1f).SetLink(gameObject);
         }
     }
+
+    protected void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        if (headPlatform != null)
+        {
+            Gizmos.DrawWireCube(headPlatform.position, headSize);
+        }        
+    }
+
 }

@@ -228,8 +228,9 @@ public class SwordmanController : PlayerBase
         base.TakeDamage(dmg, dir);
     }
 
-    private void OnDrawGizmos()
+    protected void OnDrawGizmos()
     {
+        base.OnDrawGizmos();
         Gizmos.color = Color.red;
         if (atttackPoint1 != null)
         {

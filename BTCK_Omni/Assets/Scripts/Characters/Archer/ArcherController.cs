@@ -190,5 +190,9 @@ public class ArcherController : PlayerBase
         arrow.Setup(facingDir, damage, type, angle, isAttack3);
     }
 
-    public void OnDrawGizmos() { Gizmos.color = Color.red; Gizmos.DrawWireCube(atkHitbox.position, sizeAtkHitBox); }
+    protected void OnDrawGizmos()
+    {
+        base.OnDrawGizmos();
+        Gizmos.color = Color.red; Gizmos.DrawWireCube(atkHitbox.position, sizeAtkHitBox);
+    }
 }
