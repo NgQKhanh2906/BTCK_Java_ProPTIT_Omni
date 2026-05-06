@@ -19,13 +19,13 @@ TagManager:
   - Player
   - Ground
   - Wall
-  - Item
-  - Corpse
+  - 
+  - 
   - DeathZone
   - Platform
-  - Chest
   - 
-  - 
+  - HeadPlayer
+  - Interactable
   - 
   - 
   - 
