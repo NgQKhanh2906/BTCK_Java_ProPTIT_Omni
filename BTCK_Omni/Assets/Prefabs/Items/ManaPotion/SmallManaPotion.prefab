@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6222294827154440759}
   - component: {fileID: 5058347506543251558}
   - component: {fileID: 7395754705440544707}
-  m_Layer: 10
+  m_Layer: 16
   m_Name: SmallManaPotion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,4 +207,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 2

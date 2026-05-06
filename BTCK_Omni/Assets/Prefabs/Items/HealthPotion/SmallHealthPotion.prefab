@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5830393383654665819}
   - component: {fileID: 660223278386021544}
   - component: {fileID: 4662675004609110202}
-  m_Layer: 10
+  m_Layer: 16
   m_Name: SmallHealthPotion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,4 +207,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 2

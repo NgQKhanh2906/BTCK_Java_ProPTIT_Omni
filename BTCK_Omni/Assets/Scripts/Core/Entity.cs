@@ -65,7 +65,6 @@ public class Entity : MonoBehaviour, IDamageable
         }
         if (isDead) return;
         isDead = true;
-        gameObject.layer = LayerMask.NameToLayer("Corpse");
         anim.SetTrigger(GameConfig.ANIM_COL_DIE);
         NotifyDeath();
         StartCoroutine(FinalizeDeathPhysics());

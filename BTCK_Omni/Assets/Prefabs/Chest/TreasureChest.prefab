@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1783412917060083352}
   - component: {fileID: 1754421190820033964}
   - component: {fileID: 9134092990628647216}
-  m_Layer: 14
+  m_Layer: 16
   m_Name: TreasureChest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69,7 +69,7 @@ MonoBehaviour:
   - item: {fileID: 11400000, guid: 0753ecbb77cbea848ad59b940a6ee33a, type: 2}
     dropWeight: 3
   minItemCount: 1
-  maxItemCount: 5
+  maxItemCount: 4
   spawnPoint: {fileID: 7688089020755545996}
   launchForceY: 5
   spreadX: 3
@@ -318,7 +318,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7688089020755545996}
-  m_Layer: 10
+  m_Layer: 16
   m_Name: ItemSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

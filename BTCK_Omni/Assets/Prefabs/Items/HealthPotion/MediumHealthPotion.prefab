@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1401950987883957331}
   - component: {fileID: 3212339279798130254}
   - component: {fileID: 3501598604265736648}
-  m_Layer: 10
+  m_Layer: 16
   m_Name: MediumHealthPotion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,4 +207,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1.25
+  m_Radius: 2
