@@ -17,4 +17,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Map3.unity
     guid: 496ab6547c2fbe24b867ac085da3a40b
+  - enabled: 1
+    path: Assets/Scenes/CutScene_1.unity
+    guid: 6278128675edbee44a68dfd4c26d3308
+  - enabled: 1
+    path: Assets/Scenes/CutScene_2.unity
+    guid: 81aabf703373355498d322f389332ed3
+  - enabled: 1
+    path: Assets/Scenes/CutScene_3.unity
+    guid: feead93c26d9b9148b55ff8a4c4c9a37
   m_configObjects: {}
