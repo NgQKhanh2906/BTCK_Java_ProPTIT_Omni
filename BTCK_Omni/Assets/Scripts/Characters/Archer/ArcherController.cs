@@ -60,8 +60,7 @@ public class ArcherController : PlayerBase
             false, 15, 50
         );
 
-        System.Reflection.FieldInfo field = typeof(PlayerBase).GetField("maxJumps", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        if (field != null) autoMaxJumps = (int)field.GetValue(this);
+        autoMaxJumps = maxJumps;
     }
 
     protected override void OnUpdate()

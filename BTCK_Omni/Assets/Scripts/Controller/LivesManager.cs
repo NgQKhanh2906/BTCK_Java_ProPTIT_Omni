@@ -35,10 +35,12 @@ public class LivesManager : Singleton<LivesManager>
     {
         SceneManager.sceneLoaded += OnMapLoaded;
     }
+    
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnMapLoaded;
     }
+    
     private void OnMapLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == "Menu") return;
@@ -49,12 +51,15 @@ public class LivesManager : Singleton<LivesManager>
     {
         yield return null;
         HandlePlayerConnection();
+        if (PlayerDataManager.Instance != null)
+        {
+            PlayerDataManager.Instance.RestorePlayerData(player1, player2);
+        }
         CheckLoadDeadState();
     }
 
     private void HandlePlayerConnection()
     {
-        
         if (!player1)
         {
             GameObject p1Obj = GameObject.FindGameObjectWithTag("Player1");
@@ -78,27 +83,14 @@ public class LivesManager : Singleton<LivesManager>
 
     private void CheckLoadDeadState()
     {
-        if (player1&& player1.CurrentHP <= 0 && !isRespawning1)
+        if (player1 && player1.CurrentHP <= 0 && !isRespawning1 && _lives1 > 0)
         {
-            if (_lives1 > 0)
-            {
-                StartCoroutine(RespawnAfterLoad(1));
-            }
-            else
-            {
-                TransformToCorpse(player1);
-            }
+            StartCoroutine(RespawnAfterLoad(1));
         }
-        if (player2 && player2.CurrentHP <= 0 && !isRespawning2)
+        
+        if (player2 && player2.CurrentHP <= 0 && !isRespawning2 && _lives2 > 0)
         {
-            if (_lives2 > 0)
-            {
-                StartCoroutine(RespawnAfterLoad(2));
-            }
-            else
-            {
-                TransformToCorpse(player2);
-            }
+            StartCoroutine(RespawnAfterLoad(2));
         }
     }
 
@@ -132,26 +124,16 @@ public class LivesManager : Singleton<LivesManager>
             OnLivesChanged?.Invoke(2, _lives2);
         }
     }
-    private void TransformToCorpse(PlayerBase p)
-    {
-        if (!p) return;
-        p.tag = "Untagged";
-        p.gameObject.layer = LayerMask.NameToLayer("Corpse");
-        Rigidbody2D rb = p.GetComponent<Rigidbody2D>();
-        if (rb)
-        {
-            rb.velocity = Vector2.zero;
-            rb.bodyType = RigidbodyType2D.Static; 
-        }
-        Collider2D col = p.GetComponent<Collider2D>();
-        if (col)
-        {
-            col.enabled = false;
-        }
-        
-    }
 
     public int GetLives(int playerIndex) => playerIndex == 1 ? _lives1 : _lives2;
+
+    public void TriggerRespawn(PlayerBase p, Vector3 pos)
+    {
+        if (p != null)
+        {
+            StartCoroutine(RespawnRoutine(p.playerIndex, p, pos));
+        }
+    }
 
     private void PlayerDied(int playerIndex)
     {
@@ -173,29 +155,31 @@ public class LivesManager : Singleton<LivesManager>
 
         if (conMang)
         {
-            StartCoroutine(RespawnRoutine(playerIndex, deadPlayer));
+            TriggerRespawn(deadPlayer, deadPlayer.LastSafePos);
         }
         else
         {
-            TransformToCorpse(deadPlayer);
+            deadPlayer.BecomeInteractableCorpse();
         }
     }
 
-    private IEnumerator RespawnRoutine(int playerIndex, PlayerBase player)
+    private IEnumerator RespawnRoutine(int playerIndex, PlayerBase player, Vector3 pos)
     {
         if (playerIndex == 1) isRespawning1 = true;
         else isRespawning2 = true;
+        
         yield return new WaitForSeconds(respawnDelay);
+        
         if (player)
         {
-            Vector3 spawnPos = player.LastSafePos;
             if (respawnVFXPrefab)
             {
-                GameObject vfx = Instantiate(respawnVFXPrefab, spawnPos, Quaternion.identity);
+                GameObject vfx = Instantiate(respawnVFXPrefab, pos, Quaternion.identity);
                 Destroy(vfx, 1f);
             }
-            player.Respawn(spawnPos);
+            player.Respawn(pos);
         }
+        
         if (playerIndex == 1) isRespawning1 = false;
         else isRespawning2 = false;
     }
@@ -204,9 +188,14 @@ public class LivesManager : Singleton<LivesManager>
     {
         if (index == 1) isRespawning1 = true;
         else isRespawning2 = true;
+        
         yield return new WaitForSeconds(0.1f);
+        
         PlayerBase p = (index == 1) ? player1 : player2;
-        if (p) StartCoroutine(RespawnRoutine(index, p));
+        if (p)
+        {
+            StartCoroutine(RespawnRoutine(index, p, p.LastSafePos));
+        }
 
         if (index == 1) isRespawning1 = false;
         else isRespawning2 = false;
