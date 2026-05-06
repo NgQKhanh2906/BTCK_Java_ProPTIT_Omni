@@ -4,11 +4,11 @@ using System.Collections;
 
 public class GameManager : Singleton<GameManager>
 {
-    [Header("Win SFX Settings")] [SerializeField]
+    [Header("Win SFX Settings")]
+    [SerializeField]
     private AudioSource winAudioSource;
 
     [SerializeField] private AudioClip winMusic;
-
 
     [SerializeField] private PlayerBase player1;
     [SerializeField] private PlayerBase player2;
@@ -146,7 +146,6 @@ public class GameManager : Singleton<GameManager>
         isTransitioning = false;
     }
 
-
     public void Victory()
     {
         Debug.Log("CHIẾN THẮNG! Đang chạy hiệu ứng chuyển cảnh sang WinPanel...");
@@ -178,7 +177,6 @@ public class GameManager : Singleton<GameManager>
 
         isTransitioning = false;
     }
-
 
     private void CheckGameOver()
     {
@@ -247,7 +245,7 @@ public class GameManager : Singleton<GameManager>
             PanelManager.Instance.CloseAllPanels();
         }
 
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("Map1");
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("Cutscene_1");
         while (!asyncLoad.isDone)
         {
             yield return null;

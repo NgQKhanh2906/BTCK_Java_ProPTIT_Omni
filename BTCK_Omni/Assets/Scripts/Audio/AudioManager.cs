@@ -4,7 +4,7 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
     public AudioSource backgroundMusicSource;
-    public float soundEffectsVolume { get; private set; } = 1f;
+    public float soundEffectsVolume { get; private set; } = 0.6f;
 
     void Awake()
     {
