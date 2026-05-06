@@ -25,10 +25,9 @@ public class Enemy_Cyclops : EnemyBase
     private float lastAttackTime;
     private int hitBufferSize = 16;
     private Collider2D[] hitBuffer;
-    private readonly int hashHit = Animator.StringToHash("Hit");
-    private readonly int hashAttackState = Animator.StringToHash("Attack");
+    private readonly int hashHit = Animator.StringToHash(GameConfig.ANIM_COL_HIT);
+    private readonly int hashAttack = Animator.StringToHash(GameConfig.ANIM_COL_ATTACK);
     private readonly int hashLaserState = Animator.StringToHash("ShootLaser"); 
-    private readonly int hashAttackTrigger = Animator.StringToHash("Attack"); 
     private readonly int hashLaserTrigger = Animator.StringToHash("ShootLaser");
 
     protected override void Awake()
@@ -43,7 +42,7 @@ public class Enemy_Cyclops : EnemyBase
 
         var stateInfo = anim.GetCurrentAnimatorStateInfo(0);
         if (stateInfo.shortNameHash == hashHit || 
-            stateInfo.shortNameHash == hashAttackState || 
+            stateInfo.shortNameHash == hashAttack || 
             stateInfo.shortNameHash == hashLaserState)
         {
             SetVelocityX(0);
@@ -70,7 +69,7 @@ public class Enemy_Cyclops : EnemyBase
                 if (Time.time >= lastAttackTime + attackCooldown)
                 {
                     FaceTarget(target); 
-                    PerformAttack(hashAttackTrigger); 
+                    PerformAttack(hashAttack); 
                 }
                 return; 
             }

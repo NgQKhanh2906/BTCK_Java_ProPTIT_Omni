@@ -14,7 +14,7 @@ public class Enemy_FireElemental : EnemyBase
     [Header("Audio Settings")]
     [SerializeField] private AudioClip explosionSFX; 
     [SerializeField] [Range(0f, 1f)] private float explosionVolume = 1f;
-    private readonly int hashHit = Animator.StringToHash("Hit");
+    private readonly int hashHit = Animator.StringToHash(GameConfig.ANIM_COL_HIT);
 
     protected override void Update()
     {

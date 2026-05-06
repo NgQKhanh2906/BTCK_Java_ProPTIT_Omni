@@ -6,26 +6,20 @@ public class Enemy_Minotaur : EnemyBase
     [SerializeField] private float chaseSpeedMultiplier = 1.2f; 
     [SerializeField] private float attackCooldown = 2f;
     [SerializeField] private LayerMask targetLayer; 
-
-    [Header("Combat & Range (Attack 1 - Hộp Đỏ)")] 
     [SerializeField] private Transform attackPoint1;
     [SerializeField] private Vector2 size1;
     [SerializeField] private float damage1 = 10f;
-
-    [Header("Combat & Range (Attack 2 - Hộp Xanh)")]
     [SerializeField] private Transform attackPoint2;
     [SerializeField] private Vector2 size2;
     [SerializeField] private float damage2 = 20f;
-
     private int hitBufferSize = 16;
     private Collider2D[] hitBuffer;
-
     private float lastAttackTime;
     private int comboStep = 0; 
     
     private readonly int hashAttack1 = Animator.StringToHash("Attack1");
     private readonly int hashAttack2 = Animator.StringToHash("Attack2");
-    private readonly int hashHit = Animator.StringToHash("Hit");
+    private readonly int hashHit = Animator.StringToHash(GameConfig.ANIM_COL_HIT);
 
     protected override void Awake()
     {
@@ -62,8 +56,12 @@ public class Enemy_Minotaur : EnemyBase
             if (currentPoint != null)
             {
                 Collider2D hit = Physics2D.OverlapBox(currentPoint.position, currentSize, 0f, targetLayer);
-                if (hit != null) isPlayerInAttackRange = true;
+                if (hit != null) 
+                {
+                    isPlayerInAttackRange = true;
+                }
             }
+            
             if (isPlayerInAttackRange)
             {
                 SetVelocityX(0); 
@@ -76,12 +74,7 @@ public class Enemy_Minotaur : EnemyBase
             }
             return; 
         }
-        if (isReturningHome)
-        {
-            ReturnHomeLogic();
-            return;
-        }
-
+        
         float distToHome = Mathf.Abs(transform.position.x - startPosition.x);
         if (distToHome > maxWanderDistance && !isIdle)
         {

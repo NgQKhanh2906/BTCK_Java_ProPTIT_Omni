@@ -15,8 +15,8 @@ public class Enemy_Wolf : EnemyBase
     private float lastAttackTime;
     private int hitBufferSize = 16;
     private Collider2D[] hitBuffer;
-    private readonly int hashAttack = Animator.StringToHash("Attack");
-    private readonly int hashHit = Animator.StringToHash("Hit");
+    private readonly int hashAttack = Animator.StringToHash(GameConfig.ANIM_COL_ATTACK);
+    private readonly int hashHit = Animator.StringToHash(GameConfig.ANIM_COL_HIT);
 
     protected override void Awake()
     {
@@ -45,16 +45,19 @@ public class Enemy_Wolf : EnemyBase
             anim.SetBool(animIsMoving, false);
             return;
         }
+        
         Transform target = GetVisiblePlayer();
 
         if (target != null)
         {
             isReturningHome = false;
             bool isPlayerInAttackRange = false;
+            
             if (attackPoint != null)
             {
                 Collider2D hit = Physics2D.OverlapBox(attackPoint.position, attackSize, 0f, targetLayer);
                 if (hit != null) isPlayerInAttackRange = true;
+                
             }
 
             if (isPlayerInAttackRange)
@@ -74,6 +77,7 @@ public class Enemy_Wolf : EnemyBase
             }
             return; 
         }
+        
         float distToHome = Mathf.Abs(transform.position.x - startPosition.x);
         if (distToHome > (maxWanderDistance + 0.5f) && !isIdle)
         {
@@ -81,6 +85,7 @@ public class Enemy_Wolf : EnemyBase
         }
         base.Update();
     }
+    
     public void ExecuteAttackHit()
     {
         if (attackPoint == null) return;
@@ -94,10 +99,12 @@ public class Enemy_Wolf : EnemyBase
 
             var entity = hit.GetComponent<Entity>();
             if (entity == null) continue;
+            
             Vector2 hitDir = new Vector2(facingDir, 0.2f).normalized; 
             entity.TakeDamage(attackDamage, hitDir);
         }
     }
+    
     protected override void ChasePlayer(Transform target)
     {
         bool isLedgeAhead = ledgeCheck != null && ledgeCheck.IsDetectingLedge();
@@ -124,6 +131,7 @@ public class Enemy_Wolf : EnemyBase
             SetVelocityX(moveSpeed * chaseSpeedMultiplier * facingDir);
         }
     }
+    
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();

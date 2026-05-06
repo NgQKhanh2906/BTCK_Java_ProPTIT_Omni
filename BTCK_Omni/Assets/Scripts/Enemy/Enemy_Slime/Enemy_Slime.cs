@@ -15,9 +15,8 @@ public class Enemy_Slime : EnemyBase
     private float lastAttackTime;
     private int hitBufferSize = 16;
     private Collider2D[] hitBuffer;
-    private readonly int hashAttackState = Animator.StringToHash("Attack");
-    private readonly int hashHitState = Animator.StringToHash("Hit");
-    private readonly int hashAttackTrigger = Animator.StringToHash("Attack");
+    private readonly int hashAttack = Animator.StringToHash(GameConfig.ANIM_COL_ATTACK);
+    private readonly int hashHit = Animator.StringToHash(GameConfig.ANIM_COL_HIT);
 
     protected override void Awake()
     {
@@ -28,12 +27,12 @@ public class Enemy_Slime : EnemyBase
     {
         if (isDead) return;
         var stateInfo = anim.GetCurrentAnimatorStateInfo(0);
-        if (stateInfo.shortNameHash == hashHitState)
+        if (stateInfo.shortNameHash == hashHit)
         {
             anim.SetBool(animIsMoving, false);
             return;
         }
-        if (stateInfo.shortNameHash == hashAttackState)
+        if (stateInfo.shortNameHash == hashAttack)
         {
             SetVelocityX(0);
             anim.SetBool(animIsMoving, false);
@@ -59,7 +58,7 @@ public class Enemy_Slime : EnemyBase
                 if (Time.time >= lastAttackTime + attackCooldown)
                 {
                     lastAttackTime = Time.time;
-                    anim.SetTrigger(hashAttackTrigger); 
+                    anim.SetTrigger(hashAttack); 
                 }
             }
             else
@@ -78,14 +77,11 @@ public class Enemy_Slime : EnemyBase
     public void ExecuteAttackHit()
     {
         if (attackPoint == null) return;
-
         int hitCount = Physics2D.OverlapBoxNonAlloc(attackPoint.position, attackSize, 0f, hitBuffer, targetLayer);
-
         for (int i = 0; i < hitCount; i++)
         {
             var hit = hitBuffer[i];
             if (hit == null) continue;
-
             if (hit.TryGetComponent(out IDamageable damageable))
             {
                 Vector2 hitDir = new Vector2(facingDir, 0.5f).normalized; 

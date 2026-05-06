@@ -21,14 +21,13 @@ public class Enemy_Rat_Mage : EnemyBase
     [SerializeField] private float spellDamage = 15f;
     [SerializeField] private float castRange = 8f; 
     [SerializeField] private float spellCooldown = 3.0f;
-    [Tooltip("Mask chặn tầm nhìn của quái (Gồm cả Player và Tường/Đất)")]
     [SerializeField] private LayerMask spellSightMask; 
     private float lastSpellTime;
     private int hitBufferSize = 16;
     private Collider2D[] hitBuffer;
 
-    private readonly int hashAttack = Animator.StringToHash("Attack");
-    private readonly int hashHit = Animator.StringToHash("Hit");
+    private readonly int hashAttack = Animator.StringToHash(GameConfig.ANIM_COL_ATTACK);
+    private readonly int hashHit = Animator.StringToHash(GameConfig.ANIM_COL_HIT);
     private readonly int hashCastSpell = Animator.StringToHash("CastSpell");
 
     protected override void Awake()

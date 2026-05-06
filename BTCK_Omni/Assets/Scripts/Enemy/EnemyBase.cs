@@ -1,7 +1,6 @@
 ﻿﻿using UnityEngine;
 using UnityEngine.Events;
 
-
 [RequireComponent(typeof(PlayerDetector))]
 [RequireComponent(typeof(AudioSource))]
 public class EnemyBase : Entity
@@ -17,7 +16,6 @@ public class EnemyBase : Entity
     [Range(0f, 1f)] [SerializeField] protected float sfxVolume = 0.8f;
     
     protected AudioSource audioSource; 
-
 
     [Header("Unity Events")]
     public UnityEvent onEnemyDeath;
@@ -49,7 +47,6 @@ public class EnemyBase : Entity
     protected bool isIdle;
     protected PlayerDetector playerDetector;
 
-
     protected override void Awake()
     {
         base.Awake();
@@ -64,12 +61,10 @@ public class EnemyBase : Entity
         audioSource.playOnAwake = false;
     }
 
-
     protected virtual void OnDestroy()
     {
         this.OnDeath -= ForwardDeathEvent;
     }
-
 
     private void ForwardDeathEvent()
     {
@@ -88,8 +83,8 @@ public class EnemyBase : Entity
     {
         if (hitSound != null && audioSource != null)
         {
-            audioSource.pitch = Random.Range(0.9f, 1.1f); 
-            audioSource.PlayOneShot(hitSound, sfxVolume);
+            float globalVolume = AudioManager.instance != null ? AudioManager.instance.soundEffectsVolume : 1f;
+            audioSource.PlayOneShot(hitSound, sfxVolume * globalVolume);
         }
     }
 
@@ -97,16 +92,14 @@ public class EnemyBase : Entity
     {
         if (attackSound != null && audioSource != null)
         {
-            audioSource.pitch = Random.Range(0.95f, 1.05f);
-            audioSource.PlayOneShot(attackSound, sfxVolume);
+            float globalVolume = AudioManager.instance != null ? AudioManager.instance.soundEffectsVolume : 1f;
+            audioSource.PlayOneShot(attackSound, sfxVolume * globalVolume);
         }
     }
-
 
     protected virtual void Update()
     {
         if (isDead) return;
-
 
         if (isReturningHome)
         {
@@ -114,16 +107,13 @@ public class EnemyBase : Entity
             return;
         }
 
-
         if (isIdle) HandleIdle();
         else HandlePatrol();
     }
 
-
     protected virtual void ReturnHomeLogic()
     {
         float distanceToHome = startPosition.x - transform.position.x;
-
 
         if (Mathf.Abs(distanceToHome) < 0.5f)
         {
@@ -132,10 +122,8 @@ public class EnemyBase : Entity
             return;
         }
 
-
         bool isLedgeAhead = ledgeCheck != null && ledgeCheck.IsDetectingLedge();
         bool isWallAhead = IsWallDetected();
-
 
         if (isLedgeAhead || isWallAhead)
         {
@@ -145,7 +133,6 @@ public class EnemyBase : Entity
             return;
         }
 
-
         int moveDir = distanceToHome > 0 ? 1 : -1;
         if (moveDir != facingDir) Flip();
        
@@ -153,7 +140,6 @@ public class EnemyBase : Entity
         UpdateAnimation(true);
         isIdle = false;
     }
-
 
     protected virtual void HandlePatrol()
     {
@@ -203,7 +189,6 @@ public class EnemyBase : Entity
         UpdateAnimation(false);
     }
 
-
     protected virtual void HandleIdle()
     {
         idleTimer -= Time.deltaTime;
@@ -214,32 +199,27 @@ public class EnemyBase : Entity
         }
     }
 
-
     protected virtual void ChasePlayer(Transform target)
     {
         isIdle = false;
         UpdateAnimation(true);
     }
 
-
     protected virtual void UpdateAnimation(bool isMoving)
     {
         if (anim != null) anim.SetBool(animIsMoving, isMoving);
     }
-
 
     public void SetVelocityX(float velocityX)
     {
         if (rb != null) rb.velocity = new Vector2(velocityX, rb.velocity.y);
     }
 
-
     protected bool IsWallDetected()
     {
         if (wallCheck == null) return false;
         return Physics2D.BoxCast(wallCheck.position, wallCheckSize, 0, new Vector2(facingDir, 0), 0.1f, whatIsGround);
     }
-
 
     protected virtual void OnDrawGizmos()
     {

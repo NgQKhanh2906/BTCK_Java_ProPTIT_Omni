@@ -6,8 +6,6 @@ public class Enemy_Flying_Eye : EnemyBase
     [SerializeField] private float flySpeed = 4f; 
     [SerializeField] private float attackCooldown = 1.5f;
     [SerializeField] private LayerMask targetLayer;
-
-    [Header("Combat & Range (Gộp Mắt và Tay)")]
     [SerializeField] private Transform attackPoint;
     [SerializeField] private Vector2 attackSize = new Vector2(1.5f, 1.5f);
     [SerializeField] private float attackDamage = 5f;
@@ -16,8 +14,8 @@ public class Enemy_Flying_Eye : EnemyBase
     private int hitBufferSize = 16;
     private Collider2D[] hitBuffer;
 
-    private readonly int hashAttack = Animator.StringToHash("Attack");
-    private readonly int hashHit = Animator.StringToHash("Hit");
+    private readonly int hashAttack = Animator.StringToHash(GameConfig.ANIM_COL_ATTACK);
+    private readonly int hashHit = Animator.StringToHash(GameConfig.ANIM_COL_HIT);
 
     protected override void Awake()
     {

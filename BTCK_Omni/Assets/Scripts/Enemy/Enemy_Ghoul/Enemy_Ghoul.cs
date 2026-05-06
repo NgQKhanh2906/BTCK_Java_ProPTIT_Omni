@@ -16,8 +16,8 @@ public class Enemy_Ghoul : EnemyBase
     private int hitBufferSize = 16;
     private Collider2D[] hitBuffer;
 
-    private readonly int hashAttack = Animator.StringToHash("Attack");
-    private readonly int hashHit = Animator.StringToHash("Hit");
+    private readonly int hashAttack = Animator.StringToHash(GameConfig.ANIM_COL_ATTACK);
+    private readonly int hashHit = Animator.StringToHash(GameConfig.ANIM_COL_HIT);
 
     protected override void Awake()
     {
