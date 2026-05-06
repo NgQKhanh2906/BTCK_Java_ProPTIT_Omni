@@ -8,19 +8,47 @@ public class PlayerDetector : MonoBehaviour
     [SerializeField] private LayerMask whatIsWall; 
 
     private Transform playerTransform;
+
     public bool CanSeePlayer()
     {
-        Collider2D playerCollider = Physics2D.OverlapCircle(transform.position, detectionRadius, whatIsPlayer);
-        if (playerCollider != null)
+        if (playerTransform != null)
         {
-            playerTransform = playerCollider.transform;
-            RaycastHit2D hitWall = Physics2D.Linecast(transform.position, playerTransform.position, whatIsWall);
-            if (hitWall.collider == null)
+            float distToCurrent = Vector2.Distance(transform.position, playerTransform.position);
+            if (distToCurrent <= detectionRadius)
             {
-                return true; 
+                RaycastHit2D hitWall = Physics2D.Linecast(transform.position, playerTransform.position, whatIsWall);
+                if (hitWall.collider == null)
+                {
+                    return true; 
+                }
+            }
+            playerTransform = null; 
+        }
+        Collider2D[] playersInRange = Physics2D.OverlapCircleAll(transform.position, detectionRadius, whatIsPlayer);
+        
+        Transform closestPlayer = null;
+        float minDistance = Mathf.Infinity;
+
+        foreach (Collider2D playerCollider in playersInRange)
+        {
+            RaycastHit2D hitWall = Physics2D.Linecast(transform.position, playerCollider.transform.position, whatIsWall);
+            
+            if (hitWall.collider == null) 
+            {
+                float dist = Vector2.Distance(transform.position, playerCollider.transform.position);
+                if (dist < minDistance)
+                {
+                    minDistance = dist;
+                    closestPlayer = playerCollider.transform;
+                }
             }
         }
-        playerTransform = null;
+        if (closestPlayer != null)
+        {
+            playerTransform = closestPlayer;
+            return true;
+        }
+
         return false;
     }
 
@@ -28,6 +56,7 @@ public class PlayerDetector : MonoBehaviour
     {
         return playerTransform;
     }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;
