@@ -3,68 +3,106 @@ using UnityEngine;
 public class SfxManager : Singleton<SfxManager>
 {
     public AudioSource audioSource;
+
+    [Header("Movement & Action")]
     public AudioClip walkSound;
+    [Range(0f, 1f)] public float walkVolume = 1f;
+
     public AudioClip jumpSound;
+    [Range(0f, 1f)] public float jumpVolume = 1f;
+
     public AudioClip rollSound;
+    [Range(0f, 1f)] public float rollVolume = 1f;
+
+    [Header("Combat")]
     public AudioClip hurtSound;
+    [Range(0f, 1f)] public float hurtVolume = 1f;
+
     public AudioClip dieSound;
+    [Range(0f, 1f)] public float dieVolume = 1f;
+
     public AudioClip attack1Sound;
+    [Range(0f, 1f)] public float attack1Volume = 1f;
+
     public AudioClip attack2Sound;
+    [Range(0f, 1f)] public float attack2Volume = 1f;
+
     public AudioClip attack3Sound;
+    [Range(0f, 1f)] public float attack3Volume = 1f;
+
     public AudioClip airAttackSound;
+    [Range(0f, 1f)] public float airAttackVolume = 1f;
+
     public AudioClip specialAttackSound;
+    [Range(0f, 1f)] public float specialAttackVolume = 1f;
 
-    [Header("Charge Sound")] public AudioClip chargeSound;
-    [Header("Interactions")] public AudioClip chestOpenSound;
+    [Header("Charge Sound")]
+    public AudioClip chargeSound;
+    [Range(0f, 1f)] public float chargeVolume = 1f;
+
+    [Header("Interactions")]
+    public AudioClip chestOpenSound;
+    [Range(0f, 1f)] public float chestOpenVolume = 1f;
+
     public AudioClip itemPickupSound;
+    [Range(0f, 1f)] public float itemPickupVolume = 1f;
 
-    private void PlaySfx(AudioClip clip)
+    private void PlaySfx(AudioClip clip, float volume)
     {
         if (clip != null)
         {
-            audioSource.PlayOneShot(clip, 1f);
+            audioSource.PlayOneShot(clip, volume);
         }
     }
 
-    public void PlayWalk() 
+    public void PlayWalk()
     {
-        PlaySfx(walkSound);
+        PlaySfx(walkSound, walkVolume);
     }
-    public void PlayJump() 
-    { 
-        PlaySfx(jumpSound);
-    }
-    public void PlayRoll() 
+
+    public void PlayJump()
     {
-        PlaySfx(rollSound); 
+        PlaySfx(jumpSound, jumpVolume);
     }
-    public void PlayHurt() 
-    { 
-        PlaySfx(hurtSound);
+
+    public void PlayRoll()
+    {
+        PlaySfx(rollSound, rollVolume);
     }
-    public void PlayDie() 
-    { 
-        PlaySfx(dieSound);
+
+    public void PlayHurt()
+    {
+        PlaySfx(hurtSound, hurtVolume);
     }
-    public void PlayAttack1() 
-    { 
-        PlaySfx(attack1Sound); 
+
+    public void PlayDie()
+    {
+        PlaySfx(dieSound, dieVolume);
     }
-    public void PlayAttack2() 
-    { 
-        PlaySfx(attack2Sound);
+
+    public void PlayAttack1()
+    {
+        PlaySfx(attack1Sound, attack1Volume);
     }
-    public void PlayAttack3() 
-    { 
-        PlaySfx(attack3Sound); 
+
+    public void PlayAttack2()
+    {
+        PlaySfx(attack2Sound, attack2Volume);
     }
-    public void PlayAirAttack() 
-    { 
-        PlaySfx(airAttackSound); 
+
+    public void PlayAttack3()
+    {
+        PlaySfx(attack3Sound, attack3Volume);
     }
-    public void PlaySpecialAttack() 
-    { 
-        PlaySfx(specialAttackSound);
+
+    public void PlayAirAttack()
+    {
+        PlaySfx(airAttackSound, airAttackVolume);
+    }
+
+    public void PlaySpecialAttack()
+    {
+        PlaySfx(specialAttackSound, specialAttackVolume);
     }
 
     public void PlayChargeLoop()
@@ -73,6 +111,7 @@ public class SfxManager : Singleton<SfxManager>
         {
             audioSource.clip = chargeSound;
             audioSource.loop = true;
+            audioSource.volume = chargeVolume;
             audioSource.Play();
         }
     }
@@ -87,12 +126,13 @@ public class SfxManager : Singleton<SfxManager>
         }
     }
 
-    public void PlayChestOpen() 
-    { 
-        PlaySfx(chestOpenSound); 
+    public void PlayChestOpen()
+    {
+        PlaySfx(chestOpenSound, chestOpenVolume);
     }
-    public void PlayItemPickup() 
-    { 
-        PlaySfx(itemPickupSound); 
+
+    public void PlayItemPickup()
+    {
+        PlaySfx(itemPickupSound, itemPickupVolume);
     }
 }
