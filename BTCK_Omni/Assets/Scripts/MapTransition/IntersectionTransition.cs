@@ -20,7 +20,7 @@ public class IntersectionTransition : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player1") || other.CompareTag("Player2") || other.CompareTag("Player"))
+        if (other.CompareTag("Player1") || other.CompareTag("Player2"))
         {
             if (!playersInZone.Contains(other))
             {
@@ -36,7 +36,7 @@ public class IntersectionTransition : MonoBehaviour
     
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player1") || other.CompareTag("Player2") || other.CompareTag("Player"))
+        if (other.CompareTag("Player1") || other.CompareTag("Player2"))
         {
             if (playersInZone.Contains(other))
             {
@@ -60,9 +60,6 @@ public class IntersectionTransition : MonoBehaviour
             
         foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player2")) 
             if (p.activeInHierarchy) nguoiChoiConSong.Add(p);
-
-        foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player")) 
-            if (p.activeInHierarchy && !nguoiChoiConSong.Contains(p)) nguoiChoiConSong.Add(p);
 
         bool giuTrai = false, giuPhai = false, giuTren = false, giuDuoi = false;
         

@@ -14,19 +14,18 @@ public class SfxManager : MonoBehaviour
     public AudioClip airAttackSound;
     public AudioClip specialAttackSound;
 
-    [Header("Charge Sound")]
-    public AudioClip chargeSound;
+    [Header("Charge Sound")] public AudioClip chargeSound;
 
-    [Header("Interactions")]
-    public AudioClip chestOpenSound;
+    [Header("Interactions")] public AudioClip chestOpenSound;
     public AudioClip itemPickupSound;
 
     private float GetVolume()
     {
-        if (AudioManager.instance != null)
+        if (AudioManager.Instance != null)
         {
-            return AudioManager.instance.soundEffectsVolume;
+            return AudioManager.Instance.soundEffectsVolume;
         }
+
         return 1f;
     }
 
@@ -130,6 +129,7 @@ public class SfxManager : MonoBehaviour
             audioSource.clip = null;
         }
     }
+
     public void PlayChestOpen()
     {
         if (chestOpenSound != null)

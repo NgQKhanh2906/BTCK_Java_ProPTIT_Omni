@@ -3,8 +3,7 @@ using UnityEngine.UI;
 
 public class SettingsPanel : Panel
 {
-    [Header("Settings UI Elements")]
-    public Slider musicSlider;
+    [Header("Settings UI Elements")] public Slider musicSlider;
     public Slider sfxSlider;
 
     private void OnEnable()
@@ -41,22 +40,23 @@ public class SettingsPanel : Panel
             sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume", 1f);
             OnSFXVolumeChanged(sfxSlider.value);
         }
+
         Close();
     }
 
     public void OnMusicVolumeChanged(float value)
     {
-        if (AudioManager.instance != null)
+        if (AudioManager.Instance != null)
         {
-            AudioManager.instance.SetBackgroundMusicVolume(value);
+            AudioManager.Instance.SetBackgroundMusicVolume(value);
         }
     }
 
     public void OnSFXVolumeChanged(float value)
     {
-        if (AudioManager.instance != null)
+        if (AudioManager.Instance != null)
         {
-            AudioManager.instance.SetSoundEffectsVolume(value);
+            AudioManager.Instance.SetSoundEffectsVolume(value);
         }
     }
 }

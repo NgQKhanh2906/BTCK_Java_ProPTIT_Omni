@@ -22,9 +22,8 @@ public class BossController : Entity
     Transform t;
 
     private ObjectPool<RockProjectile> rockPool;
-    [Header("Laser SFX")]
-    public AudioClip straightLaserSound; 
-    public AudioClip sweepLaserSound;    
+    [Header("Laser SFX")] public AudioClip straightLaserSound;
+    public AudioClip sweepLaserSound;
 
 
     protected override void Awake()
@@ -33,7 +32,8 @@ public class BossController : Entity
         defaultMat = sr.material;
 
         rockPool = new ObjectPool<RockProjectile>(
-            createFunc: () => {
+            createFunc: () =>
+            {
                 GameObject g = Instantiate(rock);
                 RockProjectile rp = g.GetComponent<RockProjectile>();
                 rp.SetPool(rockPool);
@@ -182,8 +182,10 @@ public class BossController : Entity
                 rp.transform.rotation = Quaternion.Euler(0, 0, 90f);
                 rp.Setup(Vector2.up, 15f);
             }
+
             yield return new WaitForSeconds(0.05f);
         }
+
         anim.speed = 1;
     }
 
@@ -243,15 +245,17 @@ public class BossController : Entity
                 Vector2 v = new Vector2(Mathf.Cos(fA * Mathf.Deg2Rad), Mathf.Sin(fA * Mathf.Deg2Rad));
                 rp.Setup(v, 12f);
             }
+
             yield return new WaitForSeconds(0.5f);
         }
+
         anim.speed = 1;
     }
 
     public void F_Heal()
     {
         if (eyeP != null) PlaySfx(sweepLaserSound, eyeP.position);
-        
+
         StartCoroutine(SpHeal());
     }
 
@@ -292,22 +296,27 @@ public class BossController : Entity
                         if (p != null) p.TakeDamage(1f, dir);
                     }
                 }
+
                 if (srL != null) srL.size = new Vector2(actualLen, srL.size.y);
             }
+
             yield return new WaitForSeconds(0.04f);
         }
+
         Destroy(l);
         anim.speed = 1;
     }
+
     private void PlaySfx(AudioClip clip, Vector3 position)
     {
         if (clip != null)
         {
             float v = 1f;
-            if (AudioManager.instance != null)
+            if (AudioManager.Instance != null)
             {
-                v = AudioManager.instance.soundEffectsVolume;
+                v = AudioManager.Instance.soundEffectsVolume;
             }
+
             AudioSource.PlayClipAtPoint(clip, position, v);
         }
     }

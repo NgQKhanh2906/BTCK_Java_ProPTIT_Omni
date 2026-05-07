@@ -19,8 +19,14 @@ public class GameManager : Singleton<GameManager>
 
     public void SetScenePlayers(PlayerBase p1, PlayerBase p2)
     {
-        player1 = p1;
-        player2 = p2;
+        if (p1 != null)
+        {
+            player1 = p1;
+        }
+        if (p2 != null)
+        {
+            player2 = p2;
+        }
     }
 
     private void OnEnable()
