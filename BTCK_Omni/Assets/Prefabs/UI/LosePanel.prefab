@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901c5e774904334479f03edc9fbde35f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  btnContinue: {fileID: 0}
 --- !u!114 &2880464229542448902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,6 +104,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyOnClose: 1
+  panelBGM: {fileID: 8300000, guid: 11d54431ed65f2a438995ce5e5b2d8cc, type: 3}
 --- !u!1 &1399931494728977094
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,18 +16,22 @@ public class Cutscene : MonoBehaviour
     private int currentLineIndex;
     private bool isTyping;
     private bool isCutsceneStarted;
+    private bool wasPaused;
 
     void Start()
     {
         currentLineIndex = 0;
         isTyping = false;
         isCutsceneStarted = false;
+        wasPaused = false;
         uiText.text = "";
     }
 
     void Update()
     {
-        if (Input.anyKeyDown)
+        CheckAudioPauseState();
+
+        if (Input.anyKeyDown && Time.timeScale != 0f)
         {
             if (Input.GetMouseButtonDown(0) && btnSkip != null)
             {
@@ -46,6 +50,22 @@ public class Cutscene : MonoBehaviour
             {
                 NextLine();
             }
+        }
+    }
+
+    private void CheckAudioPauseState()
+    {
+        bool isPaused = (Time.timeScale == 0f);
+
+        if (isPaused && !wasPaused)
+        {
+            audioSrc.Pause();
+            wasPaused = true;
+        }
+        else if (!isPaused && wasPaused)
+        {
+            audioSrc.UnPause();
+            wasPaused = false;
         }
     }
 
