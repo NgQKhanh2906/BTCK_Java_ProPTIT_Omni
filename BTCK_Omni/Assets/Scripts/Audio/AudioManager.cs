@@ -3,10 +3,15 @@ using UnityEngine;
 public class AudioManager : Singleton<AudioManager>
 {
     public AudioSource backgroundMusicSource;
+    private AudioClip defaultBGM;
     public float soundEffectsVolume { get; private set; } = 0.6f;
 
     void Start()
     {
+        if (backgroundMusicSource != null)
+        {
+            defaultBGM = backgroundMusicSource.clip;
+        }
         LoadAudioSettings();
     }
 
@@ -37,5 +42,23 @@ public class AudioManager : Singleton<AudioManager>
         }
 
         soundEffectsVolume = PlayerPrefs.GetFloat("SoundEffectsVolume", 1f);
+    }
+
+    public void PlayBGM(AudioClip clip)
+    {
+        if (backgroundMusicSource != null && clip != null)
+        {
+            backgroundMusicSource.clip = clip;
+            backgroundMusicSource.Play();
+        }
+    }
+
+    public void PlayDefaultBGM()
+    {
+        if (backgroundMusicSource != null && defaultBGM != null)
+        {
+            backgroundMusicSource.clip = defaultBGM;
+            backgroundMusicSource.Play();
+        }
     }
 }
