@@ -318,6 +318,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b66d052b4a9d30c4cb9293cdb4fd0399, type: 3}
   - {fileID: 8300000, guid: 7c68ddc9a2aeaf746aad15235be8a57e, type: 3}
   - {fileID: 8300000, guid: cf02952aa2e4e0f4492a58c3bd1dbe02, type: 3}
+  vVoice: 3
   typingSpeed: 0.05
   nextSceneName: Map1
   btnSkip: {fileID: 1214559445}
@@ -415,7 +416,7 @@ AudioSource:
   m_GameObject: {fileID: 239902119}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -3024864258881070458, guid: df135fb2f99220f4bb1402157888652a, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
