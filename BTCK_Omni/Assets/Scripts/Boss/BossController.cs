@@ -48,9 +48,14 @@ public class BossController : Entity
         );
     }
 
-    void Start()
+    void OnEnable()
     {
         StartCoroutine(Loop());
+    }
+
+    void OnDisable()
+    {
+        StopAllCoroutines();
     }
 
     void Update()
@@ -131,7 +136,7 @@ public class BossController : Entity
     {
         while (true)
         {
-            yield return new WaitForSeconds(10f);
+            yield return new WaitForSeconds(5f);
             if (hp > 0 && t != null)
             {
                 int r = Random.Range(1, 6);
@@ -319,5 +324,10 @@ public class BossController : Entity
 
             AudioSource.PlayClipAtPoint(clip, position, v);
         }
+    }
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, 90f);
     }
 }
