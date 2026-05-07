@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 978680158133471576}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.08, y: -0.96, z: 0}
+  m_LocalPosition: {x: 1.13, y: -1.03, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -143,7 +143,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.0532033, y: -0.39492995, z: 0}
-  m_LocalScale: {x: 1.7, y: 1.7, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3075227011872774825}
@@ -355,7 +355,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   attackPoint: {fileID: 8416609616061026642}
-  attackSize: {x: 2.5, y: 3.4}
+  attackSize: {x: 2.2, y: 3}
   attackDamage: 20
 --- !u!82 &6900719083008444764
 AudioSource:
