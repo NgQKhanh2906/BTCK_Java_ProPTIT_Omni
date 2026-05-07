@@ -230,7 +230,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 100
   moveSpeed: 0
-  knockbackForce: 0
+  knockbackForce: 3
   hitSound: {fileID: 8300000, guid: c798359cb1c204c43b6050986ae82dc4, type: 3}
   attackSound: {fileID: 8300000, guid: fd5bb19f5782dad4c8d790db1894ddcd, type: 3}
   sfxVolume: 0.4
@@ -256,7 +256,7 @@ MonoBehaviour:
     m_Bits: 128
   attackPoint: {fileID: 9156733821401589219}
   attackSize: {x: 1.5, y: 1.5}
-  attackDamage: 5
+  attackDamage: 10
 --- !u!114 &3277402811705183048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,7 +269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5f207b6188bdd14f9156d4b8486a11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRadius: 8
+  detectionRadius: 7
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 128

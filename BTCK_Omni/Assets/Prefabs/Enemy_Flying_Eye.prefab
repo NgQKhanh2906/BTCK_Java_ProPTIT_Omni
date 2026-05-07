@@ -259,7 +259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5f207b6188bdd14f9156d4b8486a11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRadius: 10
+  detectionRadius: 7
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 384
@@ -278,7 +278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a9ab57348c553b4cbb2ddaa8e519eee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 300
+  maxHP: 200
   moveSpeed: 2
   knockbackForce: 3
   hitSound: {fileID: 8300000, guid: c798359cb1c204c43b6050986ae82dc4, type: 3}

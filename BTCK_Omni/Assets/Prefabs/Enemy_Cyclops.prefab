@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c49bcb435f91aab47bb8be51c0d6f8a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  raycastDistance: 1.5
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
@@ -350,7 +351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5f207b6188bdd14f9156d4b8486a11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRadius: 10
+  detectionRadius: 7
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 128
@@ -369,7 +370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e46570a7caa08664fb5dbb1d8be623de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 100
+  maxHP: 300
   moveSpeed: 1
   knockbackForce: 3
   hitSound: {fileID: 8300000, guid: c798359cb1c204c43b6050986ae82dc4, type: 3}
@@ -397,10 +398,10 @@ MonoBehaviour:
     m_Bits: 128
   attackPoint: {fileID: 5867545106982747177}
   attackSize: {x: 1.5, y: 1.5}
-  stompDamage: 15
+  stompDamage: 20
   laserPrefab: {fileID: 5764066910881187863, guid: 7009b2427fb3b7048ae06a8ae21bb94e, type: 3}
   eyePoint: {fileID: 3036039144633327365}
-  laserDamage: 20
+  laserDamage: 25
   laserSightRange: 6
   laserSightMask:
     serializedVersion: 2

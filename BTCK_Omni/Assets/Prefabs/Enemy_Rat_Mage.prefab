@@ -106,6 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c49bcb435f91aab47bb8be51c0d6f8a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  raycastDistance: 1.5
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
@@ -390,7 +391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93af6f7c33c7aec4a8d552d80ca62482, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 100
+  maxHP: 200
   moveSpeed: 2
   knockbackForce: 3
   hitSound: {fileID: 8300000, guid: c798359cb1c204c43b6050986ae82dc4, type: 3}
@@ -417,11 +418,11 @@ MonoBehaviour:
     m_Bits: 128
   meleeAttackPoint: {fileID: 6696315440558542335}
   meleeAttackSize: {x: 1.2, y: 1.2}
-  meleeAttackDamage: 10
+  meleeAttackDamage: 15
   meleeAttackCooldown: 1.5
   iceConePrefab: {fileID: 1019687629936330463, guid: 7229429782303ee45b23706f2c2d7b0a, type: 3}
   spellSpawnPoint: {fileID: 8139108718699661076}
-  spellDamage: 15
+  spellDamage: 30
   castRange: 7
   spellCooldown: 2
   spellSightMask:

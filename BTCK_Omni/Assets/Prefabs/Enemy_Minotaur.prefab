@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c49bcb435f91aab47bb8be51c0d6f8a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  raycastDistance: 1.5
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
@@ -247,7 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5f207b6188bdd14f9156d4b8486a11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRadius: 10
+  detectionRadius: 7
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 384
@@ -266,7 +267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9300a43e7ceb32946885935ca200cd42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 1111
+  maxHP: 300
   moveSpeed: 2
   knockbackForce: 3
   hitSound: {fileID: 8300000, guid: c798359cb1c204c43b6050986ae82dc4, type: 3}
@@ -294,10 +295,10 @@ MonoBehaviour:
     m_Bits: 384
   attackPoint1: {fileID: 8856209078698806175}
   size1: {x: 3, y: 5}
-  damage1: 10
+  damage1: 20
   attackPoint2: {fileID: 4716018082287775927}
   size2: {x: 6, y: 1.5}
-  damage2: 20
+  damage2: 30
 --- !u!82 &7880268749515993861
 AudioSource:
   m_ObjectHideFlags: 0
