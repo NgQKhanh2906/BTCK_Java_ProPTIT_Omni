@@ -35,7 +35,7 @@ Các nhánh chính:
 - `develop`: Chứa code mới nhất, đã qua review và test
 - `feature/`: Các nhánh phát triển short-live, sau khi hoàn thành sẽ merge vào `develop`
 
-![alt text](Image\image.png)
+![alt text](Image/image.png)
 
 Sau mỗi tuần, team sẽ merge `develop` vào `main` để release phiên bản mới.
 
@@ -207,16 +207,19 @@ Diễn giải:
 ## 5. Ảnh và Video Demo
 
 **Ảnh Demo:**
-![alt text](Image\image-1.png)
-![alt text](Image\image-2.png)
-![alt text](Image\image-3.png)
-![alt text](Image\image-4.png)
-![alt text](Image\image-5.png)
-![alt text](Image\image-6.png)
-![alt text](Image\image-7.png)
+![alt text](Image/image-1.png)
+![alt text](Image/image-2.png)
+![alt text](Image/image-3.png)
+![alt text](Image/image-4.png)
+![alt text](Image/image-5.png)
+![alt text](Image/image-6.png)
+![alt text](Image/image-7.png)
 **Video Demo:**
 
 https://drive.google.com/file/d/17mHLaPHX8_LG0-iFgy8yrIU0bB-D4bqV/view?usp=drive_link
+
+**Game demo itch.io:**
+https://cheindepzais1th.itch.io/omni?fbclid=IwY2xjawRplX5leHRuA2FlbQIxMABicmlkETFOUVk1d2d2YWRQcjVsbGRVc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHpCTXdvh7J_nquJl-0BT8E_DW1z3iwmmj_bROTtfyPk7ISYSynAYqwagCoZ8_aem_QHeyj4mvVuS5rCxvO2W2cA
 
 ---
 
