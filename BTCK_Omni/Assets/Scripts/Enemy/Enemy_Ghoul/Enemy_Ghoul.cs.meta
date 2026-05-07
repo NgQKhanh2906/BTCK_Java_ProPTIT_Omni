@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:BTCK_Omni/Assets/Scripts/Interactables/ItemData.cs.meta
+guid: 3ac327942e289d84e8550c75271dce19
+========
+guid: b7bfde379fa0baa4fadcca6adb741bc3
+>>>>>>>> origin/art/enemy-ghoul:BTCK_Omni/Assets/Scripts/Enemy/Enemy_Ghoul/Enemy_Ghoul.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

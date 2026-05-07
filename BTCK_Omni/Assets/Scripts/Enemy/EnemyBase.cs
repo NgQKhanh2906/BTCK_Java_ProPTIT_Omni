@@ -1,54 +1,54 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-
 [RequireComponent(typeof(PlayerDetector))]
 [RequireComponent(typeof(AudioSource))]
 public class EnemyBase : Entity
 {
-    [Header("Animator Parameters")]
-    protected readonly int animIsMoving = Animator.StringToHash("isMoving");
+    [Header("Animator Parameters")] protected readonly int animIsMoving = Animator.StringToHash("isMoving");
     protected readonly int animStun = Animator.StringToHash("Stun");
     protected readonly int animIsHiding = Animator.StringToHash("isHiding");
 
-    [Header("--- SOUND EFFECTS (SFX) ---")] 
-    [SerializeField] protected AudioClip hitSound;
+    [Header("--- SOUND EFFECTS (SFX) ---")] [SerializeField]
+    protected AudioClip hitSound;
+
     [SerializeField] protected AudioClip attackSound;
     [Range(0f, 1f)] [SerializeField] protected float sfxVolume = 0.8f;
-    
-    protected AudioSource audioSource; 
 
+    protected AudioSource audioSource;
 
-    [Header("Unity Events")]
-    public UnityEvent onEnemyDeath;
+    [Header("Unity Events")] public UnityEvent onEnemyDeath;
 
-    [Header("Hit Flash VFX")]
-    [SerializeField] private Material whiteFlashMat; 
-    [SerializeField] private float flashDuration = 0.15f; 
-    private Material originalMat; 
+    [Header("Hit Flash VFX")] [SerializeField]
+    private Material whiteFlashMat;
+
+    [SerializeField] private float flashDuration = 0.15f;
+    private Material originalMat;
     private Coroutine flashRoutine;
 
-    [Header("Home & Tethering")]
-    [SerializeField] protected float maxWanderDistance = 6f;
+    [Header("Home & Tethering")] [SerializeField]
+    protected float maxWanderDistance = 6f;
+
     protected Vector2 startPosition;
     protected bool isReturningHome = false;
     protected float patrolBoundLeft;
     protected float patrolBoundRight;
 
-    [Header("Collision Checks")]
-    [SerializeField] protected Transform groundCheck;
+    [Header("Collision Checks")] [SerializeField]
+    protected Transform groundCheck;
+
     [SerializeField] protected Vector2 groundCheckSize = new Vector2(0.5f, 0.1f);
     [SerializeField] protected Transform wallCheck;
     [SerializeField] protected Vector2 wallCheckSize = new Vector2(0.1f, 0.8f);
     [SerializeField] protected LayerMask whatIsGround;
     [SerializeField] protected LedgeDetector ledgeCheck;
 
-    [Header("Idle Settings")]
-    [SerializeField] protected float idleDuration = 2f;
+    [Header("Idle Settings")] [SerializeField]
+    protected float idleDuration = 2f;
+
     protected float idleTimer;
     protected bool isIdle;
     protected PlayerDetector playerDetector;
-
 
     protected override void Awake()
     {
@@ -64,23 +64,23 @@ public class EnemyBase : Entity
         audioSource.playOnAwake = false;
     }
 
-
     protected virtual void OnDestroy()
     {
         this.OnDeath -= ForwardDeathEvent;
     }
 
-
     private void ForwardDeathEvent()
     {
         onEnemyDeath?.Invoke();
     }
+
     protected virtual Transform GetVisiblePlayer()
     {
         if (playerDetector != null && playerDetector.CanSeePlayer())
         {
             return playerDetector.GetPlayerTransform();
         }
+
         return null;
     }
 
@@ -88,8 +88,8 @@ public class EnemyBase : Entity
     {
         if (hitSound != null && audioSource != null)
         {
-            audioSource.pitch = Random.Range(0.9f, 1.1f); 
-            audioSource.PlayOneShot(hitSound, sfxVolume);
+            float globalVolume = AudioManager.Instance != null ? AudioManager.Instance.soundEffectsVolume : 1f;
+            audioSource.PlayOneShot(hitSound, sfxVolume * globalVolume);
         }
     }
 
@@ -97,16 +97,14 @@ public class EnemyBase : Entity
     {
         if (attackSound != null && audioSource != null)
         {
-            audioSource.pitch = Random.Range(0.95f, 1.05f);
-            audioSource.PlayOneShot(attackSound, sfxVolume);
+            float globalVolume = AudioManager.Instance != null ? AudioManager.Instance.soundEffectsVolume : 1f;
+            audioSource.PlayOneShot(attackSound, sfxVolume * globalVolume);
         }
     }
-
 
     protected virtual void Update()
     {
         if (isDead) return;
-
 
         if (isReturningHome)
         {
@@ -114,16 +112,13 @@ public class EnemyBase : Entity
             return;
         }
 
-
         if (isIdle) HandleIdle();
         else HandlePatrol();
     }
 
-
     protected virtual void ReturnHomeLogic()
     {
         float distanceToHome = startPosition.x - transform.position.x;
-
 
         if (Mathf.Abs(distanceToHome) < 0.5f)
         {
@@ -132,10 +127,8 @@ public class EnemyBase : Entity
             return;
         }
 
-
         bool isLedgeAhead = ledgeCheck != null && ledgeCheck.IsDetectingLedge();
         bool isWallAhead = IsWallDetected();
-
 
         if (isLedgeAhead || isWallAhead)
         {
@@ -145,15 +138,13 @@ public class EnemyBase : Entity
             return;
         }
 
-
         int moveDir = distanceToHome > 0 ? 1 : -1;
         if (moveDir != facingDir) Flip();
-       
+
         SetVelocityX(moveSpeed * facingDir);
         UpdateAnimation(true);
         isIdle = false;
     }
-
 
     protected virtual void HandlePatrol()
     {
@@ -177,22 +168,24 @@ public class EnemyBase : Entity
         base.TakeDamage(dmg, hitDir);
         if (sr != null && whiteFlashMat != null)
         {
-            if (flashRoutine != null) StopCoroutine(flashRoutine); 
+            if (flashRoutine != null) StopCoroutine(flashRoutine);
             flashRoutine = StartCoroutine(FlashCoroutine());
         }
+
         PlayHitSFX();
     }
+
     private System.Collections.IEnumerator FlashCoroutine()
     {
-        sr.material = whiteFlashMat; 
-        yield return new WaitForSeconds(flashDuration); 
-        sr.material = originalMat; 
+        sr.material = whiteFlashMat;
+        yield return new WaitForSeconds(flashDuration);
+        sr.material = originalMat;
     }
 
     public override void Die()
     {
         base.Die();
-        Destroy(gameObject); 
+        Destroy(gameObject);
     }
 
     protected virtual void StartIdle()
@@ -202,7 +195,6 @@ public class EnemyBase : Entity
         SetVelocityX(0);
         UpdateAnimation(false);
     }
-
 
     protected virtual void HandleIdle()
     {
@@ -214,32 +206,27 @@ public class EnemyBase : Entity
         }
     }
 
-
     protected virtual void ChasePlayer(Transform target)
     {
         isIdle = false;
         UpdateAnimation(true);
     }
 
-
     protected virtual void UpdateAnimation(bool isMoving)
     {
         if (anim != null) anim.SetBool(animIsMoving, isMoving);
     }
-
 
     public void SetVelocityX(float velocityX)
     {
         if (rb != null) rb.velocity = new Vector2(velocityX, rb.velocity.y);
     }
 
-
     protected bool IsWallDetected()
     {
         if (wallCheck == null) return false;
         return Physics2D.BoxCast(wallCheck.position, wallCheckSize, 0, new Vector2(facingDir, 0), 0.1f, whatIsGround);
     }
-
 
     protected virtual void OnDrawGizmos()
     {
@@ -248,11 +235,13 @@ public class EnemyBase : Entity
             Gizmos.color = Color.green;
             Gizmos.DrawWireCube(groundCheck.position - new Vector3(0, 0.1f, 0), groundCheckSize);
         }
+
         if (wallCheck != null)
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireCube(wallCheck.position, wallCheckSize);
         }
+
         Gizmos.color = new Color(0, 1, 0, 0.3f);
         if (Application.isPlaying)
         {
