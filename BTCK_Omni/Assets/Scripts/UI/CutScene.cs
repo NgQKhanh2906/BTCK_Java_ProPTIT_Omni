@@ -11,6 +11,7 @@ public class Cutscene : MonoBehaviour
     public AudioClip[] dialogueSounds;
     public float typingSpeed;
     public string nextSceneName;
+    public RectTransform btnSkip;
 
     private int currentLineIndex;
     private bool isTyping;
@@ -28,6 +29,14 @@ public class Cutscene : MonoBehaviour
     {
         if (Input.anyKeyDown)
         {
+            if (Input.GetMouseButtonDown(0) && btnSkip != null)
+            {
+                if (RectTransformUtility.RectangleContainsScreenPoint(btnSkip, Input.mousePosition, null))
+                {
+                    return;
+                }
+            }
+
             if (!isCutsceneStarted)
             {
                 isCutsceneStarted = true;
@@ -69,7 +78,12 @@ public class Cutscene : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene(nextSceneName);
+            GameManager.Instance.LoadScene(nextSceneName);
         }
+    }
+
+    public void Skip()
+    {
+        GameManager.Instance.LoadScene(nextSceneName);
     }
 }

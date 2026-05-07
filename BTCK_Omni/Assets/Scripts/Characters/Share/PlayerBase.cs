@@ -325,30 +325,18 @@ public class PlayerBase : Entity, IHealable, ISaveable, IInteractable
         }
     }
 
-    private void SetIgnorePlayerVsEnemyLayers(bool ignore)
-    {
-        int m = enemyLayerMask.value;
-        for (int i = 0; i < 32; i++)
-        {
-            if ((m & (1 << i)) != 0)
-            {
-                Physics2D.IgnoreLayerCollision(pLayer, i, ignore);
-            }
-        }
-    }
-
     private void HandlePassThrough()
     {
         if (!isGrounded || isRolling)
         {
-            SetIgnorePlayerVsEnemyLayers(true);
+            col2d.excludeLayers = enemyLayerMask;
         }
         else
         {
             bool isOverlapping = Physics2D.OverlapBox(col2d.bounds.center, col2d.bounds.size, 0f, enemyLayerMask);
             if (!isOverlapping)
             {
-                SetIgnorePlayerVsEnemyLayers(false);
+                col2d.excludeLayers = 0;
             }
         }
     }
@@ -574,6 +562,7 @@ public class PlayerBase : Entity, IHealable, ISaveable, IInteractable
     [Serializable]
     public class PlayerSaveState
     {
+        public bool hasData;
         public float hp, mana, posX, posY;
         public float safeX, safeY;
         public bool isDead;
@@ -582,6 +571,7 @@ public class PlayerBase : Entity, IHealable, ISaveable, IInteractable
 
     public object CaptureState() => new PlayerSaveState
     {
+        hasData = true,
         hp = currentHP,
         mana = currentMana,
         posX = transform.position.x,

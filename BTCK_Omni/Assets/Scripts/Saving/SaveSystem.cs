@@ -74,20 +74,22 @@ public class SaveSystem : Singleton<SaveSystem>
     public void RestoreAfterLoad(PlayerBase p1, PlayerBase p2)
     {
         if (pendingRestore == null) return;
+        
         if (MapManager.Instance != null)
         {
             MapManager.Instance.SetRoom(pendingRestore.roomIdx);
         }
+        
         bool daNhanThongTin = false;
 
-        if (p1 != null && pendingRestore.player1 != null)
+        if (p1 != null && pendingRestore.player1 != null && pendingRestore.player1.hasData)
         {
             p1.RestoreState(pendingRestore.player1);
             pendingRestore.player1 = null;
             daNhanThongTin = true;
         }
 
-        if (p2 != null && pendingRestore.player2 != null)
+        if (p2 != null && pendingRestore.player2 != null && pendingRestore.player2.hasData)
         {
             p2.RestoreState(pendingRestore.player2);
             pendingRestore.player2 = null;
