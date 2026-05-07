@@ -9,6 +9,7 @@ public class Cutscene : MonoBehaviour
     public AudioSource audioSrc;
     public string[] dialogueLines;
     public AudioClip[] dialogueSounds;
+    [Range(0f, 3f)] public float vVoice = 1f;
     public float typingSpeed;
     public string nextSceneName;
     public RectTransform btnSkip;
@@ -77,6 +78,7 @@ public class Cutscene : MonoBehaviour
         if (currentLineIndex < dialogueSounds.Length && dialogueSounds[currentLineIndex] != null)
         {
             audioSrc.clip = dialogueSounds[currentLineIndex];
+            audioSrc.volume = vVoice;
             audioSrc.Play();
         }
 
