@@ -60,24 +60,22 @@ public class LivesManager : Singleton<LivesManager>
 
     private void HandlePlayerConnection()
     {
-        if (!player1)
+        GameObject p1Obj = GameObject.FindGameObjectWithTag("Player1");
+        if (p1Obj)
         {
-            GameObject p1Obj = GameObject.FindGameObjectWithTag("Player1");
-            if (p1Obj)
-            {
-                player1 = p1Obj.GetComponent<PlayerBase>();
-                if (player1) player1.OnDeath += OnPlayer1Died;
-            }
+            PlayerBase newP1 = p1Obj.GetComponent<PlayerBase>();
+            if (player1 != null) player1.OnDeath -= OnPlayer1Died;
+            player1 = newP1;
+            player1.OnDeath += OnPlayer1Died;
         }
         
-        if (!player2)
+        GameObject p2Obj = GameObject.FindGameObjectWithTag("Player2");
+        if (p2Obj)
         {
-            GameObject p2Obj = GameObject.FindGameObjectWithTag("Player2");
-            if (p2Obj)
-            {
-                player2 = p2Obj.GetComponent<PlayerBase>();
-                if (player2) player2.OnDeath += OnPlayer2Died;
-            }
+            PlayerBase newP2 = p2Obj.GetComponent<PlayerBase>();
+            if (player2 != null) player2.OnDeath -= OnPlayer2Died;
+            player2 = newP2;
+            player2.OnDeath += OnPlayer2Died;
         }
     }
 

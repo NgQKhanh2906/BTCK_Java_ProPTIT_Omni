@@ -1,48 +1,51 @@
-﻿﻿using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(PlayerDetector))]
 [RequireComponent(typeof(AudioSource))]
 public class EnemyBase : Entity
 {
-    [Header("Animator Parameters")]
-    protected readonly int animIsMoving = Animator.StringToHash("isMoving");
+    [Header("Animator Parameters")] protected readonly int animIsMoving = Animator.StringToHash("isMoving");
     protected readonly int animStun = Animator.StringToHash("Stun");
     protected readonly int animIsHiding = Animator.StringToHash("isHiding");
 
-    [Header("--- SOUND EFFECTS (SFX) ---")] 
-    [SerializeField] protected AudioClip hitSound;
+    [Header("--- SOUND EFFECTS (SFX) ---")] [SerializeField]
+    protected AudioClip hitSound;
+
     [SerializeField] protected AudioClip attackSound;
     [Range(0f, 1f)] [SerializeField] protected float sfxVolume = 0.8f;
-    
-    protected AudioSource audioSource; 
 
-    [Header("Unity Events")]
-    public UnityEvent onEnemyDeath;
+    protected AudioSource audioSource;
 
-    [Header("Hit Flash VFX")]
-    [SerializeField] private Material whiteFlashMat; 
-    [SerializeField] private float flashDuration = 0.15f; 
-    private Material originalMat; 
+    [Header("Unity Events")] public UnityEvent onEnemyDeath;
+
+    [Header("Hit Flash VFX")] [SerializeField]
+    private Material whiteFlashMat;
+
+    [SerializeField] private float flashDuration = 0.15f;
+    private Material originalMat;
     private Coroutine flashRoutine;
 
-    [Header("Home & Tethering")]
-    [SerializeField] protected float maxWanderDistance = 6f;
+    [Header("Home & Tethering")] [SerializeField]
+    protected float maxWanderDistance = 6f;
+
     protected Vector2 startPosition;
     protected bool isReturningHome = false;
     protected float patrolBoundLeft;
     protected float patrolBoundRight;
 
-    [Header("Collision Checks")]
-    [SerializeField] protected Transform groundCheck;
+    [Header("Collision Checks")] [SerializeField]
+    protected Transform groundCheck;
+
     [SerializeField] protected Vector2 groundCheckSize = new Vector2(0.5f, 0.1f);
     [SerializeField] protected Transform wallCheck;
     [SerializeField] protected Vector2 wallCheckSize = new Vector2(0.1f, 0.8f);
     [SerializeField] protected LayerMask whatIsGround;
     [SerializeField] protected LedgeDetector ledgeCheck;
 
-    [Header("Idle Settings")]
-    [SerializeField] protected float idleDuration = 2f;
+    [Header("Idle Settings")] [SerializeField]
+    protected float idleDuration = 2f;
+
     protected float idleTimer;
     protected bool isIdle;
     protected PlayerDetector playerDetector;
@@ -70,12 +73,14 @@ public class EnemyBase : Entity
     {
         onEnemyDeath?.Invoke();
     }
+
     protected virtual Transform GetVisiblePlayer()
     {
         if (playerDetector != null && playerDetector.CanSeePlayer())
         {
             return playerDetector.GetPlayerTransform();
         }
+
         return null;
     }
 
@@ -83,7 +88,7 @@ public class EnemyBase : Entity
     {
         if (hitSound != null && audioSource != null)
         {
-            float globalVolume = AudioManager.instance != null ? AudioManager.instance.soundEffectsVolume : 1f;
+            float globalVolume = AudioManager.Instance != null ? AudioManager.Instance.soundEffectsVolume : 1f;
             audioSource.PlayOneShot(hitSound, sfxVolume * globalVolume);
         }
     }
@@ -92,7 +97,7 @@ public class EnemyBase : Entity
     {
         if (attackSound != null && audioSource != null)
         {
-            float globalVolume = AudioManager.instance != null ? AudioManager.instance.soundEffectsVolume : 1f;
+            float globalVolume = AudioManager.Instance != null ? AudioManager.Instance.soundEffectsVolume : 1f;
             audioSource.PlayOneShot(attackSound, sfxVolume * globalVolume);
         }
     }
@@ -135,7 +140,7 @@ public class EnemyBase : Entity
 
         int moveDir = distanceToHome > 0 ? 1 : -1;
         if (moveDir != facingDir) Flip();
-       
+
         SetVelocityX(moveSpeed * facingDir);
         UpdateAnimation(true);
         isIdle = false;
@@ -163,22 +168,24 @@ public class EnemyBase : Entity
         base.TakeDamage(dmg, hitDir);
         if (sr != null && whiteFlashMat != null)
         {
-            if (flashRoutine != null) StopCoroutine(flashRoutine); 
+            if (flashRoutine != null) StopCoroutine(flashRoutine);
             flashRoutine = StartCoroutine(FlashCoroutine());
         }
+
         PlayHitSFX();
     }
+
     private System.Collections.IEnumerator FlashCoroutine()
     {
-        sr.material = whiteFlashMat; 
-        yield return new WaitForSeconds(flashDuration); 
-        sr.material = originalMat; 
+        sr.material = whiteFlashMat;
+        yield return new WaitForSeconds(flashDuration);
+        sr.material = originalMat;
     }
 
     public override void Die()
     {
         base.Die();
-        Destroy(gameObject); 
+        Destroy(gameObject);
     }
 
     protected virtual void StartIdle()
@@ -228,11 +235,13 @@ public class EnemyBase : Entity
             Gizmos.color = Color.green;
             Gizmos.DrawWireCube(groundCheck.position - new Vector3(0, 0.1f, 0), groundCheckSize);
         }
+
         if (wallCheck != null)
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireCube(wallCheck.position, wallCheckSize);
         }
+
         Gizmos.color = new Color(0, 1, 0, 0.3f);
         if (Application.isPlaying)
         {

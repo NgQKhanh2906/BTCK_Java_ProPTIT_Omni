@@ -7,8 +7,7 @@ public class RockProjectile : MonoBehaviour
     public LayerMask groundLayer;
     public float dmg = 20f;
 
-    [Header("SFX")]
-    public AudioClip shootSound;
+    [Header("SFX")] public AudioClip shootSound;
     public AudioClip hitSound;
 
     private Vector2 moveDir;
@@ -72,9 +71,9 @@ public class RockProjectile : MonoBehaviour
         if (clip != null)
         {
             float v = 1f;
-            if (AudioManager.instance != null)
+            if (AudioManager.Instance != null)
             {
-                v = AudioManager.instance.soundEffectsVolume;
+                v = AudioManager.Instance.soundEffectsVolume;
             }
 
             AudioSource.PlayClipAtPoint(clip, transform.position, v);

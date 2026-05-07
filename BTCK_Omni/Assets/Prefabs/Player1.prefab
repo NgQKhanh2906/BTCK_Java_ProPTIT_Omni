@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2838419936854611892}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: RightFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4232654871272021947}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: LeftFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -343,7 +343,7 @@ Transform:
   m_GameObject: {fileID: 7218128635572770086}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.116, y: 1.151, z: 0}
+  m_LocalPosition: {x: 0.116, y: 1.153, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -392,7 +392,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.01}
+  m_Size: {x: 1.5, y: 0.01}
   m_EdgeRadius: 0
 --- !u!114 &4746777438118078564
 MonoBehaviour:
@@ -461,7 +461,7 @@ Transform:
   m_GameObject: {fileID: 8818023453460372924}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.811, y: -1.136, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -549,7 +549,7 @@ MonoBehaviour:
   rollDuration: 0.5
   _groundChecker: {fileID: 1936254362410215311}
   headPlatform: {fileID: 709119856002378258}
-  headSize: {x: 1, y: 0.01}
+  headSize: {x: 1.5, y: 0.01}
   maxMana: 100
   manaPerHit: 5
   rollManaCost: 20
@@ -559,6 +559,7 @@ MonoBehaviour:
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  isCorpseLost: 0
   atttackPoint1: {fileID: 2159189618114155152}
   size1: {x: 3, y: 5}
   atttackPoint2: {fileID: 119974414485039415}
@@ -675,7 +676,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.14378166, y: -0.18464446}
+  m_Offset: {x: 0.14378166, y: -0.18828863}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.2}
@@ -686,7 +687,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.4965782, y: 2.6985812}
+  m_Size: {x: 1.4965782, y: 2.7058697}
   m_EdgeRadius: 0
 --- !u!50 &4193182728503834754
 Rigidbody2D:

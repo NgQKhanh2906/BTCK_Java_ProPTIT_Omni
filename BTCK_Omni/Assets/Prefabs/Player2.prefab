@@ -116,7 +116,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8275302715597116279}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: RightFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -308,7 +308,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.034488678, y: -0.1663382}
+  m_Offset: {x: -0.034488678, y: -0.18709075}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.2}
@@ -319,7 +319,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.3949509, y: 2.750526}
+  m_Size: {x: 1.3949509, y: 2.7090209}
   m_EdgeRadius: 0
 --- !u!50 &1734250738595876655
 Rigidbody2D:
@@ -382,7 +382,7 @@ MonoBehaviour:
   rollDuration: 0.5
   _groundChecker: {fileID: 1672164593410609960}
   headPlatform: {fileID: 3602212231793881932}
-  headSize: {x: 1, y: 0.01}
+  headSize: {x: 1.5, y: 0.01}
   maxMana: 100
   manaPerHit: 5
   rollManaCost: 20
@@ -392,6 +392,7 @@ MonoBehaviour:
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  isCorpseLost: 0
   arrowPf: {fileID: 6593610895700083428, guid: 77a028570386b5444bb8e78ffbe2af00, type: 3}
   atk3TriggerPf: {fileID: 6534953149246695103, guid: cc28c43b0e9382941b2ac9c8ac7ac50d, type: 3}
   firePt: {fileID: 3024538370056542652}
@@ -702,7 +703,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.01}
+  m_Size: {x: 1.5, y: 0.01}
   m_EdgeRadius: 0
 --- !u!114 &14905018310680542
 MonoBehaviour:
@@ -746,7 +747,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1142431226689411365}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: LeftFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}

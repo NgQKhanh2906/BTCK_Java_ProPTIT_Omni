@@ -1,23 +1,9 @@
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : Singleton<AudioManager>
 {
-    public static AudioManager instance;
     public AudioSource backgroundMusicSource;
     public float soundEffectsVolume { get; private set; } = 0.6f;
-
-    void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
-    }
 
     void Start()
     {
@@ -30,6 +16,7 @@ public class AudioManager : MonoBehaviour
         {
             backgroundMusicSource.volume = volume;
         }
+
         PlayerPrefs.SetFloat("BackgroundMusicVolume", volume);
         PlayerPrefs.Save();
     }
@@ -48,6 +35,7 @@ public class AudioManager : MonoBehaviour
         {
             backgroundMusicSource.volume = backgroundMusicVolume;
         }
+
         soundEffectsVolume = PlayerPrefs.GetFloat("SoundEffectsVolume", 1f);
     }
 }

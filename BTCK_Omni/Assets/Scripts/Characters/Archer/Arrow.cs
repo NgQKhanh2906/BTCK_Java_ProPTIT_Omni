@@ -66,10 +66,15 @@ public class Arrow : MonoBehaviour
                 if ((direction > 0 && dirTo.x > 0) || (direction < 0 && dirTo.x < 0))
                 {
                     float d = dirTo.sqrMagnitude;
-                    if (d < min) { min = d; tgt = c.transform; }
+                    if (d < min)
+                    {
+                        min = d;
+                        tgt = c.transform;
+                    }
                 }
             }
         }
+
         Invoke(nameof(DestroyArrow), lifeTime);
     }
 
@@ -105,7 +110,7 @@ public class Arrow : MonoBehaviour
 
             if (hitSound != null)
             {
-                float v = AudioManager.instance != null ? AudioManager.instance.soundEffectsVolume : 1f;
+                float v = AudioManager.Instance != null ? AudioManager.Instance.soundEffectsVolume : 1f;
                 GameObject o = new GameObject("HitSnd");
                 o.transform.position = transform.position;
                 AudioSource src = o.AddComponent<AudioSource>();
@@ -124,7 +129,8 @@ public class Arrow : MonoBehaviour
             {
                 transform.rotation = Quaternion.identity;
                 Vector3 s = transform.localScale;
-                s.x = direction; s.y = Mathf.Abs(s.y);
+                s.x = direction;
+                s.y = Mathf.Abs(s.y);
                 transform.localScale = s;
             }
 
@@ -134,6 +140,7 @@ public class Arrow : MonoBehaviour
                 anim.SetTrigger("Hit");
                 anim.Update(0f);
             }
+
             Invoke(nameof(DestroyArrow), 1.5f);
         }
         else
