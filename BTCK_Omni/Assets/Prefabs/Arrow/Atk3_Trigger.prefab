@@ -147,7 +147,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1115890739
-  m_SortingLayer: 13
+  m_SortingLayer: 15
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -202,5 +202,5 @@ MonoBehaviour:
     m_Bits: 64
   groundLayer:
     serializedVersion: 2
-    m_Bits: 768
+    m_Bits: 776
   hitSound: {fileID: 0}

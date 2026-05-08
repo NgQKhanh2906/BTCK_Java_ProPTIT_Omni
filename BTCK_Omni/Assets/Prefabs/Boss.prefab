@@ -234,10 +234,12 @@ MonoBehaviour:
   maxHp: 3000
   hitMask:
     serializedVersion: 2
-    m_Bits: 9096
+    m_Bits: 904
   isFacingRight: 0
   straightLaserSound: {fileID: 8300000, guid: 7101533f897cd1b458052531cea0c612, type: 3}
+  straightLaserSoundVolume: 1.2
   sweepLaserSound: {fileID: 8300000, guid: 1c0c3779b61eb8940b5206cf5d9a755b, type: 3}
+  sweepLaserSoundVolume: 1.2
 --- !u!1 &7523039098762373218
 GameObject:
   m_ObjectHideFlags: 0

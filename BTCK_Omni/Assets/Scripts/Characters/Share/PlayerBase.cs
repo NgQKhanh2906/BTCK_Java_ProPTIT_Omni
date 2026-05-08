@@ -6,14 +6,16 @@ using UnityEngine;
 
 public class PlayerBase : Entity, IHealable, ISaveable, IInteractable
 {
-    [Header("Player Settings")] [SerializeField]
+    [Header("Player Settings")]
+    [SerializeField]
     public int playerIndex = 1;
 
     [SerializeField] private string uniqueId = Guid.NewGuid().ToString();
 
     public string UniqueId => uniqueId;
 
-    [Header("Keybindings")] [SerializeField]
+    [Header("Keybindings")]
+    [SerializeField]
     protected KeyCode keyLeft;
 
     [SerializeField] protected KeyCode keyRight;
@@ -23,92 +25,97 @@ public class PlayerBase : Entity, IHealable, ISaveable, IInteractable
     [SerializeField] protected KeyCode keySpAtk;
     [SerializeField] protected KeyCode keyRoll;
 
-    [Header("Respawn Settings")] [SerializeField]
+    [Header("Respawn Settings")]
+    [SerializeField]
     protected float HealthAfterRespawn;
 
     [SerializeField] protected float ManaAfterRespawn;
     [SerializeField] protected float invincibilityTime = 5f;
     [SerializeField] private GameObject environmentalDeathVFXPrefab;
 
-    [Header("Jump Settings")] [SerializeField]
+    [Header("Jump Settings")]
+    [SerializeField]
     private float jumpForce;
 
     [SerializeField] protected int maxJumps;
 
-    [Header("Roll Settings")] [SerializeField]
+    [Header("Roll Settings")]
+    [SerializeField]
     private float rollForce;
 
     [SerializeField] private float rollDuration;
     private WaitForSeconds rollWait;
 
-    [Header("Groundcheck settings")] [SerializeField]
+    [Header("Groundcheck settings")]
+    [SerializeField]
     private GroundChecker _groundChecker;
 
     [SerializeField] protected Transform headPlatform;
     [SerializeField] protected Vector2 headSize;
 
-    [Header("Mana Settings")] [SerializeField]
+    [Header("Mana Settings")]
+    [SerializeField]
     protected float maxMana = 100f;
 
     [SerializeField] protected float manaPerHit = 15f;
     [SerializeField] protected float rollManaCost = 20f;
     [SerializeField] protected float manaRegen = 5f;
 
-    [Header("SFX")] [SerializeField] protected SfxManager sfx;
+    [Header("SFX")][SerializeField] protected SfxManager sfx;
     [SerializeField] private float stepInterval = 0.35f;
 
     private float stepTimer = 0f;
 
-    // ui
-    private float manaUiTimer = 0f;
+    // ui
+    private float manaUiTimer = 0f;
     protected float currentMana;
     public float CurrentMana => currentMana;
     public float MaxMana => maxMana;
     public event Action<float, float> OnManaChanged;
 
-    // respawn
-    public event Action OnRespawnEvent;
+    // respawn
+    public event Action OnRespawnEvent;
     protected Vector3 lastSafePos;
     public Vector3 LastSafePos => lastSafePos;
 
-    //knockedback
-    private Coroutine knockbackCoroutine;
+    //knockedback
+    private Coroutine knockbackCoroutine;
     private bool isKnockedBack;
 
-    //layer
-    private int pLayer;
+    //layer
+    private int pLayer;
     [SerializeField] protected LayerMask enemyLayerMask;
     private Collider2D col2d;
 
 
-    //groundcheck
-    protected bool isGrounded;
+    //groundcheck
+    protected bool isGrounded;
     protected bool isOnSlope;
     protected bool wasGrounded;
 
-    //roll
-    protected bool isRolling;
+    //roll
+    protected bool isRolling;
     protected float rollDir;
     private float activeRollForce;
     private Coroutine rollCoroutine;
 
-    //attack
-    protected bool isAttacking;
+    //attack
+    protected bool isAttacking;
 
-    //jump
-    private float jumpDisableTimer;
+    //jump
+    private float jumpDisableTimer;
     private bool jumpRequested;
     private int jumpCount;
     private bool hasAirAttack;
 
-    //def
-    protected bool isDefending;
+    //def
+    protected bool isDefending;
 
-    //input
-    private bool inputEnabled = true;
+    //input
+    private bool inputEnabled = true;
 
-    //interact
-    public bool isCorpseLost;
+    //interact
+    public bool isCorpseLost;
     public bool CanInteract => isDead && !isCorpseLost;
 
     protected override void Awake()
@@ -146,8 +153,8 @@ public class PlayerBase : Entity, IHealable, ISaveable, IInteractable
         if (col2d != null) col2d.enabled = true;
     }
 
-    //Update
-    protected void Update()
+    //Update
+    protected void Update()
     {
         if (!inputEnabled || isDead) return;
         HandlePassiveMana();
@@ -217,7 +224,7 @@ public class PlayerBase : Entity, IHealable, ISaveable, IInteractable
         }
 
         if (!isKnockedBack && isOnSlope && isGrounded && !jumpRequested && Mathf.Abs(rb.velocity.x) < 0.1f &&
-            rb.velocity.y <= 0.1f)
+          rb.velocity.y <= 0.1f)
         {
             rb.velocity = Vector2.zero;
             rb.gravityScale = 0f;
@@ -229,9 +236,9 @@ public class PlayerBase : Entity, IHealable, ISaveable, IInteractable
     }
 
 
-    #region Movement
+    #region Movement
 
-    private void HandleMovement()
+    private void HandleMovement()
     {
         if (isAttacking || isRolling || isDefending || isKnockedBack)
         {
@@ -285,12 +292,12 @@ public class PlayerBase : Entity, IHealable, ISaveable, IInteractable
         }
     }
 
-    #endregion
+    #endregion
 
 
-    #region Jump
+    #region Jump
 
-    private void HandleJumpInput()
+    private void HandleJumpInput()
     {
         if (isDefending || isRolling) return;
         if (Input.GetKeyDown(keyJump) && !isAttacking)
@@ -341,12 +348,12 @@ public class PlayerBase : Entity, IHealable, ISaveable, IInteractable
         }
     }
 
-    #endregion
+    #endregion
 
 
-    #region Attack
+    #region Attack
 
-    private void HandleAttackInput()
+    private void HandleAttackInput()
     {
         if (isDefending || isRolling) return;
         if (isKnockedBack) return;
@@ -369,12 +376,12 @@ public class PlayerBase : Entity, IHealable, ISaveable, IInteractable
     {
     }
 
-    #endregion
+    #endregion
 
 
-    #region Roll
+    #region Roll
 
-    private void HandleRollInput()
+    private void HandleRollInput()
     {
         if (isAttacking || !isGrounded || isOnSlope || isRolling || isDefending) return;
         if (Input.GetKeyDown(keyRoll))
@@ -424,12 +431,12 @@ public class PlayerBase : Entity, IHealable, ISaveable, IInteractable
         }
     }
 
-    #endregion
+    #endregion
 
 
-    #region Defend
+    #region Defend
 
-    private void HandleDefend()
+    private void HandleDefend()
     {
         if (isAttacking || isRolling || !isGrounded) return;
         if (Input.GetKey(keyDef))
@@ -453,12 +460,12 @@ public class PlayerBase : Entity, IHealable, ISaveable, IInteractable
         }
     }
 
-    #endregion
+    #endregion
 
 
-    #region Heal
+    #region Heal
 
-    public void RestoreHP(float amount)
+    public void RestoreHP(float amount)
     {
         currentHP = Mathf.Min(maxHP, currentHP + amount);
         NotifyHPChanged();
@@ -488,9 +495,9 @@ public class PlayerBase : Entity, IHealable, ISaveable, IInteractable
         }
     }
 
-    #endregion
+    #endregion
 
-    private void UpdateAnimation()
+    private void UpdateAnimation()
     {
         anim.SetFloat(GameConfig.ANIM_COL_SPEED, Mathf.Abs(rb.velocity.x));
         anim.SetBool(GameConfig.ANIM_COL_IS_GROUNDED, isGrounded);
@@ -498,9 +505,9 @@ public class PlayerBase : Entity, IHealable, ISaveable, IInteractable
         anim.SetBool(GameConfig.ANIM_COL_IS_DEFENDING, isDefending);
     }
 
-    #region Take Damage
+    #region Take Damage
 
-    public override void TakeDamage(float dmg, Vector2 hitDir)
+    public override void TakeDamage(float dmg, Vector2 hitDir)
     {
         if (isDead || isRolling) return;
         if (isDefending)
@@ -554,12 +561,12 @@ public class PlayerBase : Entity, IHealable, ISaveable, IInteractable
         isKnockedBack = false;
     }
 
-    #endregion
+    #endregion
 
 
-    #region Save
+    #region Save
 
-    [Serializable]
+    [Serializable]
     public class PlayerSaveState
     {
         public bool hasData;
@@ -598,12 +605,12 @@ public class PlayerBase : Entity, IHealable, ISaveable, IInteractable
         }
     }
 
-    #endregion
+    #endregion
 
 
-    #region Death
+    #region Death
 
-    public override void Die()
+    public override void Die()
     {
         StopAllCoroutines();
         isAttacking = false;
@@ -671,12 +678,12 @@ public class PlayerBase : Entity, IHealable, ISaveable, IInteractable
         NotifyDeath();
     }
 
-    #endregion
+    #endregion
 
 
-    #region Respawn
+    #region Respawn
 
-    public void Respawn(Vector3 position)
+    public void Respawn(Vector3 position)
     {
         isDead = false;
         isAttacking = false;
@@ -744,12 +751,12 @@ public class PlayerBase : Entity, IHealable, ISaveable, IInteractable
         }
     }
 
-    #endregion
+    #endregion
 
 
-    #region InteractAfterDie
+    #region InteractAfterDie
 
-    public void Interact(PlayerBase p)
+    public void Interact(PlayerBase p)
     {
         if (LivesManager.Instance != null)
         {
@@ -793,9 +800,9 @@ public class PlayerBase : Entity, IHealable, ISaveable, IInteractable
         }
     }
 
-    #endregion
+    #endregion
 
-    protected void OnDrawGizmos()
+    protected void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         if (headPlatform != null)

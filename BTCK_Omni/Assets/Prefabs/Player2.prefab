@@ -384,9 +384,9 @@ MonoBehaviour:
   headPlatform: {fileID: 3602212231793881932}
   headSize: {x: 1.5, y: 0.01}
   maxMana: 100
-  manaPerHit: 5
+  manaPerHit: 2
   rollManaCost: 20
-  manaRegen: 2
+  manaRegen: 0.5
   sfx: {fileID: 1679175689447014715}
   stepInterval: 0.35
   enemyLayerMask:
@@ -429,7 +429,7 @@ AudioSource:
   m_GameObject: {fileID: 5806504793575637867}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 4510480986476867577, guid: df135fb2f99220f4bb1402157888652a, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -530,18 +530,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 382454135811958784}
   walkSound: {fileID: 8300000, guid: fab3760b60e815e478a5d2bd93d0d556, type: 3}
+  walkSoundVolume: 1
   jumpSound: {fileID: 8300000, guid: 8811fab4c13b2dd41b20b38ce8f1e57f, type: 3}
+  jumpSoundVolume: 1
   rollSound: {fileID: 8300000, guid: 39048c98a7468ad479714a2e52511d5e, type: 3}
+  rollSoundVolume: 1
   hurtSound: {fileID: 0}
+  hurtSoundVolume: 1
   dieSound: {fileID: 0}
+  dieSoundVolume: 1
   attack1Sound: {fileID: 8300000, guid: ac963a2af44019e4f8ac8a22e98ec4d1, type: 3}
+  attack1SoundVolume: 1
   attack2Sound: {fileID: 8300000, guid: 510029615f574514c9fa429f644cf169, type: 3}
+  attack2SoundVolume: 1
   attack3Sound: {fileID: 8300000, guid: 510029615f574514c9fa429f644cf169, type: 3}
+  attack3SoundVolume: 1
   airAttackSound: {fileID: 8300000, guid: 510029615f574514c9fa429f644cf169, type: 3}
+  airAttackSoundVolume: 1
   specialAttackSound: {fileID: 8300000, guid: 7101533f897cd1b458052531cea0c612, type: 3}
+  specialAttackSoundVolume: 1
   chargeSound: {fileID: 0}
+  chargeSoundVolume: 1
   chestOpenSound: {fileID: 8300000, guid: 16162d875226e604d875945de8340276, type: 3}
+  chestOpenSoundVolume: 1
   itemPickupSound: {fileID: 8300000, guid: 03334ddc5dea1724e8412de3400fdaaf, type: 3}
+  itemPickupSoundVolume: 1
 --- !u!1 &5833973988166171657
 GameObject:
   m_ObjectHideFlags: 0

@@ -417,3 +417,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyOnClose: 1
+  bgm: {fileID: 8300000, guid: ecf58568b71d49c48999fc520e9de8c0, type: 3}

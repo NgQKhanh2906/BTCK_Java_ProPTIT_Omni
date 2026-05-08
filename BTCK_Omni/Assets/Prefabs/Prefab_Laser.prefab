@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2554027084811954036}
   - component: {fileID: 1012792663594254742}
   - component: {fileID: 7973503241784038036}
-  - component: {fileID: 7658790954622764823}
   m_Layer: 0
   m_Name: Prefab_Laser
   m_TagString: Untagged
@@ -75,7 +74,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1115890739
-  m_SortingLayer: 13
+  m_SortingLayer: 15
   m_SortingOrder: 0
   m_Sprite: {fileID: -2002468836, guid: 4e101a02c8454524fb7134c0533aa5cf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -181,22 +180,3 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &7658790954622764823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5850405744927635480}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 213edb89da1b2e240ac9452e3b3ca0bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  dmg: 20

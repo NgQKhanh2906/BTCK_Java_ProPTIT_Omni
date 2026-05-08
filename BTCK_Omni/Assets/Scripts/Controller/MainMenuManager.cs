@@ -3,6 +3,7 @@ using UnityEngine;
 public class MenuController : MonoBehaviour
 {
     public GameObject btnContinue;
+
     private void Start()
     {
         if (btnContinue != null && SaveSystem.Instance != null)
@@ -10,9 +11,10 @@ public class MenuController : MonoBehaviour
             btnContinue.SetActive(SaveSystem.Instance.HasSave());
         }
     }
+
     public void OpenSettings()
     {
-        PanelManager.Instance.OpenPanel(GameConfig.PANEL_SETTINGS);
+        PanelManager.Instance.OpenPanel(GameConfig.PANEL_SETTING);
     }
 
     public void OpenTutorial()
@@ -22,14 +24,14 @@ public class MenuController : MonoBehaviour
 
     public void PlayGame()
     {
-        if(GameManager.Instance != null) GameManager.Instance.NewGame();
+        if (GameManager.Instance != null) GameManager.Instance.NewGame();
     }
 
     public void QuitGame()
     {
-        Debug.Log("Đang thoát game..."); 
         Application.Quit();
     }
+
     public void ContinueGame()
     {
         GameManager.Instance.TogglePauseGame();
@@ -37,19 +39,19 @@ public class MenuController : MonoBehaviour
 
     public void ContinueFromSave()
     {
-        if(GameManager.Instance != null) GameManager.Instance.ContinueFromSave();
+        if (GameManager.Instance != null) GameManager.Instance.ContinueFromSave();
     }
-    
+
     public void QuitToMenu()
     {
         GameManager.Instance.LoadMenu();
     }
+
     public void SaveAndQuitToMenu()
     {
         if (SaveSystem.Instance != null)
         {
             SaveSystem.Instance.Save();
-            Debug.Log("Đã lưu game thành công!");
         }
         if (GameManager.Instance != null)
         {

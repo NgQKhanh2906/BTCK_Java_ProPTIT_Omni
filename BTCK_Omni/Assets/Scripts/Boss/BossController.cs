@@ -22,9 +22,13 @@ public class BossController : Entity
     Transform t;
 
     private ObjectPool<RockProjectile> rockPool;
-    [Header("Laser SFX")] public AudioClip straightLaserSound;
-    public AudioClip sweepLaserSound;
 
+    [Header("Laser SFX")]
+    public AudioClip straightLaserSound;
+    [Range(0f, 3f)] public float straightLaserSoundVolume = 1f;
+
+    public AudioClip sweepLaserSound;
+    [Range(0f, 3f)] public float sweepLaserSoundVolume = 1f;
 
     protected override void Awake()
     {
@@ -203,7 +207,8 @@ public class BossController : Entity
             Vector2 origin = (Vector2)eyeP.position + d * 1.2f;
             RaycastHit2D hit = Physics2D.Raycast(origin, d, 50f, hitMask);
             float len = 50f;
-            if (eyeP != null) PlaySfx(straightLaserSound, eyeP.position);
+
+            if (eyeP != null) PlaySfx(straightLaserSound, straightLaserSoundVolume);
 
             if (hit.collider != null)
             {
@@ -259,7 +264,7 @@ public class BossController : Entity
 
     public void F_Heal()
     {
-        if (eyeP != null) PlaySfx(sweepLaserSound, eyeP.position);
+        if (eyeP != null) PlaySfx(sweepLaserSound, sweepLaserSoundVolume);
 
         StartCoroutine(SpHeal());
     }
@@ -312,19 +317,38 @@ public class BossController : Entity
         anim.speed = 1;
     }
 
-    private void PlaySfx(AudioClip clip, Vector3 position)
+    private void PlaySfx(AudioClip clip, float volumeMultiplier)
     {
         if (clip != null)
         {
-            float v = 1f;
+            float baseVolume = 1f;
             if (AudioManager.Instance != null)
             {
-                v = AudioManager.Instance.soundEffectsVolume;
+                baseVolume = AudioManager.Instance.soundEffectsVolume;
             }
 
-            AudioSource.PlayClipAtPoint(clip, position, v);
+            GameObject tempAudioHost = new GameObject("TempBossAudio");
+            tempAudioHost.transform.position = transform.position;
+
+            AudioSource tempSource = tempAudioHost.AddComponent<AudioSource>();
+            tempSource.clip = clip;
+            tempSource.volume = baseVolume * volumeMultiplier;
+            tempSource.spatialBlend = 0f;
+
+            if (AudioManager.Instance != null && AudioManager.Instance.mainMixer != null)
+            {
+                UnityEngine.Audio.AudioMixerGroup[] groups = AudioManager.Instance.mainMixer.FindMatchingGroups("SFX");
+                if (groups.Length > 0)
+                {
+                    tempSource.outputAudioMixerGroup = groups[0];
+                }
+            }
+
+            tempSource.Play();
+            Destroy(tempAudioHost, clip.length);
         }
     }
+
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
