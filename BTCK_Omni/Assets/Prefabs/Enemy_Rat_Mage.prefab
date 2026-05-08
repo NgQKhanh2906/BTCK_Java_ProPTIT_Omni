@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 4284701445750792555}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.028, y: -0.851, z: 0}
+  m_LocalPosition: {x: 0.15, y: -0.89, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -135,7 +135,7 @@ Transform:
   m_GameObject: {fileID: 5300783940224349821}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.37, y: -0.54, z: 0}
+  m_LocalPosition: {x: 0.26, y: -0.53, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -166,7 +166,7 @@ Transform:
   m_GameObject: {fileID: 5594123632736906856}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.416, y: -0.183, z: 0}
+  m_LocalPosition: {x: 0.35, y: -0.34, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -205,7 +205,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.3, y: 1.3, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6069621457851776078}
@@ -391,7 +391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93af6f7c33c7aec4a8d552d80ca62482, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 250
+  maxHP: 200
   moveSpeed: 2
   knockbackForce: 3
   hitSound: {fileID: 8300000, guid: c798359cb1c204c43b6050986ae82dc4, type: 3}
@@ -404,7 +404,7 @@ MonoBehaviour:
   flashDuration: 0.15
   maxWanderDistance: 6
   groundCheck: {fileID: 6069621457851776078}
-  groundCheckSize: {x: 1, y: 0.1}
+  groundCheckSize: {x: 0.5, y: 0.1}
   wallCheck: {fileID: 2292406884312709586}
   wallCheckSize: {x: 0.1, y: 0.8}
   whatIsGround:
@@ -417,12 +417,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   meleeAttackPoint: {fileID: 6696315440558542335}
-  meleeAttackSize: {x: 1.5, y: 0.6}
-  meleeAttackDamage: 10
+  meleeAttackSize: {x: 1.2, y: 1.2}
+  meleeAttackDamage: 15
   meleeAttackCooldown: 1.5
   iceConePrefab: {fileID: 1019687629936330463, guid: 7229429782303ee45b23706f2c2d7b0a, type: 3}
   spellSpawnPoint: {fileID: 8139108718699661076}
-  spellDamage: 20
+  spellDamage: 30
   castRange: 7
   spellCooldown: 2
   spellSightMask:

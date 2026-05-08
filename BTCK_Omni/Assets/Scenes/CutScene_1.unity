@@ -318,7 +318,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b66d052b4a9d30c4cb9293cdb4fd0399, type: 3}
   - {fileID: 8300000, guid: 7c68ddc9a2aeaf746aad15235be8a57e, type: 3}
   - {fileID: 8300000, guid: cf02952aa2e4e0f4492a58c3bd1dbe02, type: 3}
-  vVoice: 3
   typingSpeed: 0.05
   nextSceneName: Map1
   btnSkip: {fileID: 1214559445}
@@ -399,6 +398,7 @@ RectTransform:
   m_Children:
   - {fileID: 1492237885}
   - {fileID: 1291895630}
+  - {fileID: 1364711883}
   - {fileID: 1214559445}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -416,7 +416,7 @@ AudioSource:
   m_GameObject: {fileID: 239902119}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -3024864258881070458, guid: df135fb2f99220f4bb1402157888652a, type: 2}
+  OutputAudioMixerGroup: {fileID: 6756019869934749461, guid: df135fb2f99220f4bb1402157888652a, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -665,8 +665,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1364711883}
+  m_Children: []
   m_Father: {fileID: 239902124}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -759,8 +758,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 3841982464
-  m_fontColor: {r: 0, g: 0, b: 0, a: 0.8980392}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -839,7 +838,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1291895630}
+  m_Father: {fileID: 239902124}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

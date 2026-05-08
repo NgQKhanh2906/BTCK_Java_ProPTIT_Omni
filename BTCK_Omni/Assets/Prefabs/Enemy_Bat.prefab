@@ -64,7 +64,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -81.78207, y: -15.885803, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8864376723468314849}
@@ -228,7 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5f207b6188bdd14f9156d4b8486a11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRadius: 8
+  detectionRadius: 7
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 128
@@ -343,7 +343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5bd94b29a3d3674783a5f2ddf80f43e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 200
+  maxHP: 250
   moveSpeed: 2
   knockbackForce: 3
   hitSound: {fileID: 8300000, guid: c798359cb1c204c43b6050986ae82dc4, type: 3}
@@ -361,7 +361,7 @@ MonoBehaviour:
   wallCheckSize: {x: 0.1, y: 0.8}
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
   ledgeCheck: {fileID: 0}
   idleDuration: 2
   flySpeed: 4
@@ -370,8 +370,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   attackPoint: {fileID: 5301007028067818237}
-  attackSize: {x: 3.2, y: 3.2}
-  attackDamage: 15
+  attackSize: {x: 2.2, y: 2.2}
+  attackDamage: 20
 --- !u!1 &8772270927790377493
 GameObject:
   m_ObjectHideFlags: 0
@@ -397,7 +397,7 @@ Transform:
   m_GameObject: {fileID: 8772270927790377493}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.59, y: 0.06, z: 0}
+  m_LocalPosition: {x: 1.58, y: 0.24, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -9,7 +9,6 @@ public class Cutscene : MonoBehaviour
     public AudioSource audioSrc;
     public string[] dialogueLines;
     public AudioClip[] dialogueSounds;
-    [Range(0f, 3f)] public float vVoice = 1f;
     public float typingSpeed;
     public string nextSceneName;
     public RectTransform btnSkip;
@@ -17,22 +16,51 @@ public class Cutscene : MonoBehaviour
     private int currentLineIndex;
     private bool isTyping;
     private bool isCutsceneStarted;
-    private bool wasPaused;
+    private bool wasGamePausedPreviously;
 
     void Start()
     {
         currentLineIndex = 0;
         isTyping = false;
         isCutsceneStarted = false;
-        wasPaused = false;
+        wasGamePausedPreviously = false;
         uiText.text = "";
     }
 
     void Update()
     {
-        CheckAudioPauseState();
+        bool isCurrentlyPaused = false;
 
-        if (Input.anyKeyDown && Time.timeScale != 0f)
+        if (GameManager.Instance != null)
+        {
+            isCurrentlyPaused = GameManager.Instance.IsGamePaused();
+        }
+
+        if (isCurrentlyPaused && !wasGamePausedPreviously)
+        {
+            if (audioSrc != null && audioSrc.isPlaying)
+            {
+                audioSrc.Pause();
+            }
+
+            wasGamePausedPreviously = true;
+        }
+        else if (!isCurrentlyPaused && wasGamePausedPreviously)
+        {
+            if (audioSrc != null)
+            {
+                audioSrc.UnPause();
+            }
+
+            wasGamePausedPreviously = false;
+        }
+
+        if (isCurrentlyPaused)
+        {
+            return;
+        }
+
+        if (Input.anyKeyDown)
         {
             if (Input.GetMouseButtonDown(0) && btnSkip != null)
             {
@@ -54,22 +82,6 @@ public class Cutscene : MonoBehaviour
         }
     }
 
-    private void CheckAudioPauseState()
-    {
-        bool isPaused = (Time.timeScale == 0f);
-
-        if (isPaused && !wasPaused)
-        {
-            audioSrc.Pause();
-            wasPaused = true;
-        }
-        else if (!isPaused && wasPaused)
-        {
-            audioSrc.UnPause();
-            wasPaused = false;
-        }
-    }
-
     IEnumerator ShowText()
     {
         isTyping = true;
@@ -78,7 +90,6 @@ public class Cutscene : MonoBehaviour
         if (currentLineIndex < dialogueSounds.Length && dialogueSounds[currentLineIndex] != null)
         {
             audioSrc.clip = dialogueSounds[currentLineIndex];
-            audioSrc.volume = vVoice;
             audioSrc.Play();
         }
 

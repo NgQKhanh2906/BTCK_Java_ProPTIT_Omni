@@ -3,58 +3,84 @@ using UnityEngine.Audio;
 
 public class AudioManager : Singleton<AudioManager>
 {
-    public AudioMixer mainMixer;
     public AudioSource backgroundMusicSource;
-    private AudioClip defaultBgm;
+    public AudioMixer mainMixer;
     public float soundEffectsVolume { get; private set; } = 1f;
-    public float voiceVolume { get; private set; } = 1f;
+    private AudioClip oldBgm;
+
+    [Header("Max Volume Setup (dB)")]
+    public float musicMaxDecibel = 0f;
+    public float sfxMaxDecibel = 1f;
+    public float voiceMaxDecibel = 10f;
 
     void Start()
     {
         if (backgroundMusicSource != null)
         {
-            defaultBgm = backgroundMusicSource.clip;
+            oldBgm = backgroundMusicSource.clip;
         }
         LoadAudioSettings();
     }
 
     public void SetBackgroundMusicVolume(float volume)
     {
-        float db = volume > 0.0001f ? Mathf.Log10(volume) * 20f : -80f;
-        mainMixer.SetFloat("MusicVol", db);
+        float musicDecibel;
+        float voiceDecibel;
 
-        PlayerPrefs.SetFloat("BackgroundMusicVolume", volume);
+        if (volume <= 0.0001f)
+        {
+            musicDecibel = -80f;
+            voiceDecibel = -80f;
+        }
+        else
+        {
+            musicDecibel = Mathf.Log10(volume) * 20f + musicMaxDecibel;
+            voiceDecibel = Mathf.Log10(volume) * 20f + voiceMaxDecibel;
+        }
+
+        if (mainMixer != null)
+        {
+            mainMixer.SetFloat("MusicVolumeParam", musicDecibel);
+            mainMixer.SetFloat("VoiceVolumeParam", voiceDecibel);
+        }
+
+        PlayerPrefs.SetFloat("MusicVolume", volume);
         PlayerPrefs.Save();
     }
 
     public void SetSoundEffectsVolume(float volume)
     {
         soundEffectsVolume = volume;
-        float db = volume > 0.0001f ? Mathf.Log10(volume) * 20f : -80f;
-        mainMixer.SetFloat("SFXVol", db);
+        float sfxDecibel;
 
-        PlayerPrefs.SetFloat("SoundEffectsVolume", volume);
-        PlayerPrefs.Save();
-    }
+        if (volume <= 0.0001f)
+        {
+            sfxDecibel = -80f;
+        }
+        else
+        {
+            sfxDecibel = Mathf.Log10(volume) * 20f + sfxMaxDecibel;
+        }
 
-    public void SetVoiceVolume(float volume)
-    {
-        voiceVolume = volume;
-        float db = volume > 0.0001f ? Mathf.Log10(volume) * 20f : -80f;
-        mainMixer.SetFloat("VoiceVol", db);
+        if (mainMixer != null)
+        {
+            mainMixer.SetFloat("SFXVolumeParam", sfxDecibel);
+        }
 
-        PlayerPrefs.SetFloat("VoiceVolume", volume);
+        PlayerPrefs.SetFloat("SFXVolume", volume);
         PlayerPrefs.Save();
     }
 
     private void LoadAudioSettings()
     {
-        SetBackgroundMusicVolume(PlayerPrefs.GetFloat("BackgroundMusicVolume", 1f));
-        SetSoundEffectsVolume(PlayerPrefs.GetFloat("SoundEffectsVolume", 1f));
-        SetVoiceVolume(PlayerPrefs.GetFloat("VoiceVolume", 1f));
+        float musicVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);
+        SetBackgroundMusicVolume(musicVolume);
+
+        float sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
+        SetSoundEffectsVolume(sfxVolume);
     }
 
-    public void PlayBGM(AudioClip clip)
+    public void ChangeBGM(AudioClip clip)
     {
         if (backgroundMusicSource != null && clip != null)
         {
@@ -63,11 +89,11 @@ public class AudioManager : Singleton<AudioManager>
         }
     }
 
-    public void PlayDefaultBGM()
+    public void ResumeBGM()
     {
-        if (backgroundMusicSource != null && defaultBgm != null)
+        if (backgroundMusicSource != null && oldBgm != null)
         {
-            backgroundMusicSource.clip = defaultBgm;
+            backgroundMusicSource.clip = oldBgm;
             backgroundMusicSource.Play();
         }
     }

@@ -104,7 +104,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyOnClose: 1
-  panelBGM: {fileID: 8300000, guid: 11d54431ed65f2a438995ce5e5b2d8cc, type: 3}
+  bgm: {fileID: 8300000, guid: 11d54431ed65f2a438995ce5e5b2d8cc, type: 3}
 --- !u!1 &1399931494728977094
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,108 +1,137 @@
 using UnityEngine;
 
-public class SfxManager : Singleton<SfxManager>
+public class SfxManager : MonoBehaviour
 {
     public AudioSource audioSource;
 
-    [Header("Movement & Action")]
     public AudioClip walkSound;
-    [Range(0f, 1f)] public float walkVolume = 1f;
+    [Range(0f, 1f)] public float walkSoundVolume = 1f;
 
     public AudioClip jumpSound;
-    [Range(0f, 1f)] public float jumpVolume = 1f;
+    [Range(0f, 1f)] public float jumpSoundVolume = 1f;
 
     public AudioClip rollSound;
-    [Range(0f, 1f)] public float rollVolume = 1f;
+    [Range(0f, 1f)] public float rollSoundVolume = 1f;
 
-    [Header("Combat")]
     public AudioClip hurtSound;
-    [Range(0f, 1f)] public float hurtVolume = 1f;
+    [Range(0f, 1f)] public float hurtSoundVolume = 1f;
 
     public AudioClip dieSound;
-    [Range(0f, 1f)] public float dieVolume = 1f;
+    [Range(0f, 1f)] public float dieSoundVolume = 1f;
 
     public AudioClip attack1Sound;
-    [Range(0f, 1f)] public float attack1Volume = 1f;
+    [Range(0f, 1f)] public float attack1SoundVolume = 1f;
 
     public AudioClip attack2Sound;
-    [Range(0f, 1f)] public float attack2Volume = 1f;
+    [Range(0f, 1f)] public float attack2SoundVolume = 1f;
 
     public AudioClip attack3Sound;
-    [Range(0f, 1f)] public float attack3Volume = 1f;
+    [Range(0f, 1f)] public float attack3SoundVolume = 1f;
 
     public AudioClip airAttackSound;
-    [Range(0f, 1f)] public float airAttackVolume = 1f;
+    [Range(0f, 1f)] public float airAttackSoundVolume = 1f;
 
     public AudioClip specialAttackSound;
-    [Range(0f, 1f)] public float specialAttackVolume = 1f;
+    [Range(0f, 1f)] public float specialAttackSoundVolume = 1f;
 
     [Header("Charge Sound")]
     public AudioClip chargeSound;
-    [Range(0f, 1f)] public float chargeVolume = 1f;
-
+    [Range(0f, 1f)] public float chargeSoundVolume = 1f;
     [Header("Interactions")]
     public AudioClip chestOpenSound;
-    [Range(0f, 1f)] public float chestOpenVolume = 1f;
+    [Range(0f, 1f)] public float chestOpenSoundVolume = 1f;
 
     public AudioClip itemPickupSound;
-    [Range(0f, 1f)] public float itemPickupVolume = 1f;
+    [Range(0f, 1f)] public float itemPickupSoundVolume = 1f;
 
-    private void PlaySfx(AudioClip clip, float volume)
+    private float GetVolume()
     {
-        if (clip != null)
+        if (AudioManager.Instance != null)
         {
-            audioSource.PlayOneShot(clip, volume);
+            return AudioManager.Instance.soundEffectsVolume;
         }
+
+        return 1f;
     }
 
     public void PlayWalk()
     {
-        PlaySfx(walkSound, walkVolume);
+        if (walkSound != null)
+        {
+            audioSource.PlayOneShot(walkSound, GetVolume() * walkSoundVolume);
+        }
     }
 
     public void PlayJump()
     {
-        PlaySfx(jumpSound, jumpVolume);
+        if (jumpSound != null)
+        {
+            audioSource.PlayOneShot(jumpSound, GetVolume() * jumpSoundVolume);
+        }
     }
 
     public void PlayRoll()
     {
-        PlaySfx(rollSound, rollVolume);
+        if (rollSound != null)
+        {
+            audioSource.PlayOneShot(rollSound, GetVolume() * rollSoundVolume);
+        }
     }
 
     public void PlayHurt()
     {
-        PlaySfx(hurtSound, hurtVolume);
+        if (hurtSound != null)
+        {
+            audioSource.PlayOneShot(hurtSound, GetVolume() * hurtSoundVolume);
+        }
     }
 
     public void PlayDie()
     {
-        PlaySfx(dieSound, dieVolume);
+        if (dieSound != null)
+        {
+            audioSource.PlayOneShot(dieSound, GetVolume() * dieSoundVolume);
+        }
     }
 
     public void PlayAttack1()
     {
-        PlaySfx(attack1Sound, attack1Volume);
+        if (attack1Sound != null)
+        {
+            audioSource.PlayOneShot(attack1Sound, GetVolume() * attack1SoundVolume);
+        }
     }
 
     public void PlayAttack2()
     {
-        PlaySfx(attack2Sound, attack2Volume);
+        if (attack2Sound != null)
+        {
+            audioSource.PlayOneShot(attack2Sound, GetVolume() * attack2SoundVolume);
+        }
     }
 
     public void PlayAttack3()
     {
-        PlaySfx(attack3Sound, attack3Volume);
+        if (attack3Sound != null)
+        {
+            audioSource.PlayOneShot(attack3Sound, GetVolume() * attack3SoundVolume);
+        }
     }
 
     public void PlayAirAttack()
     {
-        PlaySfx(airAttackSound, airAttackVolume);
+        if (airAttackSound != null)
+        {
+            audioSource.PlayOneShot(airAttackSound, GetVolume() * airAttackSoundVolume);
+        }
     }
 
     public void PlaySpecialAttack()
     {
-        PlaySfx(specialAttackSound, specialAttackVolume);
+        if (specialAttackSound != null)
+        {
+            audioSource.PlayOneShot(specialAttackSound, GetVolume() * specialAttackSoundVolume);
+        }
     }
 
     public void PlayChargeLoop()
@@ -111,7 +140,7 @@ public class SfxManager : Singleton<SfxManager>
         {
             audioSource.clip = chargeSound;
             audioSource.loop = true;
-            audioSource.volume = chargeVolume;
+            audioSource.volume = GetVolume() * chargeSoundVolume;
             audioSource.Play();
         }
     }
@@ -128,11 +157,17 @@ public class SfxManager : Singleton<SfxManager>
 
     public void PlayChestOpen()
     {
-        PlaySfx(chestOpenSound, chestOpenVolume);
+        if (chestOpenSound != null)
+        {
+            audioSource.PlayOneShot(chestOpenSound, GetVolume() * chestOpenSoundVolume);
+        }
     }
 
     public void PlayItemPickup()
     {
-        PlaySfx(itemPickupSound, itemPickupVolume);
+        if (itemPickupSound != null)
+        {
+            audioSource.PlayOneShot(itemPickupSound, GetVolume() * itemPickupSoundVolume);
+        }
     }
 }

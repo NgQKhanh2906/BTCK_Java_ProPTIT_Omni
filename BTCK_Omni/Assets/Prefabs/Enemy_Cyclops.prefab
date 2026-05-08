@@ -73,7 +73,7 @@ Transform:
   m_GameObject: {fileID: 3361301317680366753}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.154, y: -1.933, z: 0}
+  m_LocalPosition: {x: -0.05, y: -1.86, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -104,7 +104,7 @@ Transform:
   m_GameObject: {fileID: 5202665474294956507}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.707, y: 0.008, z: 0}
+  m_LocalPosition: {x: -1.73, y: -0.38, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -135,7 +135,7 @@ Transform:
   m_GameObject: {fileID: 5389793023002821034}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.459, y: -1.304, z: 0}
+  m_LocalPosition: {x: 0.32, y: -1.31, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -166,7 +166,7 @@ Transform:
   m_GameObject: {fileID: 5616321043978222120}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.726, y: 0.143, z: 0}
+  m_LocalPosition: {x: 0.68, y: 0.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -205,7 +205,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.4664345, y: -0.020882607, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8395706085465008644}
@@ -351,7 +351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5f207b6188bdd14f9156d4b8486a11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRadius: 10
+  detectionRadius: 7
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 128
@@ -397,8 +397,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   attackPoint: {fileID: 5867545106982747177}
-  attackSize: {x: 1, y: 2.6}
-  stompDamage: 15
+  attackSize: {x: 1.5, y: 1.5}
+  stompDamage: 20
   laserPrefab: {fileID: 5764066910881187863, guid: 7009b2427fb3b7048ae06a8ae21bb94e, type: 3}
   eyePoint: {fileID: 3036039144633327365}
   laserDamage: 25

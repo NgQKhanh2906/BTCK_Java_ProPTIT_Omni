@@ -551,9 +551,9 @@ MonoBehaviour:
   headPlatform: {fileID: 709119856002378258}
   headSize: {x: 1.5, y: 0.01}
   maxMana: 100
-  manaPerHit: 5
+  manaPerHit: 2
   rollManaCost: 20
-  manaRegen: 2
+  manaRegen: 0.5
   sfx: {fileID: 7397562471531514476}
   stepInterval: 0.35
   enemyLayerMask:
@@ -568,9 +568,9 @@ MonoBehaviour:
   size3: {x: 4.5, y: 4.5}
   airAtttackPoint: {fileID: 6301562586202319803}
   size4: {x: 5, y: 1.5}
-  attackDamage: 25
+  attackDamage: 40
   comboWindow: 0.9
-  spAtkDamage: 40
+  spAtkDamage: 80
 --- !u!212 &4203083726366161979
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -728,21 +728,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d1a072c60e169a478ec1433f27a3701, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dontDestroyOnLoad: 1
   audioSource: {fileID: 160843401332003118}
   walkSound: {fileID: 8300000, guid: fab3760b60e815e478a5d2bd93d0d556, type: 3}
+  walkSoundVolume: 1
   jumpSound: {fileID: 8300000, guid: 8811fab4c13b2dd41b20b38ce8f1e57f, type: 3}
+  jumpSoundVolume: 1
   rollSound: {fileID: 8300000, guid: 39048c98a7468ad479714a2e52511d5e, type: 3}
+  rollSoundVolume: 1
   hurtSound: {fileID: 0}
+  hurtSoundVolume: 1
   dieSound: {fileID: 0}
+  dieSoundVolume: 1
   attack1Sound: {fileID: 8300000, guid: 92ae696319feab543bd558c046257a84, type: 3}
+  attack1SoundVolume: 0.4
   attack2Sound: {fileID: 8300000, guid: c2e6d7a4ab4812541ac33c1716075fd2, type: 3}
+  attack2SoundVolume: 0.1
   attack3Sound: {fileID: 8300000, guid: bb8fcac012b965f44b883f39841cd26a, type: 3}
+  attack3SoundVolume: 0.4
   airAttackSound: {fileID: 8300000, guid: 92ae696319feab543bd558c046257a84, type: 3}
+  airAttackSoundVolume: 0.4
   specialAttackSound: {fileID: 0}
+  specialAttackSoundVolume: 1
   chargeSound: {fileID: 8300000, guid: ae30e008576383e48b8e180da42167cc, type: 3}
+  chargeSoundVolume: 0.8
   chestOpenSound: {fileID: 8300000, guid: 16162d875226e604d875945de8340276, type: 3}
+  chestOpenSoundVolume: 1
   itemPickupSound: {fileID: 8300000, guid: 03334ddc5dea1724e8412de3400fdaaf, type: 3}
+  itemPickupSoundVolume: 1
 --- !u!82 &160843401332003118
 AudioSource:
   m_ObjectHideFlags: 0
@@ -752,7 +764,7 @@ AudioSource:
   m_GameObject: {fileID: 8818023453460372924}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -75183388707554410, guid: df135fb2f99220f4bb1402157888652a, type: 2}
+  OutputAudioMixerGroup: {fileID: 4510480986476867577, guid: df135fb2f99220f4bb1402157888652a, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1

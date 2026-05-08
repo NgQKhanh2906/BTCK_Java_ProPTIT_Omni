@@ -3,7 +3,8 @@ using UnityEngine.UI;
 
 public class SettingsPanel : Panel
 {
-    [Header("Settings UI Elements")] public Slider musicSlider;
+    [Header("Settings UI Elements")]
+    public Slider musicSlider;
     public Slider sfxSlider;
 
     private void OnEnable()

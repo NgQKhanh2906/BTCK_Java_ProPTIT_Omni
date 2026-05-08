@@ -16,11 +16,11 @@ public class ArcherController : PlayerBase
     private float manaCostAttack3 = 20f;
     private float manaCostSpecial = 70f;
 
-    private float damageAttack1 = 20f;
-    private float damageAttack2 = 30f;
-    private float damageAttack3 = 50f;
-    private float damageAirAttack = 35f;
-    private float damageSpecialAttack = 100f;
+    private float damageAttack1 = 30f;
+    private float damageAttack2 = 40f;
+    private float damageAttack3 = 80f;
+    private float damageAirAttack = 40f;
+    private float damageSpecialAttack = 200f;
 
     private KeyCode keyAttack2 = KeyCode.J;
     private KeyCode keyAttack3 = KeyCode.U;
@@ -34,7 +34,6 @@ public class ArcherController : PlayerBase
     private int localJumpCount;
     private int autoMaxJumps = 1;
 
-    // Object Pooling
     private ObjectPool<Arrow> normalArrowPool;
     private ObjectPool<Arrow> atk3ArrowPool;
 
@@ -42,7 +41,6 @@ public class ArcherController : PlayerBase
     {
         base.Awake();
 
-        // Khởi tạo Pool mũi tên thường
         normalArrowPool = new ObjectPool<Arrow>(
             () => { Arrow a = Instantiate(arrowPf); a.SetPool(normalArrowPool); return a; },
             a => a.gameObject.SetActive(true),
@@ -51,7 +49,6 @@ public class ArcherController : PlayerBase
             false, 30, 100
         );
 
-        // Khởi tạo Pool Atk3
         atk3ArrowPool = new ObjectPool<Arrow>(
             () => { Arrow a = Instantiate(atk3TriggerPf); a.SetPool(atk3ArrowPool); return a; },
             a => a.gameObject.SetActive(true),

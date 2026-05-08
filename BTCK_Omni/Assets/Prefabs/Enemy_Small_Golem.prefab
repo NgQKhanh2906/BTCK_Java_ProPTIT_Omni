@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 978680158133471576}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.13, y: -1.03, z: 0}
+  m_LocalPosition: {x: 1, y: -0.96, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -104,7 +104,7 @@ Transform:
   m_GameObject: {fileID: 5161289150763796892}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.492, y: -1.934, z: 0}
+  m_LocalPosition: {x: 0.21, y: -1.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -143,7 +143,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.0532033, y: -0.39492995, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3075227011872774825}
@@ -328,7 +328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01b9f52cabd4c1c449a7d96a0b8edf02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 300
+  maxHP: 350
   moveSpeed: 1.5
   knockbackForce: 3
   hitSound: {fileID: 8300000, guid: c798359cb1c204c43b6050986ae82dc4, type: 3}
@@ -355,8 +355,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   attackPoint: {fileID: 8416609616061026642}
-  attackSize: {x: 2.2, y: 3}
-  attackDamage: 20
+  attackSize: {x: 1.8, y: 2.2}
+  attackDamage: 25
 --- !u!82 &6900719083008444764
 AudioSource:
   m_ObjectHideFlags: 0
@@ -478,7 +478,7 @@ Transform:
   m_GameObject: {fileID: 5590743727558244747}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.116, y: -0.32, z: 0}
+  m_LocalPosition: {x: 1.15, y: -0.32, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 304107710278349060}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.85, y: -0.048, z: 0}
+  m_LocalPosition: {x: 0.49, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 573391328738613387}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.054, y: 0.182, z: 0}
+  m_LocalPosition: {x: 1.15, y: 0.47, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -95,7 +95,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.04, y: 1.16, z: 0}
-  m_LocalScale: {x: 1.4, y: 1.4, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3445595243234773632}
@@ -259,7 +259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5f207b6188bdd14f9156d4b8486a11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRadius: 10
+  detectionRadius: 7
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 384
@@ -278,7 +278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a9ab57348c553b4cbb2ddaa8e519eee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 150
+  maxHP: 250
   moveSpeed: 2
   knockbackForce: 3
   hitSound: {fileID: 8300000, guid: c798359cb1c204c43b6050986ae82dc4, type: 3}
@@ -306,7 +306,7 @@ MonoBehaviour:
     m_Bits: 384
   attackPoint: {fileID: 3445595243234773632}
   attackSize: {x: 1.5, y: 2}
-  attackDamage: 15
+  attackDamage: 10
 --- !u!82 &2507428250324021619
 AudioSource:
   m_ObjectHideFlags: 0

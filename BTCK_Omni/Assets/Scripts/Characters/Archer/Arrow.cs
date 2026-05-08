@@ -23,7 +23,6 @@ public class Arrow : MonoBehaviour
     private Collider2D col2D;
     private Rigidbody2D rb;
 
-    // Pool
     private IObjectPool<Arrow> pool;
     public void SetPool(IObjectPool<Arrow> p) => pool = p;
 
@@ -36,11 +35,10 @@ public class Arrow : MonoBehaviour
 
     public void Setup(int dir, float dmg, int arrowType, float ang = 0f, bool atk3 = false)
     {
-        // Quan trọng: Reset trạng thái
         CancelInvoke();
         hasHit = false;
         tgt = null;
-        if (col2D != null) col2D.enabled = true; // Bật lại collider
+        if (col2D != null) col2D.enabled = true;
 
         direction = dir;
         damage = dmg;
