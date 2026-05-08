@@ -7,8 +7,12 @@ public class RockProjectile : MonoBehaviour
     public LayerMask groundLayer;
     public float dmg = 20f;
 
-    [Header("SFX")] public AudioClip shootSound;
+    [Header("SFX")]
+    public AudioClip shootSound;
+    [Range(0f, 3f)] public float shootSoundVolume = 1f;
+
     public AudioClip hitSound;
+    [Range(0f, 3f)] public float hitSoundVolume = 1f;
 
     private Vector2 moveDir;
     private float speed;
@@ -25,7 +29,7 @@ public class RockProjectile : MonoBehaviour
         moveDir = dir.normalized;
         speed = s;
 
-        PlaySfx(shootSound);
+        PlaySfx(shootSound, shootSoundVolume);
 
         Invoke("DestroyRock", 5f);
     }
@@ -50,13 +54,13 @@ public class RockProjectile : MonoBehaviour
                 if (p != null) p.TakeDamage(dmg, moveDir);
 
                 hasHit = true;
-                PlaySfx(hitSound);
+                PlaySfx(hitSound, hitSoundVolume);
                 DestroyRock();
             }
             else if (((1 << l) & groundLayer) != 0)
             {
                 hasHit = true;
-                PlaySfx(hitSound);
+                PlaySfx(hitSound, hitSoundVolume);
                 DestroyRock();
             }
         }
@@ -66,17 +70,35 @@ public class RockProjectile : MonoBehaviour
         }
     }
 
-    private void PlaySfx(AudioClip clip)
+    private void PlaySfx(AudioClip clip, float volumeMultiplier)
     {
         if (clip != null)
         {
-            float v = 1f;
+            float baseVolume = 1f;
             if (AudioManager.Instance != null)
             {
-                v = AudioManager.Instance.soundEffectsVolume;
+                baseVolume = AudioManager.Instance.soundEffectsVolume;
             }
 
-            AudioSource.PlayClipAtPoint(clip, transform.position, v);
+            GameObject tempAudioHost = new GameObject("TempRockAudio");
+            tempAudioHost.transform.position = transform.position;
+
+            AudioSource tempSource = tempAudioHost.AddComponent<AudioSource>();
+            tempSource.clip = clip;
+            tempSource.volume = baseVolume * volumeMultiplier;
+            tempSource.spatialBlend = 0f;
+
+            if (AudioManager.Instance != null && AudioManager.Instance.mainMixer != null)
+            {
+                UnityEngine.Audio.AudioMixerGroup[] groups = AudioManager.Instance.mainMixer.FindMatchingGroups("SFX");
+                if (groups.Length > 0)
+                {
+                    tempSource.outputAudioMixerGroup = groups[0];
+                }
+            }
+
+            tempSource.Play();
+            Destroy(tempAudioHost, clip.length);
         }
     }
 

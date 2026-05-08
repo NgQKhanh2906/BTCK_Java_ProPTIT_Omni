@@ -4,12 +4,6 @@ using System.Collections;
 
 public class GameManager : Singleton<GameManager>
 {
-    [Header("Win SFX Settings")]
-    [SerializeField]
-    private AudioSource winAudioSource;
-
-    [SerializeField] private AudioClip winMusic;
-
     [SerializeField] private PlayerBase player1;
     [SerializeField] private PlayerBase player2;
 
@@ -17,12 +11,18 @@ public class GameManager : Singleton<GameManager>
     private bool isTransitioning = false;
     private bool isGameOver = false;
 
+    public bool IsGamePaused()
+    {
+        return isPaused;
+    }
+
     public void SetScenePlayers(PlayerBase p1, PlayerBase p2)
     {
         if (p1 != null)
         {
             player1 = p1;
         }
+
         if (p2 != null)
         {
             player2 = p2;
@@ -41,13 +41,23 @@ public class GameManager : Singleton<GameManager>
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Menu") return;
+        if (scene.name == "Menu")
+        {
+            return;
+        }
 
         GameObject p1Obj = GameObject.FindGameObjectWithTag("Player1");
         GameObject p2Obj = GameObject.FindGameObjectWithTag("Player2");
 
-        if (p1Obj != null) player1 = p1Obj.GetComponent<PlayerBase>();
-        if (p2Obj != null) player2 = p2Obj.GetComponent<PlayerBase>();
+        if (p1Obj != null)
+        {
+            player1 = p1Obj.GetComponent<PlayerBase>();
+        }
+
+        if (p2Obj != null)
+        {
+            player2 = p2Obj.GetComponent<PlayerBase>();
+        }
     }
 
     private void Update()
@@ -81,7 +91,21 @@ public class GameManager : Singleton<GameManager>
         {
             Time.timeScale = 1f;
             PanelManager.Instance.ClosePanel(GameConfig.PANEL_PAUSE);
+            PanelManager.Instance.ClosePanel(GameConfig.PANEL_SETTING);
+            PanelManager.Instance.ClosePanel(GameConfig.PANEL_TUTORIAL);
         }
+    }
+
+    public void CloseSettingPanelAndReturnToPause()
+    {
+        PanelManager.Instance.ClosePanel(GameConfig.PANEL_SETTING);
+        PanelManager.Instance.OpenPanel(GameConfig.PANEL_PAUSE);
+    }
+
+    public void CloseTutorialPanelAndReturnToPause()
+    {
+        PanelManager.Instance.ClosePanel(GameConfig.PANEL_TUTORIAL);
+        PanelManager.Instance.OpenPanel(GameConfig.PANEL_PAUSE);
     }
 
     public void LoadScene(string sceneName)
@@ -102,10 +126,17 @@ public class GameManager : Singleton<GameManager>
             yield return StartCoroutine(GlobalFader.Instance.ToiDan());
         }
 
-        if (PanelManager.Instance != null) PanelManager.Instance.CloseAllPanels();
+        if (PanelManager.Instance != null)
+        {
+            PanelManager.Instance.CloseAllPanels();
+        }
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-        while (!asyncLoad.isDone) yield return null;
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
 
         yield return new WaitForSecondsRealtime(0.2f);
 
@@ -134,9 +165,13 @@ public class GameManager : Singleton<GameManager>
             yield return StartCoroutine(GlobalFader.Instance.ToiDan());
         }
 
-        if (PanelManager.Instance != null) PanelManager.Instance.CloseAllPanels();
+        if (PanelManager.Instance != null)
+        {
+            PanelManager.Instance.CloseAllPanels();
+        }
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("Menu");
+
         while (!asyncLoad.isDone)
         {
             yield return null;
@@ -154,25 +189,19 @@ public class GameManager : Singleton<GameManager>
 
     public void Victory()
     {
-        Debug.Log("CHIẾN THẮNG! Đang chạy hiệu ứng chuyển cảnh sang WinPanel...");
         StartCoroutine(VictorySequence());
     }
 
     private IEnumerator VictorySequence()
     {
         isTransitioning = true;
+
         if (GlobalFader.Instance != null)
         {
             yield return StartCoroutine(GlobalFader.Instance.ToiDan());
         }
 
         PanelManager.Instance.OpenPanel(GameConfig.PANEL_WIN);
-        if (winAudioSource != null && winMusic != null)
-        {
-            winAudioSource.clip = winMusic;
-            winAudioSource.loop = true;
-            winAudioSource.Play();
-        }
 
         Time.timeScale = 0f;
 
@@ -208,7 +237,7 @@ public class GameManager : Singleton<GameManager>
     private IEnumerator GameOverSequence()
     {
         yield return new WaitForSeconds(1f);
-        Debug.Log("Cả 2 đã tử trận hoặc hết mạng.");
+
         PanelManager.Instance.OpenPanel(GameConfig.PANEL_LOSE);
         Time.timeScale = 0f;
         this.enabled = false;
@@ -227,7 +256,10 @@ public class GameManager : Singleton<GameManager>
         Time.timeScale = 1f;
         isPaused = false;
 
-        if (PlayerDataManager.Instance != null) PlayerDataManager.Instance.Clear();
+        if (PlayerDataManager.Instance != null)
+        {
+            PlayerDataManager.Instance.Clear();
+        }
 
         if (LivesManager.Instance != null)
         {
@@ -238,7 +270,6 @@ public class GameManager : Singleton<GameManager>
         if (SaveSystem.Instance != null)
         {
             SaveSystem.Instance.DeleteSave();
-            Debug.Log("Đã xóa file save cũ để bắt đầu New Game!");
         }
 
         if (GlobalFader.Instance != null)
@@ -252,6 +283,7 @@ public class GameManager : Singleton<GameManager>
         }
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("Cutscene_1");
+
         while (!asyncLoad.isDone)
         {
             yield return null;

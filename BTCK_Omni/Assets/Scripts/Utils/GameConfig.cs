@@ -19,7 +19,7 @@ public class GameConfig
     public static string ANIMATOR_DIE = "Die";
     
     // UI
-    public const string PANEL_SETTINGS = "SettingsPanel"; 
+    public const string PANEL_SETTING = "SettingsPanel"; 
     public const string PANEL_TUTORIAL = "TutorialPanel";
     public const string PANEL_PAUSE = "PausePanel";
     public const string PANEL_LOSE = "LosePanel";

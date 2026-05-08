@@ -74,7 +74,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1115890739
-  m_SortingLayer: 13
+  m_SortingLayer: 15
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e08b9dfeb01e5d74b9ef2c9f30a01bc6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -176,7 +176,9 @@ MonoBehaviour:
     m_Bits: 128
   groundLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 520
   dmg: 20
   shootSound: {fileID: 8300000, guid: abc21fe1ee21d03489629713904ee26c, type: 3}
+  shootSoundVolume: 1
   hitSound: {fileID: 8300000, guid: abc21fe1ee21d03489629713904ee26c, type: 3}
+  hitSoundVolume: 1

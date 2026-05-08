@@ -18,7 +18,7 @@ public class SwordmanController : PlayerBase
     [SerializeField] private Transform airAtttackPoint;
     [SerializeField] private Vector2 size4;
 
-    
+
     [Header("Sword settings")]
     [SerializeField] private float attackDamage;
     [SerializeField] private float comboWindow = 1f;

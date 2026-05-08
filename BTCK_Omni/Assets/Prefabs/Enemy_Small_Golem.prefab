@@ -328,7 +328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01b9f52cabd4c1c449a7d96a0b8edf02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 250
+  maxHP: 350
   moveSpeed: 1.5
   knockbackForce: 3
   hitSound: {fileID: 8300000, guid: c798359cb1c204c43b6050986ae82dc4, type: 3}

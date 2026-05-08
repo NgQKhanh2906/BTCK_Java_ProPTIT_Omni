@@ -16,17 +16,50 @@ public class Cutscene : MonoBehaviour
     private int currentLineIndex;
     private bool isTyping;
     private bool isCutsceneStarted;
+    private bool wasGamePausedPreviously;
 
     void Start()
     {
         currentLineIndex = 0;
         isTyping = false;
         isCutsceneStarted = false;
+        wasGamePausedPreviously = false;
         uiText.text = "";
     }
 
     void Update()
     {
+        bool isCurrentlyPaused = false;
+
+        if (GameManager.Instance != null)
+        {
+            isCurrentlyPaused = GameManager.Instance.IsGamePaused();
+        }
+
+        if (isCurrentlyPaused && !wasGamePausedPreviously)
+        {
+            if (audioSrc != null && audioSrc.isPlaying)
+            {
+                audioSrc.Pause();
+            }
+
+            wasGamePausedPreviously = true;
+        }
+        else if (!isCurrentlyPaused && wasGamePausedPreviously)
+        {
+            if (audioSrc != null)
+            {
+                audioSrc.UnPause();
+            }
+
+            wasGamePausedPreviously = false;
+        }
+
+        if (isCurrentlyPaused)
+        {
+            return;
+        }
+
         if (Input.anyKeyDown)
         {
             if (Input.GetMouseButtonDown(0) && btnSkip != null)
